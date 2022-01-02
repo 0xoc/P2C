@@ -3,7 +3,9 @@ import ply.lex as lex
 
 class P2CLexer(object):
     def __init__(self):
-        self.lexer = None
+        self.lexer = lex.lex(module=self)
+        return self.lexer
+        print("Lexer build successfully")
 
     # keyword constants
     IF = 'if'
@@ -132,10 +134,6 @@ class P2CLexer(object):
     def t_error(t):
         print("Illegal character '%s'" % t.value[0])
 
-    # Builds the lexer
-    def build(self, **kwargs):
-        self.lexer = lex.lex(module=self, **kwargs)
-
     # Test it output
     def test(self, input_data, answer_data):
         self.lexer.input(input_data)
@@ -162,103 +160,103 @@ class P2CLexer(object):
             print("[TEST] No Errors")
 
 
-lexer = P2CLexer()
-lexer.build()  # Build the lexer
+if __name__ == '__main__':
+    lexer = P2CLexer()
 
-# test 1
-lexer.test("""
-# number and assignment tests
-    ifTrue = 3
-    b = 45
-    and = 1.2
-    andor = 1.2
-    d = 166.897
-    m = a
-    v3 = variable_Longer
-
-# relop tests
-
-    a < b
-    other <= 3.3
-    var != other
-    5 > 6
-    89 >= 99
-    a == b
-
-# logic test
-    l1 and l2
-    l1 && l2
+    # test 1
+    lexer.test("""
+    # number and assignment tests
+        ifTrue = 3
+        b = 45
+        and = 1.2
+        andor = 1.2
+        d = 166.897
+        m = a
+        v3 = variable_Longer
     
-    wer or rew
-    wer || rew
-    not var
-    !var
-
-# keyword tests
+    # relop tests
     
-    if ab >= 454:
+        a < b
+        other <= 3.3
+        var != other
+        5 > 6
+        89 >= 99
+        a == b
+    
+    # logic test
+        l1 and l2
+        l1 && l2
+        
+        wer or rew
+        wer || rew
+        not var
+        !var
+    
+    # keyword tests
+        
+        if ab >= 454:
+            a + b
+            for i in range(start, stop, step):
+                a%b
+                while condition != 0:
+        else False:
+            {
+                m = 34
+            }
+    
+    # operator tests
         a + b
-        for i in range(start, stop, step):
-            a%b
-            while condition != 0:
-    else False:
-        {
-            m = 34
-        }
+        a - b
+        a * b
+        a / b
+        a//b
+        a%b
+    
+    """, [
+        (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.NUMBER, 3),
+        (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.NUMBER, 45),
+        (lexer.LOGIC, '&&'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
+        (lexer.ID, 'andor'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
+        (lexer.ID, 'd'), (lexer.EQ, '='), (lexer.NUMBER, 166.897),
+        (lexer.ID, 'm'), (lexer.EQ, '='), (lexer.ID, 'a'),
+        (lexer.ID, 'v3'), (lexer.EQ, '='), (lexer.ID, 'variable_Longer'),
+        (lexer.ID, 'a'), (lexer.RELOP, '<'), (lexer.ID, 'b'),
+        (lexer.ID, 'other'), (lexer.RELOP, '<='), (lexer.NUMBER, 3.3),
+        (lexer.ID, 'var'), (lexer.RELOP, '!='), (lexer.ID, 'other'),
+        (lexer.NUMBER, 5), (lexer.RELOP, '>'), (lexer.NUMBER, 6),
+        (lexer.NUMBER, 89), (lexer.RELOP, '>='), (lexer.NUMBER, 99),
+        (lexer.ID, 'a'), (lexer.RELOP, '=='), (lexer.ID, 'b'),
+        (lexer.ID, 'l1'), (lexer.LOGIC, '&&'), (lexer.ID, 'l2'),
+        (lexer.ID, 'l1'), (lexer.LOGIC, '&&'), (lexer.ID, 'l2'),
+        (lexer.ID, 'wer'), (lexer.LOGIC, '||'), (lexer.ID, 'rew'),
+        (lexer.ID, 'wer'), (lexer.LOGIC, '||'), (lexer.ID, 'rew'),
+        (lexer.LOGIC, '!'), (lexer.ID, 'var'),
+        (lexer.LOGIC, '!'), (lexer.ID, 'var'),
+        (lexer.IF, 'if'), (lexer.ID, 'ab'), (lexer.RELOP, '>='), (lexer.NUMBER, 454), (lexer.COLON, ':'),
+        (lexer.ID, 'a'), (lexer.OPERATOR, '+'), (lexer.ID, 'b'),
 
-# operator tests
-    a + b
-    a - b
-    a * b
-    a / b
-    a//b
-    a%b
+        (lexer.FOR, 'for'), (lexer.ID, 'i'), (lexer.IN, 'in'), (lexer.RANGE, 'range'),
+        (lexer.LPRAN, '('),
+        (lexer.ID, 'start'),
+        (lexer.SEP, ','),
+        (lexer.ID, 'stop'),
+        (lexer.SEP, ','),
+        (lexer.ID, 'step'),
+        (lexer.RPRAN, ')'),
+        (lexer.COLON, ':'),
+        (lexer.ID, 'a'), (lexer.OPERATOR, '%'), (lexer.ID, 'b'),
 
-""", [
-    (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.NUMBER, 3),
-    (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.NUMBER, 45),
-    (lexer.LOGIC, '&&'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
-    (lexer.ID, 'andor'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
-    (lexer.ID, 'd'), (lexer.EQ, '='), (lexer.NUMBER, 166.897),
-    (lexer.ID, 'm'), (lexer.EQ, '='), (lexer.ID, 'a'),
-    (lexer.ID, 'v3'), (lexer.EQ, '='), (lexer.ID, 'variable_Longer'),
-    (lexer.ID, 'a'), (lexer.RELOP, '<'), (lexer.ID, 'b'),
-    (lexer.ID, 'other'), (lexer.RELOP, '<='), (lexer.NUMBER, 3.3),
-    (lexer.ID, 'var'), (lexer.RELOP, '!='), (lexer.ID, 'other'),
-    (lexer.NUMBER, 5), (lexer.RELOP, '>'), (lexer.NUMBER, 6),
-    (lexer.NUMBER, 89), (lexer.RELOP, '>='), (lexer.NUMBER, 99),
-    (lexer.ID, 'a'), (lexer.RELOP, '=='), (lexer.ID, 'b'),
-    (lexer.ID, 'l1'), (lexer.LOGIC, '&&'), (lexer.ID, 'l2'),
-    (lexer.ID, 'l1'), (lexer.LOGIC, '&&'), (lexer.ID, 'l2'),
-    (lexer.ID, 'wer'), (lexer.LOGIC, '||'), (lexer.ID, 'rew'),
-    (lexer.ID, 'wer'), (lexer.LOGIC, '||'), (lexer.ID, 'rew'),
-    (lexer.LOGIC, '!'), (lexer.ID, 'var'),
-    (lexer.LOGIC, '!'), (lexer.ID, 'var'),
-    (lexer.IF, 'if'), (lexer.ID, 'ab'), (lexer.RELOP, '>='), (lexer.NUMBER, 454), (lexer.COLON, ':'),
-    (lexer.ID, 'a'), (lexer.OPERATOR, '+'), (lexer.ID, 'b'),
+        (lexer.WHILE, 'while'), (lexer.ID, 'condition'), (lexer.RELOP, '!='), (lexer.NUMBER, 0), (lexer.COLON, ':'),
+        (lexer.ELSE, 'else'), (lexer.FALSE, 'False'), (lexer.COLON, ':'),
+        (lexer.LBRACE, '{'),
+        (lexer.ID, 'm'), (lexer.EQ, '='),  (lexer.NUMBER, 34),
+        (lexer.RBRACE, '}'),
 
-    (lexer.FOR, 'for'), (lexer.ID, 'i'), (lexer.IN, 'in'), (lexer.RANGE, 'range'),
-    (lexer.LPRAN, '('),
-    (lexer.ID, 'start'),
-    (lexer.SEP, ','),
-    (lexer.ID, 'stop'),
-    (lexer.SEP, ','),
-    (lexer.ID, 'step'),
-    (lexer.RPRAN, ')'),
-    (lexer.COLON, ':'),
-    (lexer.ID, 'a'), (lexer.OPERATOR, '%'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.OPERATOR, '+'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.OPERATOR, '-'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.OPERATOR, '*'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.OPERATOR, '/'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.OPERATOR, '/'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.OPERATOR, '%'), (lexer.ID, 'b'),
 
-    (lexer.WHILE, 'while'), (lexer.ID, 'condition'), (lexer.RELOP, '!='), (lexer.NUMBER, 0), (lexer.COLON, ':'),
-    (lexer.ELSE, 'else'), (lexer.FALSE, 'False'), (lexer.COLON, ':'),
-    (lexer.LBRACE, '{'),
-    (lexer.ID, 'm'), (lexer.EQ, '='),  (lexer.NUMBER, 34),
-    (lexer.RBRACE, '}'),
-
-    (lexer.ID, 'a'), (lexer.OPERATOR, '+'), (lexer.ID, 'b'),
-    (lexer.ID, 'a'), (lexer.OPERATOR, '-'), (lexer.ID, 'b'),
-    (lexer.ID, 'a'), (lexer.OPERATOR, '*'), (lexer.ID, 'b'),
-    (lexer.ID, 'a'), (lexer.OPERATOR, '/'), (lexer.ID, 'b'),
-    (lexer.ID, 'a'), (lexer.OPERATOR, '/'), (lexer.ID, 'b'),
-    (lexer.ID, 'a'), (lexer.OPERATOR, '%'), (lexer.ID, 'b'),
-
-])
+    ])
