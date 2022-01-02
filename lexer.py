@@ -4,9 +4,7 @@ import ply.lex as lex
 class P2CLexer(object):
     def __init__(self):
         self.lexer = lex.lex(module=self)
-        return self.lexer
         print("Lexer build successfully")
-
     # keyword constants
     IF = 'if'
     TRUE = 'True'
