@@ -29,6 +29,7 @@ class P2CLexer(object):
     LBRACE = 'LBRACE'
     RBRACE = 'RBRACE'
     SEP = 'SEP'
+    EQ = 'EQ'
 
     # reserved words
     reserved = {
@@ -72,7 +73,7 @@ class P2CLexer(object):
     }
 
     # all the possible tokens
-    tokens = [ID, NUMBER, LOGIC, RELOP, OPERATOR, LPRAN, RPRAN, LBRACE, RBRACE, SEP]
+    tokens = [ID, NUMBER, EQ, LOGIC, RELOP, OPERATOR, LPRAN, RPRAN, LBRACE, RBRACE, SEP, 'COMMENTS']
     tokens += list(reserved.values())
     # remove duplicate values
     tokens = list(set(tokens))
@@ -83,6 +84,10 @@ class P2CLexer(object):
     t_LBRACE = r'\{'
     t_RBRACE = r'\}'
     t_SEP = r'\,'
+    t_EQ = r'\='
+
+    def t_COMMENTS(self, t):
+        r'\#.*|""".*"""|".*"|\'.*\''
 
     def t_ID(self, t):
         r"""[a-zA-Z_][a-zA-Z_0-9]*"""
@@ -93,13 +98,17 @@ class P2CLexer(object):
         return t
 
     def t_NUMBER(self, t):
-        r"""\d+\.?\d+"""
+        r"""\d+(\.\d*)?"""
         t.type = self.NUMBER
         t.value = float(t.value)
         return t
 
     def t_LOGIC(self, t):
         r"""(\|\|)|\!|(&&)"""
+        return t
+
+    def t_RELOP(self, t):
+        r"""(>=)|>|(<=)|<|(==)|(\!=)"""
         return t
 
     # A string containing ignored characters (spaces and tabs)
@@ -121,21 +130,48 @@ class P2CLexer(object):
         self.lexer = lex.lex(module=self, **kwargs)
 
     # Test it output
-    def test(self, data):
-        self.lexer.input(data)
+    def test(self, input_data, answer_data):
+        self.lexer.input(input_data)
+        _tokens = []
         while True:
             tok = self.lexer.token()
             if not tok:
                 break
-            print(tok)
+            _tokens.append(tok)
+
+        for i in range(len(answer_data)):
+            assert _tokens[i].type == answer_data[i][0] and _tokens[i].value == answer_data[i][1]
+
+        for _token in _tokens:
+            print(_token)
 
 
 lexer = P2CLexer()
 lexer.build()  # Build the lexer
+
+# test 1
 lexer.test("""
-and &&
-or ||
-not !
-""")  # Test it
+# number and assignment tests
 
+a = 3
+b = 45
+c = 1.2
+\"\"\"\check for float number"\"\"
+d = 166.897
+m = a
+"check longer variable"
+v3 = variable_Longer
 
+'comparison tests'
+
+a < b
+""", [
+    (lexer.ID, 'a'), (lexer.EQ, '='), (lexer.NUMBER, 3),
+    (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.NUMBER, 45),
+    (lexer.ID, 'c'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
+    (lexer.ID, 'd'), (lexer.EQ, '='), (lexer.NUMBER, 166.897),
+    (lexer.ID, 'm'), (lexer.EQ, '='), (lexer.ID, 'a'),
+    (lexer.ID, 'v3'), (lexer.EQ, '='), (lexer.ID, 'variable_Longer'),
+    (lexer.ID, 'a'), (lexer.RELOP, '<'), (lexer.ID, 'b'),
+
+])  # Test it
