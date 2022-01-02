@@ -113,6 +113,11 @@ class P2CLexer(object):
         r"""(\|\|)|\!|(&&)"""
         return t
 
+    def t_OPERATOR(self, t):
+        r"""(//)|\+|\-|\*|/|%"""
+        t.value = self.operator_symbols.get(t.value)
+        return t
+
     # A string containing ignored characters (spaces and tabs)
     t_ignore = ' \t'
 
@@ -148,7 +153,9 @@ class P2CLexer(object):
                 print(_tokens[i])
             except AssertionError:
                 print('***ERROR\n')
-                print(_tokens[i].type, answer_data[i][0], " | ", _tokens[i].value, answer_data[i][1])
+                print(_tokens[i])
+                print(answer_data[i])
+                raise
                 _error = True
 
         if not _error:
@@ -197,6 +204,14 @@ lexer.test("""
             m = 34
         }
 
+# operator tests
+a + b
+a - b
+a * b
+a / b
+a//b
+a%b
+
 """, [
     (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.NUMBER, 3),
     (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.NUMBER, 45),
@@ -234,5 +249,12 @@ lexer.test("""
     (lexer.LBRACE, '{'),
     (lexer.ID, 'm'), (lexer.EQ, '='),  (lexer.NUMBER, 34),
     (lexer.RBRACE, '}'),
+
+    (lexer.ID, 'a'), (lexer.OPERATOR, '+'), (lexer.ID, 'b'),
+    (lexer.ID, 'a'), (lexer.OPERATOR, '-'), (lexer.ID, 'b'),
+    (lexer.ID, 'a'), (lexer.OPERATOR, '*'), (lexer.ID, 'b'),
+    (lexer.ID, 'a'), (lexer.OPERATOR, '/'), (lexer.ID, 'b'),
+    (lexer.ID, 'a'), (lexer.OPERATOR, '/'), (lexer.ID, 'b'),
+    (lexer.ID, 'a'), (lexer.OPERATOR, '%'), (lexer.ID, 'b'),
 
 ])
