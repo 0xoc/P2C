@@ -25,8 +25,8 @@ class P2CLexer(object):
     ]
 
     logical_symbols = [
-        'LAND',
-        'LOR',
+        'and',
+        'or',
     ]
 
     arithmetic_symbols = [
@@ -61,6 +61,13 @@ class P2CLexer(object):
     t_RBRACE = r'\}'
     t_SEP = r'\,'
 
+    # Define a rule so we can track line numbers
+    def t_newline(self, t):
+        r"""\n+"""
+        t.lexer.lineno += len(t.value)
+
+    # A string containing ignored characters (spaces and tabs)
+    t_ignore = ' \t'
 
     def print_tokens(self):
         print(self.tokens)
