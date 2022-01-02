@@ -197,20 +197,22 @@ lexer.test("""
 # keyword tests
     
     if ab >= 454:
+        a + b
         for i in range(start, stop, step):
-            while True:
+            a%b
+            while condition != 0:
     else False:
         {
             m = 34
         }
 
 # operator tests
-a + b
-a - b
-a * b
-a / b
-a//b
-a%b
+    a + b
+    a - b
+    a * b
+    a / b
+    a//b
+    a%b
 
 """, [
     (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.NUMBER, 3),
@@ -233,6 +235,7 @@ a%b
     (lexer.LOGIC, '!'), (lexer.ID, 'var'),
     (lexer.LOGIC, '!'), (lexer.ID, 'var'),
     (lexer.IF, 'if'), (lexer.ID, 'ab'), (lexer.RELOP, '>='), (lexer.NUMBER, 454), (lexer.COLON, ':'),
+    (lexer.ID, 'a'), (lexer.OPERATOR, '+'), (lexer.ID, 'b'),
 
     (lexer.FOR, 'for'), (lexer.ID, 'i'), (lexer.IN, 'in'), (lexer.RANGE, 'range'),
     (lexer.LPRAN, '('),
@@ -243,8 +246,9 @@ a%b
     (lexer.ID, 'step'),
     (lexer.RPRAN, ')'),
     (lexer.COLON, ':'),
+    (lexer.ID, 'a'), (lexer.OPERATOR, '%'), (lexer.ID, 'b'),
 
-    (lexer.WHILE, 'while'), (lexer.TRUE, 'True'), (lexer.COLON, ':'),
+    (lexer.WHILE, 'while'), (lexer.ID, 'condition'), (lexer.RELOP, '!='), (lexer.NUMBER, 0), (lexer.COLON, ':'),
     (lexer.ELSE, 'else'), (lexer.FALSE, 'False'), (lexer.COLON, ':'),
     (lexer.LBRACE, '{'),
     (lexer.ID, 'm'), (lexer.EQ, '='),  (lexer.NUMBER, 34),
