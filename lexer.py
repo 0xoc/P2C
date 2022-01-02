@@ -7,6 +7,8 @@ class P2CLexer(object):
 
     # keyword constants
     IF = 'if'
+    TRUE = 'True'
+    FALSE = 'False'
     OR = 'or'
     AND = 'and'
     ELSE = 'else'
@@ -30,10 +32,14 @@ class P2CLexer(object):
     RBRACE = 'RBRACE'
     SEP = 'SEP'
     EQ = 'EQ'
+    COLON = 'COLON'
 
     # reserved words
     reserved = {
+        TRUE: TRUE,
+        FALSE: FALSE,
         IF: IF,
+        ELSE: ELSE,
         FOR: FOR,
         WHILE: WHILE,
         IN: IN,
@@ -73,7 +79,7 @@ class P2CLexer(object):
     }
 
     # all the possible tokens
-    tokens = [ID, NUMBER, EQ, LOGIC, RELOP, OPERATOR, LPRAN, RPRAN, LBRACE, RBRACE, SEP, 'COMMENTS']
+    tokens = [ID, NUMBER, EQ, LOGIC, RELOP, OPERATOR, LPRAN, RPRAN, LBRACE, RBRACE, SEP, 'COMMENTS', COLON]
     tokens += list(reserved.values())
     # remove duplicate values
     tokens = list(set(tokens))
@@ -85,6 +91,10 @@ class P2CLexer(object):
     t_RBRACE = r'\}'
     t_SEP = r'\,'
     t_EQ = r'\='
+
+    def t_COLON(self, t):
+        r':'
+        return t
 
     def t_COMMENTS(self, t):
         r'\#.*|""".*"""|".*"|\'.*\''
@@ -139,6 +149,7 @@ class P2CLexer(object):
                 break
             _tokens.append(tok)
 
+        _error = False
         for i in range(len(_tokens)):
             try:
                 assert _tokens[i].type == answer_data[i][0] and _tokens[i].value == answer_data[i][1]
@@ -146,6 +157,10 @@ class P2CLexer(object):
             except AssertionError:
                 print('***ERROR\n')
                 print(_tokens[i].type, answer_data[i][0], " | ", _tokens[i].value, answer_data[i][1])
+                _error = True
+
+        if not _error:
+            print("[TEST] No Errors")
 
 
 lexer = P2CLexer()
@@ -179,6 +194,13 @@ lexer.test("""
     not var
     !var
 
+# keyword tests
+    
+    if ab >= 454:
+        for i in range(start, stop, step):
+            while True:
+    else False:
+
 """, [
     (lexer.ID, 'a'), (lexer.EQ, '='), (lexer.NUMBER, 3),
     (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.NUMBER, 45),
@@ -198,5 +220,19 @@ lexer.test("""
     (lexer.ID, 'wer'), (lexer.LOGIC, '||'), (lexer.ID, 'rew'),
     (lexer.LOGIC, '!'), (lexer.ID, 'var'),
     (lexer.LOGIC, '!'), (lexer.ID, 'var'),
+    (lexer.IF, 'if'), (lexer.ID, 'ab'), (lexer.RELOP, '>='), (lexer.NUMBER, 454), (lexer.COLON, ':'),
+
+    (lexer.FOR, 'for'), (lexer.ID, 'i'), (lexer.IN, 'in'), (lexer.RANGE, 'range'),
+    (lexer.LPRAN, '('),
+    (lexer.ID, 'start'),
+    (lexer.SEP, ','),
+    (lexer.ID, 'stop'),
+    (lexer.SEP, ','),
+    (lexer.ID, 'step'),
+    (lexer.RPRAN, ')'),
+    (lexer.COLON, ':'),
+
+    (lexer.WHILE, 'while'), (lexer.TRUE, 'True'), (lexer.COLON, ':'),
+    (lexer.ELSE, 'else'), (lexer.FALSE, 'False'), (lexer.COLON, ':'),
 
 ])
