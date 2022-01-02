@@ -51,14 +51,6 @@ class P2CLexer(object):
         OR: LOGIC,
         NOT: LOGIC,
     }
-    relop_symbols = {
-        '==': '==',
-        '!=': '!=',
-        '<': '<',
-        '<=': '<=',
-        '>': '>',
-        '>=': '>='
-    }
     logical_symbols = {
         'and': '&&',
         'or': '||',
@@ -169,9 +161,10 @@ lexer.build()  # Build the lexer
 # test 1
 lexer.test("""
 # number and assignment tests
-    a = 3
+    ifTrue = 3
     b = 45
-    c = 1.2
+    and = 1.2
+    andor = 1.2
     d = 166.897
     m = a
     v3 = variable_Longer
@@ -200,11 +193,15 @@ lexer.test("""
         for i in range(start, stop, step):
             while True:
     else False:
+        {
+            m = 34
+        }
 
 """, [
-    (lexer.ID, 'a'), (lexer.EQ, '='), (lexer.NUMBER, 3),
+    (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.NUMBER, 3),
     (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.NUMBER, 45),
-    (lexer.ID, 'c'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
+    (lexer.LOGIC, '&&'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
+    (lexer.ID, 'andor'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
     (lexer.ID, 'd'), (lexer.EQ, '='), (lexer.NUMBER, 166.897),
     (lexer.ID, 'm'), (lexer.EQ, '='), (lexer.ID, 'a'),
     (lexer.ID, 'v3'), (lexer.EQ, '='), (lexer.ID, 'variable_Longer'),
@@ -234,5 +231,8 @@ lexer.test("""
 
     (lexer.WHILE, 'while'), (lexer.TRUE, 'True'), (lexer.COLON, ':'),
     (lexer.ELSE, 'else'), (lexer.FALSE, 'False'), (lexer.COLON, ':'),
+    (lexer.LBRACE, '{'),
+    (lexer.ID, 'm'), (lexer.EQ, '='),  (lexer.NUMBER, 34),
+    (lexer.RBRACE, '}'),
 
 ])
