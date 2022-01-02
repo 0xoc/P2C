@@ -1,0 +1,27 @@
+age = 24
+min_legal_age = 18
+score = (age-min_legal_age)**2-(4*100/(2+age))
+
+id
+number
+eq
+relop {
+deq
+lt
+gt
+lte
+gte
+neq
+and
+or
+}
+
+
+not
+(
+)
+:
+{
+}
+break
+continue
