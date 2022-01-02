@@ -98,6 +98,10 @@ class P2CLexer(object):
         t.value = float(t.value)
         return t
 
+    def t_LOGIC(self, t):
+        r"""(\|\|)|\!|(&&)"""
+        return t
+
     # A string containing ignored characters (spaces and tabs)
     t_ignore = ' \t'
 
@@ -129,13 +133,9 @@ class P2CLexer(object):
 lexer = P2CLexer()
 lexer.build()  # Build the lexer
 lexer.test("""
-sina
-87
-23423423.435
-ali parvizi
-for not
-and
+and &&
 or ||
+not !
 """)  # Test it
 
 
