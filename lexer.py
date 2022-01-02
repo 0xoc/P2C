@@ -103,12 +103,12 @@ class P2CLexer(object):
         t.value = float(t.value)
         return t
 
-    def t_LOGIC(self, t):
-        r"""(\|\|)|\!|(&&)"""
-        return t
-
     def t_RELOP(self, t):
         r"""(>=)|>|(<=)|<|(==)|(\!=)"""
+        return t
+
+    def t_LOGIC(self, t):
+        r"""(\|\|)|\!|(&&)"""
         return t
 
     # A string containing ignored characters (spaces and tabs)
@@ -139,11 +139,13 @@ class P2CLexer(object):
                 break
             _tokens.append(tok)
 
-        for i in range(len(answer_data)):
-            assert _tokens[i].type == answer_data[i][0] and _tokens[i].value == answer_data[i][1]
-
-        for _token in _tokens:
-            print(_token)
+        for i in range(len(_tokens)):
+            try:
+                assert _tokens[i].type == answer_data[i][0] and _tokens[i].value == answer_data[i][1]
+                print(_tokens[i])
+            except AssertionError:
+                print('***ERROR\n')
+                print(_tokens[i].type, answer_data[i][0], " | ", _tokens[i].value, answer_data[i][1])
 
 
 lexer = P2CLexer()
@@ -152,19 +154,31 @@ lexer.build()  # Build the lexer
 # test 1
 lexer.test("""
 # number and assignment tests
+    a = 3
+    b = 45
+    c = 1.2
+    d = 166.897
+    m = a
+    v3 = variable_Longer
 
-a = 3
-b = 45
-c = 1.2
-\"\"\"\check for float number"\"\"
-d = 166.897
-m = a
-"check longer variable"
-v3 = variable_Longer
+# relop tests
 
-'comparison tests'
+    a < b
+    other <= 3.3
+    var != other
+    5 > 6
+    89 >= 99
+    a == b
 
-a < b
+# logic test
+    l1 and l2
+    l1 && l2
+    
+    wer or rew
+    wer || rew
+    not var
+    !var
+
 """, [
     (lexer.ID, 'a'), (lexer.EQ, '='), (lexer.NUMBER, 3),
     (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.NUMBER, 45),
@@ -173,5 +187,16 @@ a < b
     (lexer.ID, 'm'), (lexer.EQ, '='), (lexer.ID, 'a'),
     (lexer.ID, 'v3'), (lexer.EQ, '='), (lexer.ID, 'variable_Longer'),
     (lexer.ID, 'a'), (lexer.RELOP, '<'), (lexer.ID, 'b'),
+    (lexer.ID, 'other'), (lexer.RELOP, '<='), (lexer.NUMBER, 3.3),
+    (lexer.ID, 'var'), (lexer.RELOP, '!='), (lexer.ID, 'other'),
+    (lexer.NUMBER, 5), (lexer.RELOP, '>'), (lexer.NUMBER, 6),
+    (lexer.NUMBER, 89), (lexer.RELOP, '>='), (lexer.NUMBER, 99),
+    (lexer.ID, 'a'), (lexer.RELOP, '=='), (lexer.ID, 'b'),
+    (lexer.ID, 'l1'), (lexer.LOGIC, '&&'), (lexer.ID, 'l2'),
+    (lexer.ID, 'l1'), (lexer.LOGIC, '&&'), (lexer.ID, 'l2'),
+    (lexer.ID, 'wer'), (lexer.LOGIC, '||'), (lexer.ID, 'rew'),
+    (lexer.ID, 'wer'), (lexer.LOGIC, '||'), (lexer.ID, 'rew'),
+    (lexer.LOGIC, '!'), (lexer.ID, 'var'),
+    (lexer.LOGIC, '!'), (lexer.ID, 'var'),
 
-])  # Test it
+])
