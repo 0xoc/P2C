@@ -76,9 +76,6 @@ class P2CLexer(object):
     tokens += list(reserved.values())
     # remove duplicate values
     tokens = list(set(tokens))
-
-    for _t in tokens:
-        print(_t)
     # simple tokens regex definition
 
     # relop
@@ -129,7 +126,7 @@ class P2CLexer(object):
         return t
 
     def t_NUMBER(self, t):
-        r"""\d+(\.\d*)?"""
+        r"""[\+\-]?\d+(\.\d*)?"""
         t.type = self.NUMBER
         t.value = float(t.value)
         return t
@@ -180,8 +177,8 @@ if __name__ == '__main__':
     # test 1
     lexer.test("""
     # number and assignment tests
-        ifTrue = 3
-        b = 45
+        ifTrue = -3
+        b = +45
         and = 1.2
         andor = 1.2
         d = 166.897
@@ -227,7 +224,7 @@ if __name__ == '__main__':
         a%b
     
     """, [
-        (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.NUMBER, 3),
+        (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.NUMBER, -3),
         (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.NUMBER, 45),
         (lexer.AND, '&&'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
         (lexer.ID, 'andor'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
