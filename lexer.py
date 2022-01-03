@@ -38,6 +38,11 @@ class P2CLexer(object):
     MOD = 'MOD'
 
     # token constants
+    PLUS_EQUAL = 'PLUS_EQUAL'
+    MINUS_EQUAL = 'MINUS_EQUAL'
+    TIMES_EQUAL = 'TIMES_EQUAL'
+    DIV_EQUAL = 'DIV_EQUAL'
+
     NUMBER = 'NUMBER'
     ID = 'ID'
     LOGIC = 'LOGIC'
@@ -73,12 +78,23 @@ class P2CLexer(object):
     tokens = [ID, NUMBER, EQ,
               GT, GTE, LT, LTE, EQU, NEQU,
               AND, OR, NOT,
+              PLUS_EQUAL, TIMES_EQUAL, MINUS_EQUAL, DIV_EQUAL,
               PLUS, MINUS, TIMES, DIV, MOD,
               LPRAN, RPRAN, LBRACE, RBRACE, SEP, COLON, 'COMMENTS']
     tokens += list(reserved.values())
     # remove duplicate values
     tokens = list(set(tokens))
     # simple tokens regex definition
+    # arithmetic
+
+    t_PLUS_EQUAL = r'(\+=)'
+    t_MINUS_EQUAL = r'(\-=)'
+    t_TIMES_EQUAL = r'(\*=)'
+
+    t_PLUS = r'\+'
+    t_MINUS = r'\-'
+    t_TIMES = r'\*'
+    t_MOD = r'%'
 
     # relop
     t_LT = r'<'
@@ -88,11 +104,7 @@ class P2CLexer(object):
     t_EQU = r'(==)'
     t_NEQU = r'(\!=)'
 
-    # arithmetic
-    t_PLUS = r'\+'
-    t_MINUS = r'\-'
-    t_TIMES = r'\*'
-    t_MOD = r'%'
+
 
     # logic operators
     t_AND = r'(&&)'
@@ -126,7 +138,7 @@ class P2CLexer(object):
             logical_symbols = {'and': '&&', 'or': '||', 'not': '!'}
             t.value = logical_symbols.get(t.value)
         elif t.type == self.NUMBER:
-            t.value = int(bool(t.value))
+            t.value = 1 if t.value == "True" else 0
         return t
 
     def t_NUMBER(self, t):
@@ -226,6 +238,10 @@ if __name__ == '__main__':
         a / b
         a//b
         a%b
+        
+        m += n
+        m -= n
+        m *= n
     
     """, [
         (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.NUMBER, -3),
@@ -262,7 +278,7 @@ if __name__ == '__main__':
         (lexer.ID, 'a'), (lexer.MOD, '%'), (lexer.ID, 'b'),
 
         (lexer.WHILE, 'while'), (lexer.ID, 'condition'), (lexer.NEQU, '!='), (lexer.NUMBER, 0), (lexer.COLON, ':'),
-        (lexer.ELSE, 'else'), (lexer.FALSE, 'False'), (lexer.COLON, ':'),
+        (lexer.ELSE, 'else'), (lexer.NUMBER, 0), (lexer.COLON, ':'),
         (lexer.LBRACE, '{'),
         (lexer.ID, 'm'), (lexer.EQ, '='), (lexer.NUMBER, 34),
         (lexer.RBRACE, '}'),
@@ -274,4 +290,7 @@ if __name__ == '__main__':
         (lexer.ID, 'a'), (lexer.DIV, '/'), (lexer.ID, 'b'),
         (lexer.ID, 'a'), (lexer.MOD, '%'), (lexer.ID, 'b'),
 
+        (lexer.ID, 'm'), (lexer.PLUS_EQUAL, '+='), (lexer.ID,  'n'),
+        (lexer.ID, 'm'), (lexer.MINUS_EQUAL, '-='), (lexer.ID, 'n'),
+        (lexer.ID, 'm'), (lexer.TIMES_EQUAL, '*='), (lexer.ID, 'n'),
     ])
