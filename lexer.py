@@ -13,6 +13,7 @@ class P2CLexer(object):
     OR = 'OR'
     AND = 'AND'
     ELSE = 'ELSE'
+    ELIF = 'ELIF'
     FOR = 'FOR'
     WHILE = 'WHILE'
     RANGE = 'RANGE'
@@ -53,11 +54,12 @@ class P2CLexer(object):
     # reserved words
     reserved = {
         'if': IF,
-        'True': TRUE,
-        'False': FALSE,
+        'True': NUMBER,
+        'False': NUMBER,
         'or': OR,
         'and': AND,
         'else': ELSE,
+        'elif': ELIF,
         'for': FOR,
         'while': WHILE,
         'range': RANGE,
@@ -123,6 +125,8 @@ class P2CLexer(object):
         if t.type in [self.AND, self.OR, self.NOT]:
             logical_symbols = {'and': '&&', 'or': '||', 'not': '!'}
             t.value = logical_symbols.get(t.value)
+        elif t.type == self.NUMBER:
+            t.value = int(bool(t.value))
         return t
 
     def t_NUMBER(self, t):
