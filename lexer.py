@@ -175,7 +175,7 @@ class P2CLexer(object):
         for i in range(len(_tokens)):
             try:
                 assert _tokens[i].type == answer_data[i][0] and _tokens[i].value == answer_data[i][1]
-                print(_tokens[i])
+                # print(_tokens[i])
             except AssertionError:
                 print('***ERROR\n')
                 print(_tokens[i])
@@ -184,7 +184,7 @@ class P2CLexer(object):
                 _error = True
 
         if not _error:
-            print("[TEST] No Errors")
+            print("[LEXER] Test passed")
 
 
 if __name__ == '__main__':

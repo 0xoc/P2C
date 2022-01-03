@@ -1,3 +1,5 @@
+import json
+
 from lexer import P2CLexer as __
 import ply.yacc as yacc
 
@@ -167,51 +169,62 @@ class P2CParser(object):
         print(self.parse(input_data))
 
 
-parser = P2CParser()
-parser.test("""
-a = 10
-b = 120
+if __name__ == '__main__':
+    test_input = """
+    a = 10
+    b = 120
+    
+    while a < b: {
+        if a == 20: { continue }
+        a += 1
+    }   
+    
+    # a should be 120 by now
+    
+    b *= 2  # b = 240
+    c = 0
+    
+    for i in range(a, b, 2): {
+        c = i + a
+        if c > 200 : { break }
+        elif c == 200 : { continue }
+        else: {} 
+    }
+    
+    result = 24 * ((a+b)-c/10)
+    
+    """
+    test_output = """
+    
+    [
+        ('=', 'a', 10.0), 
+        ('=', 'b', 120.0),
+        ('while', ('<', 'a', 'b'), 
+            [
+                ('if', ('==', 'a', 20.0), ['continue'], None), 
+                ('+=', 'a', 1.0)
+            ]), 
+         
+         ('*=', 'b', 2.0), 
+         ('=', 'c', 0.0), 
+         
+         ('for', ('a', 'b', 2.0), 
+             [
+                ('=', 'c', ('+', 'i', 'a')),
+                ('if', ('>', 'c', 200.0), ['break'], ('elif', ('==', 'c', 200.0), ['continue'], ('else', None)))
+              ]), 
+          ('=', 'result', ('*', 24.0, ('-', ('+', 'a', 'b'), ('/', 'c', 10.0))))
+    ]
+    
+    """
+    # clean test_output
+    test_output = test_output.replace(' ', '').replace('\n', '')
 
-while a < b: {
-    if a == 20: { continue }
-    a += 1
-}   
+    parser = P2CParser()
+    result = parser.parse(test_input)
 
-# a should be 120 by now
+    # clean result
+    result = str(result).replace(' ', '').replace('\n', '')
 
-b *= 2  # b = 240
-c = 0
-
-for i in range(a, b, 2): {
-    c = i + a
-    if c > 200 : { break }
-    elif c == 200 : { continue }
-    else: {} 
-}
-
-result = 24 * ((a+b)-c/10)
-
-""")
-"""
-
-[
-    ('=', 'a', 10.0), 
-    ('=', 'b', 120.0),
-    ('while', ('<', 'a', 'b'), 
-        [
-            ('if', ('==', 'a', 20.0), ['continue'], None), 
-            ('+=', 'a', 1.0)
-        ]), 
-     
-     ('*=', 'b', 2.0), 
-     ('=', 'c', 0.0), 
-     
-     ('for', ('a', 'b', 2.0), 
-         [
-            ('=', 'c', ('+', 'i', 'a')),
-            ('if', ('>', 'c', 200.0), ['break'], ('elif', ('==', 'c', 200.0), ['continue'], ('else', None)))
-          ]), 
-      ('=', 'result', ('*', 24.0, ('-', ('+', 'a', 'b'), ('/', 'c', 10.0))))
-]
-
-"""
+    if test_output == result:
+        print("[PARSER] Test passed")
