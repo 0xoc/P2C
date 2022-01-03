@@ -10,23 +10,40 @@ class P2CParser(object):
     def __init__(self):
         self.parser = yacc.yacc(module=self)
 
-    def p_program_assignment(self, p):
-        f"""
-        program : {self._.ID} {self._.EQ} expr
-        | expr
+    precedence = (
+        ('nonassoc', 'GTE', 'GT', 'LTE', 'LT', 'EQU', 'NEQU', 'AND', 'OR'),  # Nonassociative operators
+        ('right', 'PLUS', 'MINUS'),
+        ('right', 'TIMES', 'DIV', 'MOD'),
+        ('right', 'NOT'),
+    )
+
+    def p_program(self, p):
+        """
+        program : program statement
         | empty
         """
-        if len(p) == 4:
-            p[0] = ['=', p[1], p[3]]
-        elif len(p) == 2:
-            p[0] = p[1]
-        print(p[0])
+        if len(p) == 3:
+            p[0] = p[2]
+            print(p[0])
+
+    def p_statement(self, p):
+        """
+        statement : assignment
+        | expr
+        """
+        p[0] = p[1]
+
+    def p_assignment(self, p):
+        """
+        assignment : ID EQ expr
+        """
+        p[0] = (p[2], p[1], p[3])
 
     def p_expr_operator_relop(self, p):
         """
-        expr : expr OPERATOR expr
-        | expr RELOP expr
-        | expr LOGIC expr
+        expr : expr operator expr
+        | expr relop expr
+        | expr logic expr
         | ID
         | NUMBER
         """
@@ -34,6 +51,34 @@ class P2CParser(object):
             p[0] = p[1]
         elif len(p) == 4:
             p[0] = [p[2], p[1], p[3]]
+
+    def p_operator(self, p):
+        """
+        operator : TIMES
+                | DIV
+                |  PLUS
+                |  MINUS
+                |  MOD
+        """
+        p[0] = p[1]
+
+    def p_logic(self, p):
+        """
+        logic : AND
+              | OR
+        """
+        p[0] = p[1]
+
+    def p_relop(self, p):
+        """
+        relop : LT
+                | LTE
+                |  GT
+                |  GTE
+                |  EQU
+                |  NEQU
+        """
+        p[0] = p[1]
 
     def p_expr_pran(self, p):
         """
@@ -51,5 +96,7 @@ class P2CParser(object):
 
 parser = P2CParser()
 parser.test("""
-(a + b) + c and 5
+(a + b) * 4 + c
+a + b
+m + n
 """)

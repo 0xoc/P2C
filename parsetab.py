@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COLON COMMENTS EQ False ID LBRACE LOGIC LPRAN NUMBER OPERATOR RBRACE RELOP RPRAN SEP True break continue else for if in range while\n        program : ID EQ expr\n        | expr\n        | empty\n        \n        expr : expr OPERATOR expr\n        | expr RELOP expr\n        | expr LOGIC expr\n        | ID\n        | NUMBER\n        \n        expr : LPRAN expr RPRAN\n        empty :'
+_lr_signature = 'nonassocGTEGTLTELTEQUNEQUANDORrightPLUSMINUSrightTIMESDIVMODrightNOTAND BREAK COLON COMMENTS CONTINUE DIV ELSE EQ EQU FALSE FOR GT GTE ID IF IN LBRACE LPRAN LT LTE MINUS MOD NEQU NOT NUMBER OR PLUS RANGE RBRACE RPRAN SEP TIMES TRUE WHILE\n        program : program statement\n        | empty\n        \n        statement : assignment\n        | expr\n        \n        assignment : ID EQ expr\n        \n        expr : expr operator expr\n        | expr relop expr\n        | expr logic expr\n        | ID\n        | NUMBER\n        \n        operator : TIMES\n                | DIV\n                |  PLUS\n                |  MINUS\n                |  MOD\n        \n        logic : AND\n              | OR\n        \n        relop : LT\n                | LTE\n                |  GT\n                |  GTE\n                |  EQU\n                |  NEQU\n        \n        expr : LPRAN expr RPRAN\n        empty :'
     
-_lr_action_items = {'ID':([0,6,7,8,9,10,],[2,12,12,12,12,12,]),'NUMBER':([0,6,7,8,9,10,],[5,5,5,5,5,5,]),'LPRAN':([0,6,7,8,9,10,],[6,6,6,6,6,6,]),'$end':([0,1,2,3,4,5,12,13,14,15,16,17,],[-10,0,-7,-2,-3,-8,-7,-1,-4,-5,-6,-9,]),'EQ':([2,],[7,]),'OPERATOR':([2,3,5,11,12,13,14,15,16,17,],[-7,8,-8,8,-7,8,8,8,8,-9,]),'RELOP':([2,3,5,11,12,13,14,15,16,17,],[-7,9,-8,9,-7,9,9,9,9,-9,]),'LOGIC':([2,3,5,11,12,13,14,15,16,17,],[-7,10,-8,10,-7,10,10,10,10,-9,]),'RPRAN':([5,11,12,14,15,16,17,],[-8,17,-7,-4,-5,-6,-9,]),}
+_lr_action_items = {'ID':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,],[-25,6,-2,-1,-3,-4,-9,-10,27,27,27,27,-11,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,-16,-17,27,-9,-6,-7,-8,-5,-24,]),'NUMBER':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,],[-25,7,-2,-1,-3,-4,-9,-10,7,7,7,7,-11,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,-16,-17,7,-9,-6,-7,-8,-5,-24,]),'LPRAN':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,29,30,31,32,],[-25,8,-2,-1,-3,-4,-9,-10,8,8,8,8,-11,-12,-13,-14,-15,-18,-19,-20,-21,-22,-23,-16,-17,8,-9,-6,-7,-8,-5,-24,]),'$end':([0,1,2,3,4,5,6,7,27,28,29,30,31,32,],[-25,0,-2,-1,-3,-4,-9,-10,-9,-6,-7,-8,-5,-24,]),'TIMES':([5,6,7,26,27,28,29,30,31,32,],[12,-9,-10,12,-9,12,12,12,12,-24,]),'DIV':([5,6,7,26,27,28,29,30,31,32,],[13,-9,-10,13,-9,13,13,13,13,-24,]),'PLUS':([5,6,7,26,27,28,29,30,31,32,],[14,-9,-10,14,-9,14,14,14,14,-24,]),'MINUS':([5,6,7,26,27,28,29,30,31,32,],[15,-9,-10,15,-9,15,15,15,15,-24,]),'MOD':([5,6,7,26,27,28,29,30,31,32,],[16,-9,-10,16,-9,16,16,16,16,-24,]),'LT':([5,6,7,26,27,28,29,30,31,32,],[17,-9,-10,17,-9,17,17,17,17,-24,]),'LTE':([5,6,7,26,27,28,29,30,31,32,],[18,-9,-10,18,-9,18,18,18,18,-24,]),'GT':([5,6,7,26,27,28,29,30,31,32,],[19,-9,-10,19,-9,19,19,19,19,-24,]),'GTE':([5,6,7,26,27,28,29,30,31,32,],[20,-9,-10,20,-9,20,20,20,20,-24,]),'EQU':([5,6,7,26,27,28,29,30,31,32,],[21,-9,-10,21,-9,21,21,21,21,-24,]),'NEQU':([5,6,7,26,27,28,29,30,31,32,],[22,-9,-10,22,-9,22,22,22,22,-24,]),'AND':([5,6,7,26,27,28,29,30,31,32,],[23,-9,-10,23,-9,23,23,23,23,-24,]),'OR':([5,6,7,26,27,28,29,30,31,32,],[24,-9,-10,24,-9,24,24,24,24,-24,]),'EQ':([6,],[25,]),'RPRAN':([7,26,27,28,29,30,32,],[-10,32,-9,-6,-7,-8,-24,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'expr':([0,6,7,8,9,10,],[3,11,13,14,15,16,]),'empty':([0,],[4,]),}
+_lr_goto_items = {'program':([0,],[1,]),'empty':([0,],[2,]),'statement':([1,],[3,]),'assignment':([1,],[4,]),'expr':([1,8,9,10,11,25,],[5,26,28,29,30,31,]),'operator':([5,26,28,29,30,31,],[9,9,9,9,9,9,]),'relop':([5,26,28,29,30,31,],[10,10,10,10,10,10,]),'logic':([5,26,28,29,30,31,],[11,11,11,11,11,11,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,14 +27,29 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> ID EQ expr','program',3,'p_program_assignment','parser.py',14),
-  ('program -> expr','program',1,'p_program_assignment','parser.py',15),
-  ('program -> empty','program',1,'p_program_assignment','parser.py',16),
-  ('expr -> expr OPERATOR expr','expr',3,'p_expr_operator_relop','parser.py',26),
-  ('expr -> expr RELOP expr','expr',3,'p_expr_operator_relop','parser.py',27),
-  ('expr -> expr LOGIC expr','expr',3,'p_expr_operator_relop','parser.py',28),
-  ('expr -> ID','expr',1,'p_expr_operator_relop','parser.py',29),
-  ('expr -> NUMBER','expr',1,'p_expr_operator_relop','parser.py',30),
-  ('expr -> LPRAN expr RPRAN','expr',3,'p_expr_pran','parser.py',39),
-  ('empty -> <empty>','empty',0,'p_empty','parser.py',44),
+  ('program -> program statement','program',2,'p_program','parser.py',22),
+  ('program -> empty','program',1,'p_program','parser.py',23),
+  ('statement -> assignment','statement',1,'p_statement','parser.py',31),
+  ('statement -> expr','statement',1,'p_statement','parser.py',32),
+  ('assignment -> ID EQ expr','assignment',3,'p_assignment','parser.py',38),
+  ('expr -> expr operator expr','expr',3,'p_expr_operator_relop','parser.py',44),
+  ('expr -> expr relop expr','expr',3,'p_expr_operator_relop','parser.py',45),
+  ('expr -> expr logic expr','expr',3,'p_expr_operator_relop','parser.py',46),
+  ('expr -> ID','expr',1,'p_expr_operator_relop','parser.py',47),
+  ('expr -> NUMBER','expr',1,'p_expr_operator_relop','parser.py',48),
+  ('operator -> TIMES','operator',1,'p_operator','parser.py',57),
+  ('operator -> DIV','operator',1,'p_operator','parser.py',58),
+  ('operator -> PLUS','operator',1,'p_operator','parser.py',59),
+  ('operator -> MINUS','operator',1,'p_operator','parser.py',60),
+  ('operator -> MOD','operator',1,'p_operator','parser.py',61),
+  ('logic -> AND','logic',1,'p_logic','parser.py',67),
+  ('logic -> OR','logic',1,'p_logic','parser.py',68),
+  ('relop -> LT','relop',1,'p_relop','parser.py',74),
+  ('relop -> LTE','relop',1,'p_relop','parser.py',75),
+  ('relop -> GT','relop',1,'p_relop','parser.py',76),
+  ('relop -> GTE','relop',1,'p_relop','parser.py',77),
+  ('relop -> EQU','relop',1,'p_relop','parser.py',78),
+  ('relop -> NEQU','relop',1,'p_relop','parser.py',79),
+  ('expr -> LPRAN expr RPRAN','expr',3,'p_expr_pran','parser.py',85),
+  ('empty -> <empty>','empty',0,'p_empty','parser.py',90),
 ]
