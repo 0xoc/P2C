@@ -59,8 +59,8 @@ class P2CLexer(object):
     # reserved words
     reserved = {
         'if': IF,
-        'True': NUMBER,
-        'False': NUMBER,
+        'True': TRUE,
+        'False': FALSE,
         'or': OR,
         'and': AND,
         'else': ELSE,
@@ -137,7 +137,7 @@ class P2CLexer(object):
         if t.type in [self.AND, self.OR, self.NOT]:
             logical_symbols = {'and': '&&', 'or': '||', 'not': '!'}
             t.value = logical_symbols.get(t.value)
-        elif t.type == self.NUMBER:
+        elif t.type in [self.TRUE, self.FALSE]:
             t.value = 1 if t.value == "True" else 0
         return t
 
@@ -278,7 +278,7 @@ if __name__ == '__main__':
         (lexer.ID, 'a'), (lexer.MOD, '%'), (lexer.ID, 'b'),
 
         (lexer.WHILE, 'while'), (lexer.ID, 'condition'), (lexer.NEQU, '!='), (lexer.NUMBER, 0), (lexer.COLON, ':'),
-        (lexer.ELSE, 'else'), (lexer.NUMBER, 0), (lexer.COLON, ':'),
+        (lexer.ELSE, 'else'), (lexer.FALSE, 0), (lexer.COLON, ':'),
         (lexer.LBRACE, '{'),
         (lexer.ID, 'm'), (lexer.EQ, '='), (lexer.NUMBER, 34),
         (lexer.RBRACE, '}'),
