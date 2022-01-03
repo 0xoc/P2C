@@ -34,11 +34,31 @@ class P2CParser(object):
         statement : assignment
         | if
         | while
+        | for
         | expr
         | CONTINUE
         | BREAK
         """
         p[0] = p[1]
+
+    def p_for(self, p):
+        """
+        for : FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
+        """
+        p[0] = tuple((p[1], p[6], p[10]))
+
+    def p_params(self, p):
+        """
+        params : NUMBER
+            |   NUMBER SEP NUMBER
+            | NUMBER SEP NUMBER SEP NUMBER
+        """
+        if len(p) == 2:
+            p[0] = tuple((0, p[1], 1))
+        elif len(p) == 4:
+            p[0] = tuple((p[1], p[3], 1))
+        elif len(p) == 6:
+            p[0] = tuple((p[1], p[3], p[5]))
 
     def p_while(self, p):
         """
@@ -169,4 +189,7 @@ while True : {
     }
 }
 
+for i in range(10, 20, 2): {
+    a += i
+    }
 """)
