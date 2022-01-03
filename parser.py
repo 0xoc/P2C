@@ -33,9 +33,18 @@ class P2CParser(object):
         """
         statement : assignment
         | if
+        | while
         | expr
+        | CONTINUE
+        | BREAK
         """
         p[0] = p[1]
+
+    def p_while(self, p):
+        """
+        while : WHILE expr COLON LBRACE statements RBRACE
+        """
+        p[0] = tuple((p[1], p[2], p[5]))
 
     def p_if(self, p):
         """
@@ -64,6 +73,9 @@ class P2CParser(object):
     def p_assignment(self, p):
         """
         assignment : ID EQ expr
+                   | ID PLUS_EQUAL expr
+                   | ID MINUS_EQUAL expr
+                   | ID TIMES_EQUAL expr
         """
         p[0] = tuple((p[2], p[1], p[3]))
 
@@ -74,6 +86,8 @@ class P2CParser(object):
         | expr logic expr
         | ID
         | NUMBER
+        | TRUE
+        | FALSE
         """
         if len(p) == 2:
             p[0] = p[1]
@@ -144,6 +158,15 @@ if a > b :
     a = 0
     b = 0
     m = 0
+}
+
+while True : {
+    if a > b: {
+        break
+    } elif a ==b : {continue}
+    else : {
+        a+= 1
+    }
 }
 
 """)
