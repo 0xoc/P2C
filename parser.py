@@ -152,9 +152,12 @@ class P2CParser(object):
         'empty :'
         p[0] = None
 
-    def test(self, input_data):
+    def parse(self, input_data):
         self.parser.parse(input_data, lexer=self.lexer)
-        for tree in self.parse_tree:
+        return self.parse_tree
+
+    def test(self, input_data):
+        for tree in self.parse(input_data):
             print(tree)
 
 
