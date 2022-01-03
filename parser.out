@@ -1,0 +1,343 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COLON
+    COMMENTS
+    False
+    LBRACE
+    RBRACE
+    SEP
+    True
+    break
+    continue
+    else
+    for
+    if
+    in
+    range
+    while
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> ID EQ expr
+Rule 2     program -> expr
+Rule 3     program -> empty
+Rule 4     expr -> expr OPERATOR expr
+Rule 5     expr -> expr RELOP expr
+Rule 6     expr -> expr LOGIC expr
+Rule 7     expr -> ID
+Rule 8     expr -> NUMBER
+Rule 9     expr -> LPRAN expr RPRAN
+Rule 10    empty -> <empty>
+
+Terminals, with rules where they appear
+
+COLON                : 
+COMMENTS             : 
+EQ                   : 1
+False                : 
+ID                   : 1 7
+LBRACE               : 
+LOGIC                : 6
+LPRAN                : 9
+NUMBER               : 8
+OPERATOR             : 4
+RBRACE               : 
+RELOP                : 5
+RPRAN                : 9
+SEP                  : 
+True                 : 
+break                : 
+continue             : 
+else                 : 
+error                : 
+for                  : 
+if                   : 
+in                   : 
+range                : 
+while                : 
+
+Nonterminals, with rules where they appear
+
+empty                : 3
+expr                 : 1 2 4 4 5 5 6 6 9
+program              : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . ID EQ expr
+    (2) program -> . expr
+    (3) program -> . empty
+    (4) expr -> . expr OPERATOR expr
+    (5) expr -> . expr RELOP expr
+    (6) expr -> . expr LOGIC expr
+    (7) expr -> . ID
+    (8) expr -> . NUMBER
+    (9) expr -> . LPRAN expr RPRAN
+    (10) empty -> .
+
+    ID              shift and go to state 2
+    NUMBER          shift and go to state 5
+    LPRAN           shift and go to state 6
+    $end            reduce using rule 10 (empty -> .)
+
+    program                        shift and go to state 1
+    expr                           shift and go to state 3
+    empty                          shift and go to state 4
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> ID . EQ expr
+    (7) expr -> ID .
+
+    EQ              shift and go to state 7
+    OPERATOR        reduce using rule 7 (expr -> ID .)
+    RELOP           reduce using rule 7 (expr -> ID .)
+    LOGIC           reduce using rule 7 (expr -> ID .)
+    $end            reduce using rule 7 (expr -> ID .)
+
+
+state 3
+
+    (2) program -> expr .
+    (4) expr -> expr . OPERATOR expr
+    (5) expr -> expr . RELOP expr
+    (6) expr -> expr . LOGIC expr
+
+    $end            reduce using rule 2 (program -> expr .)
+    OPERATOR        shift and go to state 8
+    RELOP           shift and go to state 9
+    LOGIC           shift and go to state 10
+
+
+state 4
+
+    (3) program -> empty .
+
+    $end            reduce using rule 3 (program -> empty .)
+
+
+state 5
+
+    (8) expr -> NUMBER .
+
+    OPERATOR        reduce using rule 8 (expr -> NUMBER .)
+    RELOP           reduce using rule 8 (expr -> NUMBER .)
+    LOGIC           reduce using rule 8 (expr -> NUMBER .)
+    $end            reduce using rule 8 (expr -> NUMBER .)
+    RPRAN           reduce using rule 8 (expr -> NUMBER .)
+
+
+state 6
+
+    (9) expr -> LPRAN . expr RPRAN
+    (4) expr -> . expr OPERATOR expr
+    (5) expr -> . expr RELOP expr
+    (6) expr -> . expr LOGIC expr
+    (7) expr -> . ID
+    (8) expr -> . NUMBER
+    (9) expr -> . LPRAN expr RPRAN
+
+    ID              shift and go to state 12
+    NUMBER          shift and go to state 5
+    LPRAN           shift and go to state 6
+
+    expr                           shift and go to state 11
+
+state 7
+
+    (1) program -> ID EQ . expr
+    (4) expr -> . expr OPERATOR expr
+    (5) expr -> . expr RELOP expr
+    (6) expr -> . expr LOGIC expr
+    (7) expr -> . ID
+    (8) expr -> . NUMBER
+    (9) expr -> . LPRAN expr RPRAN
+
+    ID              shift and go to state 12
+    NUMBER          shift and go to state 5
+    LPRAN           shift and go to state 6
+
+    expr                           shift and go to state 13
+
+state 8
+
+    (4) expr -> expr OPERATOR . expr
+    (4) expr -> . expr OPERATOR expr
+    (5) expr -> . expr RELOP expr
+    (6) expr -> . expr LOGIC expr
+    (7) expr -> . ID
+    (8) expr -> . NUMBER
+    (9) expr -> . LPRAN expr RPRAN
+
+    ID              shift and go to state 12
+    NUMBER          shift and go to state 5
+    LPRAN           shift and go to state 6
+
+    expr                           shift and go to state 14
+
+state 9
+
+    (5) expr -> expr RELOP . expr
+    (4) expr -> . expr OPERATOR expr
+    (5) expr -> . expr RELOP expr
+    (6) expr -> . expr LOGIC expr
+    (7) expr -> . ID
+    (8) expr -> . NUMBER
+    (9) expr -> . LPRAN expr RPRAN
+
+    ID              shift and go to state 12
+    NUMBER          shift and go to state 5
+    LPRAN           shift and go to state 6
+
+    expr                           shift and go to state 15
+
+state 10
+
+    (6) expr -> expr LOGIC . expr
+    (4) expr -> . expr OPERATOR expr
+    (5) expr -> . expr RELOP expr
+    (6) expr -> . expr LOGIC expr
+    (7) expr -> . ID
+    (8) expr -> . NUMBER
+    (9) expr -> . LPRAN expr RPRAN
+
+    ID              shift and go to state 12
+    NUMBER          shift and go to state 5
+    LPRAN           shift and go to state 6
+
+    expr                           shift and go to state 16
+
+state 11
+
+    (9) expr -> LPRAN expr . RPRAN
+    (4) expr -> expr . OPERATOR expr
+    (5) expr -> expr . RELOP expr
+    (6) expr -> expr . LOGIC expr
+
+    RPRAN           shift and go to state 17
+    OPERATOR        shift and go to state 8
+    RELOP           shift and go to state 9
+    LOGIC           shift and go to state 10
+
+
+state 12
+
+    (7) expr -> ID .
+
+    RPRAN           reduce using rule 7 (expr -> ID .)
+    OPERATOR        reduce using rule 7 (expr -> ID .)
+    RELOP           reduce using rule 7 (expr -> ID .)
+    LOGIC           reduce using rule 7 (expr -> ID .)
+    $end            reduce using rule 7 (expr -> ID .)
+
+
+state 13
+
+    (1) program -> ID EQ expr .
+    (4) expr -> expr . OPERATOR expr
+    (5) expr -> expr . RELOP expr
+    (6) expr -> expr . LOGIC expr
+
+    $end            reduce using rule 1 (program -> ID EQ expr .)
+    OPERATOR        shift and go to state 8
+    RELOP           shift and go to state 9
+    LOGIC           shift and go to state 10
+
+
+state 14
+
+    (4) expr -> expr OPERATOR expr .
+    (4) expr -> expr . OPERATOR expr
+    (5) expr -> expr . RELOP expr
+    (6) expr -> expr . LOGIC expr
+
+  ! shift/reduce conflict for OPERATOR resolved as shift
+  ! shift/reduce conflict for RELOP resolved as shift
+  ! shift/reduce conflict for LOGIC resolved as shift
+    $end            reduce using rule 4 (expr -> expr OPERATOR expr .)
+    RPRAN           reduce using rule 4 (expr -> expr OPERATOR expr .)
+    OPERATOR        shift and go to state 8
+    RELOP           shift and go to state 9
+    LOGIC           shift and go to state 10
+
+  ! OPERATOR        [ reduce using rule 4 (expr -> expr OPERATOR expr .) ]
+  ! RELOP           [ reduce using rule 4 (expr -> expr OPERATOR expr .) ]
+  ! LOGIC           [ reduce using rule 4 (expr -> expr OPERATOR expr .) ]
+
+
+state 15
+
+    (5) expr -> expr RELOP expr .
+    (4) expr -> expr . OPERATOR expr
+    (5) expr -> expr . RELOP expr
+    (6) expr -> expr . LOGIC expr
+
+  ! shift/reduce conflict for OPERATOR resolved as shift
+  ! shift/reduce conflict for RELOP resolved as shift
+  ! shift/reduce conflict for LOGIC resolved as shift
+    $end            reduce using rule 5 (expr -> expr RELOP expr .)
+    RPRAN           reduce using rule 5 (expr -> expr RELOP expr .)
+    OPERATOR        shift and go to state 8
+    RELOP           shift and go to state 9
+    LOGIC           shift and go to state 10
+
+  ! OPERATOR        [ reduce using rule 5 (expr -> expr RELOP expr .) ]
+  ! RELOP           [ reduce using rule 5 (expr -> expr RELOP expr .) ]
+  ! LOGIC           [ reduce using rule 5 (expr -> expr RELOP expr .) ]
+
+
+state 16
+
+    (6) expr -> expr LOGIC expr .
+    (4) expr -> expr . OPERATOR expr
+    (5) expr -> expr . RELOP expr
+    (6) expr -> expr . LOGIC expr
+
+  ! shift/reduce conflict for OPERATOR resolved as shift
+  ! shift/reduce conflict for RELOP resolved as shift
+  ! shift/reduce conflict for LOGIC resolved as shift
+    $end            reduce using rule 6 (expr -> expr LOGIC expr .)
+    RPRAN           reduce using rule 6 (expr -> expr LOGIC expr .)
+    OPERATOR        shift and go to state 8
+    RELOP           shift and go to state 9
+    LOGIC           shift and go to state 10
+
+  ! OPERATOR        [ reduce using rule 6 (expr -> expr LOGIC expr .) ]
+  ! RELOP           [ reduce using rule 6 (expr -> expr LOGIC expr .) ]
+  ! LOGIC           [ reduce using rule 6 (expr -> expr LOGIC expr .) ]
+
+
+state 17
+
+    (9) expr -> LPRAN expr RPRAN .
+
+    OPERATOR        reduce using rule 9 (expr -> LPRAN expr RPRAN .)
+    RELOP           reduce using rule 9 (expr -> LPRAN expr RPRAN .)
+    LOGIC           reduce using rule 9 (expr -> LPRAN expr RPRAN .)
+    $end            reduce using rule 9 (expr -> LPRAN expr RPRAN .)
+    RPRAN           reduce using rule 9 (expr -> LPRAN expr RPRAN .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for OPERATOR in state 14 resolved as shift
+WARNING: shift/reduce conflict for RELOP in state 14 resolved as shift
+WARNING: shift/reduce conflict for LOGIC in state 14 resolved as shift
+WARNING: shift/reduce conflict for OPERATOR in state 15 resolved as shift
+WARNING: shift/reduce conflict for RELOP in state 15 resolved as shift
+WARNING: shift/reduce conflict for LOGIC in state 15 resolved as shift
+WARNING: shift/reduce conflict for OPERATOR in state 16 resolved as shift
+WARNING: shift/reduce conflict for RELOP in state 16 resolved as shift
+WARNING: shift/reduce conflict for LOGIC in state 16 resolved as shift

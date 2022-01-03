@@ -5,20 +5,36 @@ class P2CLexer(object):
     def __init__(self):
         self.lexer = lex.lex(module=self)
         print("Lexer build successfully")
+
     # keyword constants
-    IF = 'if'
-    TRUE = 'True'
-    FALSE = 'False'
-    OR = 'or'
-    AND = 'and'
-    ELSE = 'else'
-    FOR = 'for'
-    WHILE = 'while'
-    RANGE = 'range'
-    IN = 'in'
-    NOT = 'not'
-    BREAK = 'break'
-    CONTINUE = 'continue'
+    IF = 'IF'
+    TRUE = 'TRUE'
+    FALSE = 'FALSE'
+    OR = 'OR'
+    AND = 'AND'
+    ELSE = 'ELSE'
+    FOR = 'FOR'
+    WHILE = 'WHILE'
+    RANGE = 'RANGE'
+    IN = 'IN'
+    NOT = 'NOT'
+    BREAK = 'BREAK'
+    CONTINUE = 'CONTINUE'
+
+    # relop constants
+    LT = 'LT'
+    LTE = 'LTE'
+    GT = 'GT'
+    GTE = 'GTE'
+    EQU = 'EQU'
+    NEQU = 'NEQU'
+
+    # arithmetic constants
+    PLUS = 'PLUS'
+    MINUS = 'MINUS'
+    TIMES = 'TIMES'
+    DIV = 'DIV'
+    MOD = 'MOD'
 
     # token constants
     NUMBER = 'NUMBER'
@@ -36,53 +52,66 @@ class P2CLexer(object):
 
     # reserved words
     reserved = {
-        TRUE: TRUE,
-        FALSE: FALSE,
-        IF: IF,
-        ELSE: ELSE,
-        FOR: FOR,
-        WHILE: WHILE,
-        IN: IN,
-        RANGE: RANGE,
-        BREAK: BREAK,
-        CONTINUE: CONTINUE,
-        # some logical symbols are also reserved words
-        AND: LOGIC,
-        OR: LOGIC,
-        NOT: LOGIC,
-    }
-    logical_symbols = {
-        'and': '&&',
-        'or': '||',
-        'not': '!',
-
-        '&&': '&&',
-        '||': '||',
-        '!': '!',
-    }
-    operator_symbols = {
-        # arithmetic
-        '+': '+',
-        '-': '-',
-        '*': '*',
-        '/': '/',
-        '//': '/',
-        '%': '%'
+        'if': IF,
+        'True': TRUE,
+        'False': FALSE,
+        'or': OR,
+        'and': AND,
+        'else': ELSE,
+        'for': FOR,
+        'while': WHILE,
+        'range': RANGE,
+        'in': IN,
+        'not': NOT,
+        'break': BREAK,
+        'continue': CONTINUE,
     }
 
     # all the possible tokens
-    tokens = [ID, NUMBER, EQ, LOGIC, RELOP, OPERATOR, LPRAN, RPRAN, LBRACE, RBRACE, SEP, 'COMMENTS', COLON]
+    tokens = [ID, NUMBER, EQ,
+              GT, GTE, LT, LTE, EQU, NEQU,
+              AND, OR, NOT,
+              PLUS, MINUS, TIMES, DIV, MOD,
+              LPRAN, RPRAN, LBRACE, RBRACE, SEP, COLON, 'COMMENTS']
     tokens += list(reserved.values())
     # remove duplicate values
     tokens = list(set(tokens))
 
+    for _t in tokens:
+        print(_t)
     # simple tokens regex definition
+
+    # relop
+    t_LT = r'<'
+    t_LTE = r'(<=)'
+    t_GT = r'>'
+    t_GTE = r'(>=)'
+    t_EQU = r'(==)'
+    t_NEQU = r'(\!=)'
+
+    # arithmetic
+    t_PLUS = r'\+'
+    t_MINUS = r'\-'
+    t_TIMES = r'\*'
+    t_MOD = r'%'
+
+    # logic operators
+    t_AND = r'(&&)'
+    t_OR = r'(\|\|)'
+    t_NOT = r'(\!)'
+
+    # other
     t_LPRAN = r'\('
     t_RPRAN = r'\)'
     t_LBRACE = r'\{'
     t_RBRACE = r'\}'
     t_SEP = r'\,'
     t_EQ = r'\='
+
+    def t_DIV(self, t):
+        r"""(//)|/"""
+        t.value = '/'
+        return t
 
     def t_COLON(self, t):
         r':'
@@ -94,28 +123,15 @@ class P2CLexer(object):
     def t_ID(self, t):
         r"""[a-zA-Z_][a-zA-Z_0-9]*"""
         t.type = self.reserved.get(t.value, self.ID)
-        if t.type == self.LOGIC:
-            t.value = self.logical_symbols.get(t.value)
-
+        if t.type in [self.AND, self.OR, self.NOT]:
+            logical_symbols = {'and': '&&', 'or': '||', 'not': '!'}
+            t.value = logical_symbols.get(t.value)
         return t
 
     def t_NUMBER(self, t):
         r"""\d+(\.\d*)?"""
         t.type = self.NUMBER
         t.value = float(t.value)
-        return t
-
-    def t_RELOP(self, t):
-        r"""(>=)|>|(<=)|<|(==)|(\!=)"""
-        return t
-
-    def t_LOGIC(self, t):
-        r"""(\|\|)|\!|(&&)"""
-        return t
-
-    def t_OPERATOR(self, t):
-        r"""(//)|\+|\-|\*|/|%"""
-        t.value = self.operator_symbols.get(t.value)
         return t
 
     # A string containing ignored characters (spaces and tabs)
@@ -213,25 +229,25 @@ if __name__ == '__main__':
     """, [
         (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.NUMBER, 3),
         (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.NUMBER, 45),
-        (lexer.LOGIC, '&&'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
+        (lexer.AND, '&&'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
         (lexer.ID, 'andor'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
         (lexer.ID, 'd'), (lexer.EQ, '='), (lexer.NUMBER, 166.897),
         (lexer.ID, 'm'), (lexer.EQ, '='), (lexer.ID, 'a'),
         (lexer.ID, 'v3'), (lexer.EQ, '='), (lexer.ID, 'variable_Longer'),
-        (lexer.ID, 'a'), (lexer.RELOP, '<'), (lexer.ID, 'b'),
-        (lexer.ID, 'other'), (lexer.RELOP, '<='), (lexer.NUMBER, 3.3),
-        (lexer.ID, 'var'), (lexer.RELOP, '!='), (lexer.ID, 'other'),
-        (lexer.NUMBER, 5), (lexer.RELOP, '>'), (lexer.NUMBER, 6),
-        (lexer.NUMBER, 89), (lexer.RELOP, '>='), (lexer.NUMBER, 99),
-        (lexer.ID, 'a'), (lexer.RELOP, '=='), (lexer.ID, 'b'),
-        (lexer.ID, 'l1'), (lexer.LOGIC, '&&'), (lexer.ID, 'l2'),
-        (lexer.ID, 'l1'), (lexer.LOGIC, '&&'), (lexer.ID, 'l2'),
-        (lexer.ID, 'wer'), (lexer.LOGIC, '||'), (lexer.ID, 'rew'),
-        (lexer.ID, 'wer'), (lexer.LOGIC, '||'), (lexer.ID, 'rew'),
-        (lexer.LOGIC, '!'), (lexer.ID, 'var'),
-        (lexer.LOGIC, '!'), (lexer.ID, 'var'),
-        (lexer.IF, 'if'), (lexer.ID, 'ab'), (lexer.RELOP, '>='), (lexer.NUMBER, 454), (lexer.COLON, ':'),
-        (lexer.ID, 'a'), (lexer.OPERATOR, '+'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.LT, '<'), (lexer.ID, 'b'),
+        (lexer.ID, 'other'), (lexer.LTE, '<='), (lexer.NUMBER, 3.3),
+        (lexer.ID, 'var'), (lexer.NEQU, '!='), (lexer.ID, 'other'),
+        (lexer.NUMBER, 5), (lexer.GT, '>'), (lexer.NUMBER, 6),
+        (lexer.NUMBER, 89), (lexer.GTE, '>='), (lexer.NUMBER, 99),
+        (lexer.ID, 'a'), (lexer.EQU, '=='), (lexer.ID, 'b'),
+        (lexer.ID, 'l1'), (lexer.AND, '&&'), (lexer.ID, 'l2'),
+        (lexer.ID, 'l1'), (lexer.AND, '&&'), (lexer.ID, 'l2'),
+        (lexer.ID, 'wer'), (lexer.OR, '||'), (lexer.ID, 'rew'),
+        (lexer.ID, 'wer'), (lexer.OR, '||'), (lexer.ID, 'rew'),
+        (lexer.NOT, '!'), (lexer.ID, 'var'),
+        (lexer.NOT, '!'), (lexer.ID, 'var'),
+        (lexer.IF, 'if'), (lexer.ID, 'ab'), (lexer.GTE, '>='), (lexer.NUMBER, 454), (lexer.COLON, ':'),
+        (lexer.ID, 'a'), (lexer.PLUS, '+'), (lexer.ID, 'b'),
 
         (lexer.FOR, 'for'), (lexer.ID, 'i'), (lexer.IN, 'in'), (lexer.RANGE, 'range'),
         (lexer.LPRAN, '('),
@@ -242,19 +258,19 @@ if __name__ == '__main__':
         (lexer.ID, 'step'),
         (lexer.RPRAN, ')'),
         (lexer.COLON, ':'),
-        (lexer.ID, 'a'), (lexer.OPERATOR, '%'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.MOD, '%'), (lexer.ID, 'b'),
 
-        (lexer.WHILE, 'while'), (lexer.ID, 'condition'), (lexer.RELOP, '!='), (lexer.NUMBER, 0), (lexer.COLON, ':'),
+        (lexer.WHILE, 'while'), (lexer.ID, 'condition'), (lexer.NEQU, '!='), (lexer.NUMBER, 0), (lexer.COLON, ':'),
         (lexer.ELSE, 'else'), (lexer.FALSE, 'False'), (lexer.COLON, ':'),
         (lexer.LBRACE, '{'),
-        (lexer.ID, 'm'), (lexer.EQ, '='),  (lexer.NUMBER, 34),
+        (lexer.ID, 'm'), (lexer.EQ, '='), (lexer.NUMBER, 34),
         (lexer.RBRACE, '}'),
 
-        (lexer.ID, 'a'), (lexer.OPERATOR, '+'), (lexer.ID, 'b'),
-        (lexer.ID, 'a'), (lexer.OPERATOR, '-'), (lexer.ID, 'b'),
-        (lexer.ID, 'a'), (lexer.OPERATOR, '*'), (lexer.ID, 'b'),
-        (lexer.ID, 'a'), (lexer.OPERATOR, '/'), (lexer.ID, 'b'),
-        (lexer.ID, 'a'), (lexer.OPERATOR, '/'), (lexer.ID, 'b'),
-        (lexer.ID, 'a'), (lexer.OPERATOR, '%'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.PLUS, '+'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.MINUS, '-'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.TIMES, '*'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.DIV, '/'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.DIV, '/'), (lexer.ID, 'b'),
+        (lexer.ID, 'a'), (lexer.MOD, '%'), (lexer.ID, 'b'),
 
     ])
