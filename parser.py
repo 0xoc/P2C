@@ -49,9 +49,9 @@ class P2CParser(object):
 
     def p_params(self, p):
         """
-        params : NUMBER
-            |   NUMBER SEP NUMBER
-            | NUMBER SEP NUMBER SEP NUMBER
+        params : num_or_id
+            |   num_or_id SEP num_or_id
+            | num_or_id SEP num_or_id SEP num_or_id
         """
         if len(p) == 2:
             p[0] = tuple((0, p[1], 1))
@@ -59,6 +59,13 @@ class P2CParser(object):
             p[0] = tuple((p[1], p[3], 1))
         elif len(p) == 6:
             p[0] = tuple((p[1], p[3], p[5]))
+
+    def p_num_or_id(self, p):
+        """
+        num_or_id : NUMBER
+                | ID
+        """
+        p[0] = p[1]
 
     def p_while(self, p):
         """
@@ -157,42 +164,54 @@ class P2CParser(object):
         return self.parse_tree
 
     def test(self, input_data):
-        for tree in self.parse(input_data):
-            print(tree)
-
+        print(self.parse(input_data))
 
 
 parser = P2CParser()
 parser.test("""
-(a + b) * 4 + c
-a + b
-m + n
+a = 10
+b = 120
 
-if a > b : 
-{
-    passed = True
-    m = a + b
-} elif a == b: {
-    passed = False
-    m = a - b
-} elif a < b : {
-    m = a
-} else: {
-    a = 0
-    b = 0
-    m = 0
+while a < b: {
+    if a == 20: { continue }
+    a += 1
+}   
+
+# a should be 120 by now
+
+b *= 2  # b = 240
+c = 0
+
+for i in range(a, b, 2): {
+    c = i + a
+    if c > 200 : { break }
+    elif c == 200 : { continue }
+    else: {} 
 }
 
-while True : {
-    if a > b: {
-        break
-    } elif a ==b : {continue}
-    else : {
-        a+= 1
-    }
-}
+result = 24 * ((a+b)-c/10)
 
-for i in range(10, 20, 2): {
-    a += i
-    }
 """)
+"""
+
+[
+    ('=', 'a', 10.0), 
+    ('=', 'b', 120.0),
+    ('while', ('<', 'a', 'b'), 
+        [
+            ('if', ('==', 'a', 20.0), ['continue'], None), 
+            ('+=', 'a', 1.0)
+        ]), 
+     
+     ('*=', 'b', 2.0), 
+     ('=', 'c', 0.0), 
+     
+     ('for', ('a', 'b', 2.0), 
+         [
+            ('=', 'c', ('+', 'i', 'a')),
+            ('if', ('>', 'c', 200.0), ['break'], ('elif', ('==', 'c', 200.0), ['continue'], ('else', None)))
+          ]), 
+      ('=', 'result', ('*', 24.0, ('-', ('+', 'a', 'b'), ('/', 'c', 10.0))))
+]
+
+"""
