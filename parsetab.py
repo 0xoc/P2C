@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'nonassocGTEGTLTELTEQUNEQUANDORrightPLUSMINUSrightTIMESDIVMODrightNOTAND BREAK COLON COMMENTS CONTINUE DIV ELIF ELSE EQ EQU FOR GT GTE ID IF IN LBRACE LPRAN LT LTE MINUS MOD NEQU NOT NUMBER OR PLUS RANGE RBRACE RPRAN SEP TIMES WHILE\n        statements : statements statement\n        | empty\n        \n        statement : assignment\n        | if\n        | expr\n        \n        if : IF expr COLON LBRACE statements RBRACE\n        \n        assignment : ID EQ expr\n        \n        expr : expr operator expr\n        | expr relop expr\n        | expr logic expr\n        | ID\n        | NUMBER\n        \n        operator : TIMES\n                | DIV\n                |  PLUS\n                |  MINUS\n                |  MOD\n        \n        logic : AND\n              | OR\n        \n        relop : LT\n                | LTE\n                |  GT\n                |  GTE\n                |  EQU\n                |  NEQU\n        \n        expr : LPRAN expr RPRAN\n        empty :'
+_lr_signature = 'nonassocGTEGTLTELTEQUNEQUANDORrightPLUSMINUSrightTIMESDIVMODrightNOTAND BREAK COLON COMMENTS CONTINUE DIV ELIF ELSE EQ EQU FOR GT GTE ID IF IN LBRACE LPRAN LT LTE MINUS MOD NEQU NOT NUMBER OR PLUS RANGE RBRACE RPRAN SEP TIMES WHILE\n        statements : statements statement\n        | empty\n        \n        statement : assignment\n        | if\n        | expr\n        \n        if : IF expr COLON LBRACE statements RBRACE elif\n        \n        elif : ELIF expr COLON LBRACE statements RBRACE elif\n        | else\n        \n        else : ELSE COLON LBRACE statements RBRACE\n        | empty\n        \n        assignment : ID EQ expr\n        \n        expr : expr operator expr\n        | expr relop expr\n        | expr logic expr\n        | ID\n        | NUMBER\n        \n        operator : TIMES\n                | DIV\n                |  PLUS\n                |  MINUS\n                |  MOD\n        \n        logic : AND\n              | OR\n        \n        relop : LT\n                | LTE\n                |  GT\n                |  GTE\n                |  EQU\n                |  NEQU\n        \n        expr : LPRAN expr RPRAN\n        empty :'
     
-_lr_action_items = {'ID':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,31,32,33,34,36,37,38,39,],[-27,7,-2,-1,-3,-4,-5,-11,29,-12,29,29,29,29,-13,-14,-15,-16,-17,-20,-21,-22,-23,-24,-25,-18,-19,29,-11,-8,-9,-10,-7,-26,-27,7,-6,]),'IF':([0,1,2,3,4,5,6,7,9,29,31,32,33,34,36,37,38,39,],[-27,8,-2,-1,-3,-4,-5,-11,-12,-11,-8,-9,-10,-7,-26,-27,8,-6,]),'NUMBER':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,31,32,33,34,36,37,38,39,],[-27,9,-2,-1,-3,-4,-5,-11,9,-12,9,9,9,9,-13,-14,-15,-16,-17,-20,-21,-22,-23,-24,-25,-18,-19,9,-11,-8,-9,-10,-7,-26,-27,9,-6,]),'LPRAN':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,31,32,33,34,36,37,38,39,],[-27,10,-2,-1,-3,-4,-5,-11,10,-12,10,10,10,10,-13,-14,-15,-16,-17,-20,-21,-22,-23,-24,-25,-18,-19,10,-11,-8,-9,-10,-7,-26,-27,10,-6,]),'$end':([0,1,2,3,4,5,6,7,9,29,31,32,33,34,36,39,],[-27,0,-2,-1,-3,-4,-5,-11,-12,-11,-8,-9,-10,-7,-26,-6,]),'RBRACE':([2,3,4,5,6,7,9,29,31,32,33,34,36,37,38,39,],[-2,-1,-3,-4,-5,-11,-12,-11,-8,-9,-10,-7,-26,-27,39,-6,]),'TIMES':([6,7,9,28,29,30,31,32,33,34,36,],[14,-11,-12,14,-11,14,14,14,14,14,-26,]),'DIV':([6,7,9,28,29,30,31,32,33,34,36,],[15,-11,-12,15,-11,15,15,15,15,15,-26,]),'PLUS':([6,7,9,28,29,30,31,32,33,34,36,],[16,-11,-12,16,-11,16,16,16,16,16,-26,]),'MINUS':([6,7,9,28,29,30,31,32,33,34,36,],[17,-11,-12,17,-11,17,17,17,17,17,-26,]),'MOD':([6,7,9,28,29,30,31,32,33,34,36,],[18,-11,-12,18,-11,18,18,18,18,18,-26,]),'LT':([6,7,9,28,29,30,31,32,33,34,36,],[19,-11,-12,19,-11,19,19,19,19,19,-26,]),'LTE':([6,7,9,28,29,30,31,32,33,34,36,],[20,-11,-12,20,-11,20,20,20,20,20,-26,]),'GT':([6,7,9,28,29,30,31,32,33,34,36,],[21,-11,-12,21,-11,21,21,21,21,21,-26,]),'GTE':([6,7,9,28,29,30,31,32,33,34,36,],[22,-11,-12,22,-11,22,22,22,22,22,-26,]),'EQU':([6,7,9,28,29,30,31,32,33,34,36,],[23,-11,-12,23,-11,23,23,23,23,23,-26,]),'NEQU':([6,7,9,28,29,30,31,32,33,34,36,],[24,-11,-12,24,-11,24,24,24,24,24,-26,]),'AND':([6,7,9,28,29,30,31,32,33,34,36,],[25,-11,-12,25,-11,25,25,25,25,25,-26,]),'OR':([6,7,9,28,29,30,31,32,33,34,36,],[26,-11,-12,26,-11,26,26,26,26,26,-26,]),'EQ':([7,],[27,]),'COLON':([9,28,29,31,32,33,36,],[-12,35,-11,-8,-9,-10,-26,]),'RPRAN':([9,29,30,31,32,33,36,],[-12,-11,36,-8,-9,-10,-26,]),'LBRACE':([35,],[37,]),}
+_lr_action_items = {'ID':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,31,32,33,34,36,37,38,39,40,41,42,44,48,49,50,51,52,53,54,],[-31,7,-2,-1,-3,-4,-5,-15,29,-16,29,29,29,29,-17,-18,-19,-20,-21,-24,-25,-26,-27,-28,-29,-22,-23,29,-15,-12,-13,-14,-11,-30,-31,7,-31,-6,29,-8,-10,-31,-31,7,7,-9,-31,-7,]),'IF':([0,1,2,3,4,5,6,7,9,29,31,32,33,34,36,37,38,39,40,42,44,48,49,50,51,52,53,54,],[-31,8,-2,-1,-3,-4,-5,-15,-16,-15,-12,-13,-14,-11,-30,-31,8,-31,-6,-8,-10,-31,-31,8,8,-9,-31,-7,]),'NUMBER':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,31,32,33,34,36,37,38,39,40,41,42,44,48,49,50,51,52,53,54,],[-31,9,-2,-1,-3,-4,-5,-15,9,-16,9,9,9,9,-17,-18,-19,-20,-21,-24,-25,-26,-27,-28,-29,-22,-23,9,-15,-12,-13,-14,-11,-30,-31,9,-31,-6,9,-8,-10,-31,-31,9,9,-9,-31,-7,]),'LPRAN':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,29,31,32,33,34,36,37,38,39,40,41,42,44,48,49,50,51,52,53,54,],[-31,10,-2,-1,-3,-4,-5,-15,10,-16,10,10,10,10,-17,-18,-19,-20,-21,-24,-25,-26,-27,-28,-29,-22,-23,10,-15,-12,-13,-14,-11,-30,-31,10,-31,-6,10,-8,-10,-31,-31,10,10,-9,-31,-7,]),'$end':([0,1,2,3,4,5,6,7,9,29,31,32,33,34,36,39,40,42,44,52,53,54,],[-31,0,-2,-1,-3,-4,-5,-15,-16,-15,-12,-13,-14,-11,-30,-31,-6,-8,-10,-9,-31,-7,]),'RBRACE':([2,3,4,5,6,7,9,29,31,32,33,34,36,37,38,39,40,42,44,48,49,50,51,52,53,54,],[-2,-1,-3,-4,-5,-15,-16,-15,-12,-13,-14,-11,-30,-31,39,-31,-6,-8,-10,-31,-31,52,53,-9,-31,-7,]),'TIMES':([6,7,9,28,29,30,31,32,33,34,36,45,],[14,-15,-16,14,-15,14,14,14,14,14,-30,14,]),'DIV':([6,7,9,28,29,30,31,32,33,34,36,45,],[15,-15,-16,15,-15,15,15,15,15,15,-30,15,]),'PLUS':([6,7,9,28,29,30,31,32,33,34,36,45,],[16,-15,-16,16,-15,16,16,16,16,16,-30,16,]),'MINUS':([6,7,9,28,29,30,31,32,33,34,36,45,],[17,-15,-16,17,-15,17,17,17,17,17,-30,17,]),'MOD':([6,7,9,28,29,30,31,32,33,34,36,45,],[18,-15,-16,18,-15,18,18,18,18,18,-30,18,]),'LT':([6,7,9,28,29,30,31,32,33,34,36,45,],[19,-15,-16,19,-15,19,19,19,19,19,-30,19,]),'LTE':([6,7,9,28,29,30,31,32,33,34,36,45,],[20,-15,-16,20,-15,20,20,20,20,20,-30,20,]),'GT':([6,7,9,28,29,30,31,32,33,34,36,45,],[21,-15,-16,21,-15,21,21,21,21,21,-30,21,]),'GTE':([6,7,9,28,29,30,31,32,33,34,36,45,],[22,-15,-16,22,-15,22,22,22,22,22,-30,22,]),'EQU':([6,7,9,28,29,30,31,32,33,34,36,45,],[23,-15,-16,23,-15,23,23,23,23,23,-30,23,]),'NEQU':([6,7,9,28,29,30,31,32,33,34,36,45,],[24,-15,-16,24,-15,24,24,24,24,24,-30,24,]),'AND':([6,7,9,28,29,30,31,32,33,34,36,45,],[25,-15,-16,25,-15,25,25,25,25,25,-30,25,]),'OR':([6,7,9,28,29,30,31,32,33,34,36,45,],[26,-15,-16,26,-15,26,26,26,26,26,-30,26,]),'EQ':([7,],[27,]),'COLON':([9,28,29,31,32,33,36,43,45,],[-16,35,-15,-12,-13,-14,-30,46,47,]),'RPRAN':([9,29,30,31,32,33,36,],[-16,-15,36,-12,-13,-14,-30,]),'LBRACE':([35,46,47,],[37,48,49,]),'ELIF':([39,53,],[41,41,]),'ELSE':([39,53,],[43,43,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statements':([0,37,],[1,38,]),'empty':([0,37,],[2,2,]),'statement':([1,38,],[3,3,]),'assignment':([1,38,],[4,4,]),'if':([1,38,],[5,5,]),'expr':([1,8,10,11,12,13,27,38,],[6,28,30,31,32,33,34,6,]),'operator':([6,28,30,31,32,33,34,],[11,11,11,11,11,11,11,]),'relop':([6,28,30,31,32,33,34,],[12,12,12,12,12,12,12,]),'logic':([6,28,30,31,32,33,34,],[13,13,13,13,13,13,13,]),}
+_lr_goto_items = {'statements':([0,37,48,49,],[1,38,50,51,]),'empty':([0,37,39,48,49,53,],[2,2,44,2,2,44,]),'statement':([1,38,50,51,],[3,3,3,3,]),'assignment':([1,38,50,51,],[4,4,4,4,]),'if':([1,38,50,51,],[5,5,5,5,]),'expr':([1,8,10,11,12,13,27,38,41,50,51,],[6,28,30,31,32,33,34,6,45,6,6,]),'operator':([6,28,30,31,32,33,34,45,],[11,11,11,11,11,11,11,11,]),'relop':([6,28,30,31,32,33,34,45,],[12,12,12,12,12,12,12,12,]),'logic':([6,28,30,31,32,33,34,45,],[13,13,13,13,13,13,13,13,]),'elif':([39,53,],[40,54,]),'else':([39,53,],[42,42,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,31 +27,35 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statements","S'",1,None,None,None),
-  ('statements -> statements statement','statements',2,'p_statements','parser.py',22),
-  ('statements -> empty','statements',1,'p_statements','parser.py',23),
-  ('statement -> assignment','statement',1,'p_statement','parser.py',33),
-  ('statement -> if','statement',1,'p_statement','parser.py',34),
-  ('statement -> expr','statement',1,'p_statement','parser.py',35),
-  ('if -> IF expr COLON LBRACE statements RBRACE','if',6,'p_if','parser.py',41),
-  ('assignment -> ID EQ expr','assignment',3,'p_assignment','parser.py',47),
-  ('expr -> expr operator expr','expr',3,'p_expr_operator_relop','parser.py',53),
-  ('expr -> expr relop expr','expr',3,'p_expr_operator_relop','parser.py',54),
-  ('expr -> expr logic expr','expr',3,'p_expr_operator_relop','parser.py',55),
-  ('expr -> ID','expr',1,'p_expr_operator_relop','parser.py',56),
-  ('expr -> NUMBER','expr',1,'p_expr_operator_relop','parser.py',57),
-  ('operator -> TIMES','operator',1,'p_operator','parser.py',66),
-  ('operator -> DIV','operator',1,'p_operator','parser.py',67),
-  ('operator -> PLUS','operator',1,'p_operator','parser.py',68),
-  ('operator -> MINUS','operator',1,'p_operator','parser.py',69),
-  ('operator -> MOD','operator',1,'p_operator','parser.py',70),
-  ('logic -> AND','logic',1,'p_logic','parser.py',76),
-  ('logic -> OR','logic',1,'p_logic','parser.py',77),
-  ('relop -> LT','relop',1,'p_relop','parser.py',83),
-  ('relop -> LTE','relop',1,'p_relop','parser.py',84),
-  ('relop -> GT','relop',1,'p_relop','parser.py',85),
-  ('relop -> GTE','relop',1,'p_relop','parser.py',86),
-  ('relop -> EQU','relop',1,'p_relop','parser.py',87),
-  ('relop -> NEQU','relop',1,'p_relop','parser.py',88),
-  ('expr -> LPRAN expr RPRAN','expr',3,'p_expr_pran','parser.py',94),
-  ('empty -> <empty>','empty',0,'p_empty','parser.py',99),
+  ('statements -> statements statement','statements',2,'p_statements','parser.py',23),
+  ('statements -> empty','statements',1,'p_statements','parser.py',24),
+  ('statement -> assignment','statement',1,'p_statement','parser.py',34),
+  ('statement -> if','statement',1,'p_statement','parser.py',35),
+  ('statement -> expr','statement',1,'p_statement','parser.py',36),
+  ('if -> IF expr COLON LBRACE statements RBRACE elif','if',7,'p_if','parser.py',42),
+  ('elif -> ELIF expr COLON LBRACE statements RBRACE elif','elif',7,'p_elif','parser.py',48),
+  ('elif -> else','elif',1,'p_elif','parser.py',49),
+  ('else -> ELSE COLON LBRACE statements RBRACE','else',5,'p_else','parser.py',55),
+  ('else -> empty','else',1,'p_else','parser.py',56),
+  ('assignment -> ID EQ expr','assignment',3,'p_assignment','parser.py',62),
+  ('expr -> expr operator expr','expr',3,'p_expr_operator_relop','parser.py',68),
+  ('expr -> expr relop expr','expr',3,'p_expr_operator_relop','parser.py',69),
+  ('expr -> expr logic expr','expr',3,'p_expr_operator_relop','parser.py',70),
+  ('expr -> ID','expr',1,'p_expr_operator_relop','parser.py',71),
+  ('expr -> NUMBER','expr',1,'p_expr_operator_relop','parser.py',72),
+  ('operator -> TIMES','operator',1,'p_operator','parser.py',81),
+  ('operator -> DIV','operator',1,'p_operator','parser.py',82),
+  ('operator -> PLUS','operator',1,'p_operator','parser.py',83),
+  ('operator -> MINUS','operator',1,'p_operator','parser.py',84),
+  ('operator -> MOD','operator',1,'p_operator','parser.py',85),
+  ('logic -> AND','logic',1,'p_logic','parser.py',91),
+  ('logic -> OR','logic',1,'p_logic','parser.py',92),
+  ('relop -> LT','relop',1,'p_relop','parser.py',98),
+  ('relop -> LTE','relop',1,'p_relop','parser.py',99),
+  ('relop -> GT','relop',1,'p_relop','parser.py',100),
+  ('relop -> GTE','relop',1,'p_relop','parser.py',101),
+  ('relop -> EQU','relop',1,'p_relop','parser.py',102),
+  ('relop -> NEQU','relop',1,'p_relop','parser.py',103),
+  ('expr -> LPRAN expr RPRAN','expr',3,'p_expr_pran','parser.py',109),
+  ('empty -> <empty>','empty',0,'p_empty','parser.py',114),
 ]

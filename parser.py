@@ -9,6 +9,7 @@ class P2CParser(object):
 
     def __init__(self):
         self.parser = yacc.yacc(module=self)
+        self.parse_tree = None
 
     precedence = (
         ('nonassoc', 'GTE', 'GT', 'LTE', 'LT', 'EQU', 'NEQU', 'AND', 'OR'),  # Nonassociative operators
@@ -26,7 +27,7 @@ class P2CParser(object):
             if not p[1]:
                 p[1] = []
             p[0] = p[1] + [p[2]]
-            print(p[0])
+            self.parse_tree = p[0]
 
     def p_statement(self, p):
         """
@@ -38,9 +39,27 @@ class P2CParser(object):
 
     def p_if(self, p):
         """
-        if : IF expr COLON LBRACE statements RBRACE
+        if : IF expr COLON LBRACE statements RBRACE elif
         """
-        p[0] = tuple((p[1], p[2], p[5]))
+        p[0] = tuple((p[1], p[2], p[5], p[7]))
+
+    def p_elif(self, p):
+        """
+        elif : ELIF expr COLON LBRACE statements RBRACE elif
+        | else
+        """
+        if len(p) != 2:
+            p[0] = tuple((p[1], p[2], p[5], p[7]))
+        else:
+            p[0] = p[1]
+
+    def p_else(self, p):
+        """
+        else : ELSE COLON LBRACE statements RBRACE
+        | empty
+        """
+        if len(p) != 2:
+            p[0] = tuple((p[1], p[4]))
 
     def p_assignment(self, p):
         """
@@ -100,7 +119,10 @@ class P2CParser(object):
         p[0] = None
 
     def test(self, input_data):
-        result = self.parser.parse(input_data, lexer=self.lexer)
+        self.parser.parse(input_data, lexer=self.lexer)
+        for tree in self.parse_tree:
+            print(tree)
+
 
 
 parser = P2CParser()
@@ -113,6 +135,15 @@ if a > b :
 {
     passed = True
     m = a + b
+} elif a == b: {
+    passed = False
+    m = a - b
+} elif a < b : {
+    m = a
+} else: {
+    a = 0
+    b = 0
+    m = 0
 }
 
 """)
