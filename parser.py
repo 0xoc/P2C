@@ -12,11 +12,12 @@ class P2CParser(object):
     def __init__(self):
         self.parser = yacc.yacc(module=self)
         self.parse_tree = None
+        self.three_address_code = None
 
     precedence = (
         ('nonassoc', 'GTE', 'GT', 'LTE', 'LT', 'EQU', 'NEQU', 'AND', 'OR'),  # Nonassociative operators
-        ('right', 'PLUS', 'MINUS'),
-        ('right', 'TIMES', 'DIV', 'MOD'),
+        ('left', 'PLUS', 'MINUS'),
+        ('left', 'TIMES', 'DIV', 'MOD'),
         ('right', 'NOT'),
     )
 
@@ -34,12 +35,12 @@ class P2CParser(object):
     def p_statement(self, p):
         """
         statement : assignment
-        | if
-        | while
-        | for
-        | expr
-        | CONTINUE
-        | BREAK
+                    | if
+                    | while
+                    | for
+                    | expr
+                    | CONTINUE
+                    | BREAK
         """
         p[0] = p[1]
 
@@ -61,13 +62,6 @@ class P2CParser(object):
             p[0] = tuple((p[1], p[3], 1))
         elif len(p) == 6:
             p[0] = tuple((p[1], p[3], p[5]))
-
-    def p_num_or_id(self, p):
-        """
-        num_or_id : NUMBER
-                | ID
-        """
-        p[0] = p[1]
 
     def p_while(self, p):
         """
@@ -113,8 +107,7 @@ class P2CParser(object):
         expr : expr operator expr
         | expr relop expr
         | expr logic expr
-        | ID
-        | NUMBER
+        | num_or_id
         | TRUE
         | FALSE
         """
@@ -156,6 +149,14 @@ class P2CParser(object):
         expr : LPRAN expr RPRAN
         """
         p[0] = p[2]
+
+    def p_num_or_id(self, p):
+        """
+        num_or_id : NUMBER
+                | ID
+        """
+        p[0] = p[1]
+
 
     def p_empty(self, p):
         'empty :'
