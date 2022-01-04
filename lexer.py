@@ -47,7 +47,6 @@ class P2CLexer(object):
     ID = 'ID'
     LOGIC = 'LOGIC'
     RELOP = 'RELOP'
-    OPERATOR = 'OPERATOR'
     LPRAN = 'LPRAN'
     RPRAN = 'RPRAN'
     LBRACE = 'LBRACE'
@@ -55,6 +54,10 @@ class P2CLexer(object):
     SEP = 'SEP'
     EQ = 'EQ'
     COLON = 'COLON'
+
+    ASSIGN = 'ASSIGN'
+    OPERATOR = 'OPERATOR'
+    KEYWORD = 'KEYWORD'
 
     # reserved words
     reserved = {
@@ -84,40 +87,103 @@ class P2CLexer(object):
     tokens += list(reserved.values())
     # remove duplicate values
     tokens = list(set(tokens))
+
     # simple tokens regex definition
     # arithmetic
 
-    t_PLUS_EQUAL = r'(\+=)'
-    t_MINUS_EQUAL = r'(\-=)'
-    t_TIMES_EQUAL = r'(\*=)'
+    def t_GTE(self, t):
+        r'(>=)'
+        return t
 
-    t_PLUS = r'\+'
-    t_MINUS = r'\-'
-    t_TIMES = r'\*'
-    t_MOD = r'%'
+    def t_EQU(self, t):
+        r'(==)'
+        return t
 
-    # relop
-    t_LT = r'<'
-    t_LTE = r'(<=)'
-    t_GT = r'>'
-    t_GTE = r'(>=)'
-    t_EQU = r'(==)'
-    t_NEQU = r'(\!=)'
-
-
+    def t_NEQU(self, t):
+        r'(\!=)'
+        return t
 
     # logic operators
-    t_AND = r'(&&)'
-    t_OR = r'(\|\|)'
-    t_NOT = r'(\!)'
+    def t_AND(self, t):
+        r'(&&)'
+        return t
+
+    def t_OR(self, t):
+        r'(\|\|)'
+        return t
+
+    def t_PLUS_EQUAL(self, t):
+        r'(\+=)'
+        return t
+
+    def t_DIV_EQUAL(self, t):
+        r'(/=)'
+        return t
+
+    def t_MINUS_EQUAL(self, t):
+        r'(\-=)'
+        return t
+
+    def t_TIMES_EQUAL(self, t):
+        r'(\*=)'
+        return t
+
+    def t_PLUS(self, t):
+        r'\+'
+        return t
+
+    def t_MINUS(self, t):
+        r'\-'
+        return t
+
+    def t_TIMES(self, t):
+        r'\*'
+        return t
+
+    def t_MOD(self, t):
+        r'%'
+        return t
+
+    # relop
+    def t_LTE(self, t):
+        r'(<=)'
+        return t
+    def t_LT(self, t):
+        r'<'
+        return t
+
+    def t_GT(self, t):
+        r'>'
+        return t
+
+    def t_NOT(self, t):
+        r'(\!)'
+        return t
 
     # other
-    t_LPRAN = r'\('
-    t_RPRAN = r'\)'
-    t_LBRACE = r'\{'
-    t_RBRACE = r'\}'
-    t_SEP = r'\,'
-    t_EQ = r'\='
+    def t_LPRAN(self, t):
+        r'\('
+        return t
+
+    def t_RPRAN(self, t):
+        r'\)'
+        return t
+
+    def t_LBRACE(self, t):
+        r'\{'
+        return t
+
+    def t_RBRACE(self, t):
+        r'\}'
+        return t
+
+    def t_SEP(self, t):
+        r'\,'
+        return t
+
+    def t_EQ(self, t):
+        r'\='
+        return t
 
     def t_DIV(self, t):
         r"""(//)|/"""
@@ -242,10 +308,11 @@ if __name__ == '__main__':
         m += n
         m -= n
         m *= n
+        m /= n
     
     """, [
-        (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.NUMBER, -3),
-        (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.NUMBER, 45),
+        (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.MINUS, '-'), (lexer.NUMBER, 3),
+        (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.PLUS, '+'), (lexer.NUMBER, 45),
         (lexer.AND, '&&'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
         (lexer.ID, 'andor'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
         (lexer.ID, 'd'), (lexer.EQ, '='), (lexer.NUMBER, 166.897),
@@ -290,7 +357,8 @@ if __name__ == '__main__':
         (lexer.ID, 'a'), (lexer.DIV, '/'), (lexer.ID, 'b'),
         (lexer.ID, 'a'), (lexer.MOD, '%'), (lexer.ID, 'b'),
 
-        (lexer.ID, 'm'), (lexer.PLUS_EQUAL, '+='), (lexer.ID,  'n'),
+        (lexer.ID, 'm'), (lexer.PLUS_EQUAL, '+='), (lexer.ID, 'n'),
         (lexer.ID, 'm'), (lexer.MINUS_EQUAL, '-='), (lexer.ID, 'n'),
         (lexer.ID, 'm'), (lexer.TIMES_EQUAL, '*='), (lexer.ID, 'n'),
+        (lexer.ID, 'm'), (lexer.DIV_EQUAL, '/='), (lexer.ID, 'n'),
     ])
