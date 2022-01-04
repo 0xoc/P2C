@@ -22,6 +22,9 @@ class P2CLexer(object):
     BREAK = 'BREAK'
     CONTINUE = 'CONTINUE'
 
+    PRINT = 'PRINT'
+    STRING_LITERAL = 'STRING_LITERAL'
+
     # relop constants
     LT = 'LT'
     LTE = 'LTE'
@@ -75,6 +78,7 @@ class P2CLexer(object):
         'not': NOT,
         'break': BREAK,
         'continue': CONTINUE,
+        'print': PRINT,
     }
 
     # all the possible tokens
@@ -82,7 +86,7 @@ class P2CLexer(object):
               GT, GTE, LT, LTE, EQU, NEQU,
               AND, OR, NOT,
               PLUS_EQUAL, TIMES_EQUAL, MINUS_EQUAL, DIV_EQUAL,
-              PLUS, MINUS, TIMES, DIV, MOD,
+              PLUS, MINUS, TIMES, DIV, MOD, STRING_LITERAL,
               LPRAN, RPRAN, LBRACE, RBRACE, SEP, COLON, 'COMMENTS']
     tokens += list(reserved.values())
     # remove duplicate values
@@ -90,6 +94,8 @@ class P2CLexer(object):
 
     # simple tokens regex definition
     # arithmetic
+
+    t_STRING_LITERAL = r'".*\n*.*"'
 
     def t_GTE(self, t):
         r'(>=)'
@@ -258,6 +264,8 @@ if __name__ == '__main__':
 
     # test 1
     lexer.test("""
+    print("Hello world \n")
+    
     # number and assignment tests
         ifTrue = -3
         b = +45
@@ -309,8 +317,9 @@ if __name__ == '__main__':
         m -= n
         m *= n
         m /= n
-    
+
     """, [
+        (lexer.PRINT, 'print'), (lexer.LPRAN, '('), (lexer.STRING_LITERAL, '"Hello world \n"'), (lexer.RPRAN, ')'),
         (lexer.ID, 'ifTrue'), (lexer.EQ, '='), (lexer.MINUS, '-'), (lexer.NUMBER, 3),
         (lexer.ID, 'b'), (lexer.EQ, '='), (lexer.PLUS, '+'), (lexer.NUMBER, 45),
         (lexer.AND, '&&'), (lexer.EQ, '='), (lexer.NUMBER, 1.2),
