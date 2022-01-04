@@ -3,7 +3,6 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Unused terminals:
 
     COMMENTS
-    DIV_EQUAL
     NOT
 
 Grammar
@@ -32,70 +31,69 @@ Rule 20    assignment -> ID EQ expr
 Rule 21    assignment -> ID PLUS_EQUAL expr
 Rule 22    assignment -> ID MINUS_EQUAL expr
 Rule 23    assignment -> ID TIMES_EQUAL expr
-Rule 24    expr -> expr operator expr
-Rule 25    expr -> expr relop expr
-Rule 26    expr -> expr logic expr
-Rule 27    expr -> num_or_id
-Rule 28    expr -> TRUE
-Rule 29    expr -> FALSE
-Rule 30    operator -> TIMES
-Rule 31    operator -> DIV
-Rule 32    operator -> PLUS
-Rule 33    operator -> MINUS
-Rule 34    operator -> MOD
-Rule 35    logic -> AND
-Rule 36    logic -> OR
-Rule 37    relop -> LT
-Rule 38    relop -> LTE
-Rule 39    relop -> GT
-Rule 40    relop -> GTE
-Rule 41    relop -> EQU
-Rule 42    relop -> NEQU
-Rule 43    expr -> LPRAN expr RPRAN
-Rule 44    num_or_id -> NUMBER
-Rule 45    num_or_id -> ID
-Rule 46    empty -> <empty>
+Rule 24    assignment -> ID DIV_EQUAL expr
+Rule 25    expr -> expr PLUS expr
+Rule 26    expr -> expr MINUS expr
+Rule 27    expr -> expr TIMES expr
+Rule 28    expr -> expr DIV expr
+Rule 29    expr -> expr MOD expr
+Rule 30    expr -> expr AND expr
+Rule 31    expr -> expr OR expr
+Rule 32    expr -> expr LT expr
+Rule 33    expr -> expr LTE expr
+Rule 34    expr -> expr GT expr
+Rule 35    expr -> expr GTE expr
+Rule 36    expr -> expr EQU expr
+Rule 37    expr -> expr NEQU expr
+Rule 38    expr -> ID
+Rule 39    expr -> NUMBER
+Rule 40    expr -> TRUE
+Rule 41    expr -> FALSE
+Rule 42    expr -> LPRAN expr RPRAN
+Rule 43    num_or_id -> NUMBER
+Rule 44    num_or_id -> ID
+Rule 45    empty -> <empty>
 
 Terminals, with rules where they appear
 
-AND                  : 35
+AND                  : 30
 BREAK                : 9
 COLON                : 10 14 15 16 18
 COMMENTS             : 
 CONTINUE             : 8
-DIV                  : 31
-DIV_EQUAL            : 
+DIV                  : 28
+DIV_EQUAL            : 24
 ELIF                 : 16
 ELSE                 : 18
 EQ                   : 20
-EQU                  : 41
-FALSE                : 29
+EQU                  : 36
+FALSE                : 41
 FOR                  : 10
-GT                   : 39
-GTE                  : 40
-ID                   : 10 20 21 22 23 45
+GT                   : 34
+GTE                  : 35
+ID                   : 10 20 21 22 23 24 38 44
 IF                   : 15
 IN                   : 10
 LBRACE               : 10 14 15 16 18
-LPRAN                : 10 43
-LT                   : 37
-LTE                  : 38
-MINUS                : 33
+LPRAN                : 10 42
+LT                   : 32
+LTE                  : 33
+MINUS                : 26
 MINUS_EQUAL          : 22
-MOD                  : 34
-NEQU                 : 42
+MOD                  : 29
+NEQU                 : 37
 NOT                  : 
-NUMBER               : 44
-OR                   : 36
-PLUS                 : 32
+NUMBER               : 39 43
+OR                   : 31
+PLUS                 : 25
 PLUS_EQUAL           : 21
 RANGE                : 10
 RBRACE               : 10 14 15 16 18
-RPRAN                : 10 43
+RPRAN                : 10 42
 SEP                  : 12 13 13
-TIMES                : 30
+TIMES                : 27
 TIMES_EQUAL          : 23
-TRUE                 : 28
+TRUE                 : 40
 WHILE                : 14
 error                : 
 
@@ -105,14 +103,11 @@ assignment           : 3
 elif                 : 15 16
 else                 : 17
 empty                : 2 19
-expr                 : 7 14 15 16 20 21 22 23 24 24 25 25 26 26 43
+expr                 : 7 14 15 16 20 21 22 23 24 25 25 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 37 42
 for                  : 6
 if                   : 4
-logic                : 26
-num_or_id            : 11 12 12 13 13 13 27
-operator             : 24
+num_or_id            : 11 12 12 13 13 13
 params               : 10
-relop                : 25
 statement            : 1
 statements           : 1 10 14 15 16 18 0
 while                : 5
@@ -124,19 +119,19 @@ state 0
     (0) S' -> . statements
     (1) statements -> . statements statement
     (2) statements -> . empty
-    (46) empty -> .
+    (45) empty -> .
 
-    CONTINUE        reduce using rule 46 (empty -> .)
-    BREAK           reduce using rule 46 (empty -> .)
-    ID              reduce using rule 46 (empty -> .)
-    IF              reduce using rule 46 (empty -> .)
-    WHILE           reduce using rule 46 (empty -> .)
-    FOR             reduce using rule 46 (empty -> .)
-    TRUE            reduce using rule 46 (empty -> .)
-    FALSE           reduce using rule 46 (empty -> .)
-    LPRAN           reduce using rule 46 (empty -> .)
-    NUMBER          reduce using rule 46 (empty -> .)
-    $end            reduce using rule 46 (empty -> .)
+    CONTINUE        reduce using rule 45 (empty -> .)
+    BREAK           reduce using rule 45 (empty -> .)
+    ID              reduce using rule 45 (empty -> .)
+    IF              reduce using rule 45 (empty -> .)
+    WHILE           reduce using rule 45 (empty -> .)
+    FOR             reduce using rule 45 (empty -> .)
+    NUMBER          reduce using rule 45 (empty -> .)
+    TRUE            reduce using rule 45 (empty -> .)
+    FALSE           reduce using rule 45 (empty -> .)
+    LPRAN           reduce using rule 45 (empty -> .)
+    $end            reduce using rule 45 (empty -> .)
 
     statements                     shift and go to state 1
     empty                          shift and go to state 2
@@ -156,18 +151,28 @@ state 1
     (21) assignment -> . ID PLUS_EQUAL expr
     (22) assignment -> . ID MINUS_EQUAL expr
     (23) assignment -> . ID TIMES_EQUAL expr
+    (24) assignment -> . ID DIV_EQUAL expr
     (15) if -> . IF expr COLON LBRACE statements RBRACE elif
     (14) while -> . WHILE expr COLON LBRACE statements RBRACE
     (10) for -> . FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
     CONTINUE        shift and go to state 9
     BREAK           shift and go to state 10
@@ -175,10 +180,10 @@ state 1
     IF              shift and go to state 12
     WHILE           shift and go to state 13
     FOR             shift and go to state 14
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
 
     statement                      shift and go to state 3
     assignment                     shift and go to state 4
@@ -186,7 +191,6 @@ state 1
     while                          shift and go to state 6
     for                            shift and go to state 7
     expr                           shift and go to state 8
-    num_or_id                      shift and go to state 16
 
 state 2
 
@@ -198,10 +202,10 @@ state 2
     IF              reduce using rule 2 (statements -> empty .)
     WHILE           reduce using rule 2 (statements -> empty .)
     FOR             reduce using rule 2 (statements -> empty .)
+    NUMBER          reduce using rule 2 (statements -> empty .)
     TRUE            reduce using rule 2 (statements -> empty .)
     FALSE           reduce using rule 2 (statements -> empty .)
     LPRAN           reduce using rule 2 (statements -> empty .)
-    NUMBER          reduce using rule 2 (statements -> empty .)
     $end            reduce using rule 2 (statements -> empty .)
     RBRACE          reduce using rule 2 (statements -> empty .)
 
@@ -216,10 +220,10 @@ state 3
     IF              reduce using rule 1 (statements -> statements statement .)
     WHILE           reduce using rule 1 (statements -> statements statement .)
     FOR             reduce using rule 1 (statements -> statements statement .)
+    NUMBER          reduce using rule 1 (statements -> statements statement .)
     TRUE            reduce using rule 1 (statements -> statements statement .)
     FALSE           reduce using rule 1 (statements -> statements statement .)
     LPRAN           reduce using rule 1 (statements -> statements statement .)
-    NUMBER          reduce using rule 1 (statements -> statements statement .)
     $end            reduce using rule 1 (statements -> statements statement .)
     RBRACE          reduce using rule 1 (statements -> statements statement .)
 
@@ -234,10 +238,10 @@ state 4
     IF              reduce using rule 3 (statement -> assignment .)
     WHILE           reduce using rule 3 (statement -> assignment .)
     FOR             reduce using rule 3 (statement -> assignment .)
+    NUMBER          reduce using rule 3 (statement -> assignment .)
     TRUE            reduce using rule 3 (statement -> assignment .)
     FALSE           reduce using rule 3 (statement -> assignment .)
     LPRAN           reduce using rule 3 (statement -> assignment .)
-    NUMBER          reduce using rule 3 (statement -> assignment .)
     $end            reduce using rule 3 (statement -> assignment .)
     RBRACE          reduce using rule 3 (statement -> assignment .)
 
@@ -252,10 +256,10 @@ state 5
     IF              reduce using rule 4 (statement -> if .)
     WHILE           reduce using rule 4 (statement -> if .)
     FOR             reduce using rule 4 (statement -> if .)
+    NUMBER          reduce using rule 4 (statement -> if .)
     TRUE            reduce using rule 4 (statement -> if .)
     FALSE           reduce using rule 4 (statement -> if .)
     LPRAN           reduce using rule 4 (statement -> if .)
-    NUMBER          reduce using rule 4 (statement -> if .)
     $end            reduce using rule 4 (statement -> if .)
     RBRACE          reduce using rule 4 (statement -> if .)
 
@@ -270,10 +274,10 @@ state 6
     IF              reduce using rule 5 (statement -> while .)
     WHILE           reduce using rule 5 (statement -> while .)
     FOR             reduce using rule 5 (statement -> while .)
+    NUMBER          reduce using rule 5 (statement -> while .)
     TRUE            reduce using rule 5 (statement -> while .)
     FALSE           reduce using rule 5 (statement -> while .)
     LPRAN           reduce using rule 5 (statement -> while .)
-    NUMBER          reduce using rule 5 (statement -> while .)
     $end            reduce using rule 5 (statement -> while .)
     RBRACE          reduce using rule 5 (statement -> while .)
 
@@ -288,10 +292,10 @@ state 7
     IF              reduce using rule 6 (statement -> for .)
     WHILE           reduce using rule 6 (statement -> for .)
     FOR             reduce using rule 6 (statement -> for .)
+    NUMBER          reduce using rule 6 (statement -> for .)
     TRUE            reduce using rule 6 (statement -> for .)
     FALSE           reduce using rule 6 (statement -> for .)
     LPRAN           reduce using rule 6 (statement -> for .)
-    NUMBER          reduce using rule 6 (statement -> for .)
     $end            reduce using rule 6 (statement -> for .)
     RBRACE          reduce using rule 6 (statement -> for .)
 
@@ -299,22 +303,19 @@ state 7
 state 8
 
     (7) statement -> expr .
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
     CONTINUE        reduce using rule 7 (statement -> expr .)
     BREAK           reduce using rule 7 (statement -> expr .)
@@ -322,29 +323,26 @@ state 8
     IF              reduce using rule 7 (statement -> expr .)
     WHILE           reduce using rule 7 (statement -> expr .)
     FOR             reduce using rule 7 (statement -> expr .)
+    NUMBER          reduce using rule 7 (statement -> expr .)
     TRUE            reduce using rule 7 (statement -> expr .)
     FALSE           reduce using rule 7 (statement -> expr .)
     LPRAN           reduce using rule 7 (statement -> expr .)
-    NUMBER          reduce using rule 7 (statement -> expr .)
     $end            reduce using rule 7 (statement -> expr .)
     RBRACE          reduce using rule 7 (statement -> expr .)
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+    AND             shift and go to state 24
+    OR              shift and go to state 25
+    LT              shift and go to state 26
+    LTE             shift and go to state 27
+    GT              shift and go to state 28
+    GTE             shift and go to state 29
+    EQU             shift and go to state 30
+    NEQU            shift and go to state 31
 
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
-    logic                          shift and go to state 22
 
 state 9
 
@@ -356,10 +354,10 @@ state 9
     IF              reduce using rule 8 (statement -> CONTINUE .)
     WHILE           reduce using rule 8 (statement -> CONTINUE .)
     FOR             reduce using rule 8 (statement -> CONTINUE .)
+    NUMBER          reduce using rule 8 (statement -> CONTINUE .)
     TRUE            reduce using rule 8 (statement -> CONTINUE .)
     FALSE           reduce using rule 8 (statement -> CONTINUE .)
     LPRAN           reduce using rule 8 (statement -> CONTINUE .)
-    NUMBER          reduce using rule 8 (statement -> CONTINUE .)
     $end            reduce using rule 8 (statement -> CONTINUE .)
     RBRACE          reduce using rule 8 (statement -> CONTINUE .)
 
@@ -374,10 +372,10 @@ state 10
     IF              reduce using rule 9 (statement -> BREAK .)
     WHILE           reduce using rule 9 (statement -> BREAK .)
     FOR             reduce using rule 9 (statement -> BREAK .)
+    NUMBER          reduce using rule 9 (statement -> BREAK .)
     TRUE            reduce using rule 9 (statement -> BREAK .)
     FALSE           reduce using rule 9 (statement -> BREAK .)
     LPRAN           reduce using rule 9 (statement -> BREAK .)
-    NUMBER          reduce using rule 9 (statement -> BREAK .)
     $end            reduce using rule 9 (statement -> BREAK .)
     RBRACE          reduce using rule 9 (statement -> BREAK .)
 
@@ -388,956 +386,1712 @@ state 11
     (21) assignment -> ID . PLUS_EQUAL expr
     (22) assignment -> ID . MINUS_EQUAL expr
     (23) assignment -> ID . TIMES_EQUAL expr
-    (45) num_or_id -> ID .
+    (24) assignment -> ID . DIV_EQUAL expr
+    (38) expr -> ID .
 
-    EQ              shift and go to state 36
-    PLUS_EQUAL      shift and go to state 37
-    MINUS_EQUAL     shift and go to state 38
-    TIMES_EQUAL     shift and go to state 39
-    TIMES           reduce using rule 45 (num_or_id -> ID .)
-    DIV             reduce using rule 45 (num_or_id -> ID .)
-    PLUS            reduce using rule 45 (num_or_id -> ID .)
-    MINUS           reduce using rule 45 (num_or_id -> ID .)
-    MOD             reduce using rule 45 (num_or_id -> ID .)
-    LT              reduce using rule 45 (num_or_id -> ID .)
-    LTE             reduce using rule 45 (num_or_id -> ID .)
-    GT              reduce using rule 45 (num_or_id -> ID .)
-    GTE             reduce using rule 45 (num_or_id -> ID .)
-    EQU             reduce using rule 45 (num_or_id -> ID .)
-    NEQU            reduce using rule 45 (num_or_id -> ID .)
-    AND             reduce using rule 45 (num_or_id -> ID .)
-    OR              reduce using rule 45 (num_or_id -> ID .)
-    CONTINUE        reduce using rule 45 (num_or_id -> ID .)
-    BREAK           reduce using rule 45 (num_or_id -> ID .)
-    ID              reduce using rule 45 (num_or_id -> ID .)
-    IF              reduce using rule 45 (num_or_id -> ID .)
-    WHILE           reduce using rule 45 (num_or_id -> ID .)
-    FOR             reduce using rule 45 (num_or_id -> ID .)
-    TRUE            reduce using rule 45 (num_or_id -> ID .)
-    FALSE           reduce using rule 45 (num_or_id -> ID .)
-    LPRAN           reduce using rule 45 (num_or_id -> ID .)
-    NUMBER          reduce using rule 45 (num_or_id -> ID .)
-    $end            reduce using rule 45 (num_or_id -> ID .)
-    RBRACE          reduce using rule 45 (num_or_id -> ID .)
+    EQ              shift and go to state 32
+    PLUS_EQUAL      shift and go to state 33
+    MINUS_EQUAL     shift and go to state 34
+    TIMES_EQUAL     shift and go to state 35
+    DIV_EQUAL       shift and go to state 36
+    PLUS            reduce using rule 38 (expr -> ID .)
+    MINUS           reduce using rule 38 (expr -> ID .)
+    TIMES           reduce using rule 38 (expr -> ID .)
+    DIV             reduce using rule 38 (expr -> ID .)
+    MOD             reduce using rule 38 (expr -> ID .)
+    AND             reduce using rule 38 (expr -> ID .)
+    OR              reduce using rule 38 (expr -> ID .)
+    LT              reduce using rule 38 (expr -> ID .)
+    LTE             reduce using rule 38 (expr -> ID .)
+    GT              reduce using rule 38 (expr -> ID .)
+    GTE             reduce using rule 38 (expr -> ID .)
+    EQU             reduce using rule 38 (expr -> ID .)
+    NEQU            reduce using rule 38 (expr -> ID .)
+    CONTINUE        reduce using rule 38 (expr -> ID .)
+    BREAK           reduce using rule 38 (expr -> ID .)
+    ID              reduce using rule 38 (expr -> ID .)
+    IF              reduce using rule 38 (expr -> ID .)
+    WHILE           reduce using rule 38 (expr -> ID .)
+    FOR             reduce using rule 38 (expr -> ID .)
+    NUMBER          reduce using rule 38 (expr -> ID .)
+    TRUE            reduce using rule 38 (expr -> ID .)
+    FALSE           reduce using rule 38 (expr -> ID .)
+    LPRAN           reduce using rule 38 (expr -> ID .)
+    $end            reduce using rule 38 (expr -> ID .)
+    RBRACE          reduce using rule 38 (expr -> ID .)
 
 
 state 12
 
     (15) if -> IF . expr COLON LBRACE statements RBRACE elif
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
 
-    expr                           shift and go to state 40
-    num_or_id                      shift and go to state 16
+    expr                           shift and go to state 37
 
 state 13
 
     (14) while -> WHILE . expr COLON LBRACE statements RBRACE
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
 
-    expr                           shift and go to state 42
-    num_or_id                      shift and go to state 16
+    expr                           shift and go to state 39
 
 state 14
 
     (10) for -> FOR . ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
 
-    ID              shift and go to state 43
+    ID              shift and go to state 40
 
 
 state 15
 
-    (43) expr -> LPRAN . expr RPRAN
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (42) expr -> LPRAN . expr RPRAN
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
 
-    expr                           shift and go to state 44
-    num_or_id                      shift and go to state 16
+    expr                           shift and go to state 41
 
 state 16
 
-    (27) expr -> num_or_id .
+    (39) expr -> NUMBER .
 
-    TIMES           reduce using rule 27 (expr -> num_or_id .)
-    DIV             reduce using rule 27 (expr -> num_or_id .)
-    PLUS            reduce using rule 27 (expr -> num_or_id .)
-    MINUS           reduce using rule 27 (expr -> num_or_id .)
-    MOD             reduce using rule 27 (expr -> num_or_id .)
-    LT              reduce using rule 27 (expr -> num_or_id .)
-    LTE             reduce using rule 27 (expr -> num_or_id .)
-    GT              reduce using rule 27 (expr -> num_or_id .)
-    GTE             reduce using rule 27 (expr -> num_or_id .)
-    EQU             reduce using rule 27 (expr -> num_or_id .)
-    NEQU            reduce using rule 27 (expr -> num_or_id .)
-    AND             reduce using rule 27 (expr -> num_or_id .)
-    OR              reduce using rule 27 (expr -> num_or_id .)
-    CONTINUE        reduce using rule 27 (expr -> num_or_id .)
-    BREAK           reduce using rule 27 (expr -> num_or_id .)
-    ID              reduce using rule 27 (expr -> num_or_id .)
-    IF              reduce using rule 27 (expr -> num_or_id .)
-    WHILE           reduce using rule 27 (expr -> num_or_id .)
-    FOR             reduce using rule 27 (expr -> num_or_id .)
-    TRUE            reduce using rule 27 (expr -> num_or_id .)
-    FALSE           reduce using rule 27 (expr -> num_or_id .)
-    LPRAN           reduce using rule 27 (expr -> num_or_id .)
-    NUMBER          reduce using rule 27 (expr -> num_or_id .)
-    $end            reduce using rule 27 (expr -> num_or_id .)
-    COLON           reduce using rule 27 (expr -> num_or_id .)
-    RPRAN           reduce using rule 27 (expr -> num_or_id .)
-    RBRACE          reduce using rule 27 (expr -> num_or_id .)
+    PLUS            reduce using rule 39 (expr -> NUMBER .)
+    MINUS           reduce using rule 39 (expr -> NUMBER .)
+    TIMES           reduce using rule 39 (expr -> NUMBER .)
+    DIV             reduce using rule 39 (expr -> NUMBER .)
+    MOD             reduce using rule 39 (expr -> NUMBER .)
+    AND             reduce using rule 39 (expr -> NUMBER .)
+    OR              reduce using rule 39 (expr -> NUMBER .)
+    LT              reduce using rule 39 (expr -> NUMBER .)
+    LTE             reduce using rule 39 (expr -> NUMBER .)
+    GT              reduce using rule 39 (expr -> NUMBER .)
+    GTE             reduce using rule 39 (expr -> NUMBER .)
+    EQU             reduce using rule 39 (expr -> NUMBER .)
+    NEQU            reduce using rule 39 (expr -> NUMBER .)
+    CONTINUE        reduce using rule 39 (expr -> NUMBER .)
+    BREAK           reduce using rule 39 (expr -> NUMBER .)
+    ID              reduce using rule 39 (expr -> NUMBER .)
+    IF              reduce using rule 39 (expr -> NUMBER .)
+    WHILE           reduce using rule 39 (expr -> NUMBER .)
+    FOR             reduce using rule 39 (expr -> NUMBER .)
+    NUMBER          reduce using rule 39 (expr -> NUMBER .)
+    TRUE            reduce using rule 39 (expr -> NUMBER .)
+    FALSE           reduce using rule 39 (expr -> NUMBER .)
+    LPRAN           reduce using rule 39 (expr -> NUMBER .)
+    $end            reduce using rule 39 (expr -> NUMBER .)
+    COLON           reduce using rule 39 (expr -> NUMBER .)
+    RPRAN           reduce using rule 39 (expr -> NUMBER .)
+    RBRACE          reduce using rule 39 (expr -> NUMBER .)
 
 
 state 17
 
-    (28) expr -> TRUE .
+    (40) expr -> TRUE .
 
-    TIMES           reduce using rule 28 (expr -> TRUE .)
-    DIV             reduce using rule 28 (expr -> TRUE .)
-    PLUS            reduce using rule 28 (expr -> TRUE .)
-    MINUS           reduce using rule 28 (expr -> TRUE .)
-    MOD             reduce using rule 28 (expr -> TRUE .)
-    LT              reduce using rule 28 (expr -> TRUE .)
-    LTE             reduce using rule 28 (expr -> TRUE .)
-    GT              reduce using rule 28 (expr -> TRUE .)
-    GTE             reduce using rule 28 (expr -> TRUE .)
-    EQU             reduce using rule 28 (expr -> TRUE .)
-    NEQU            reduce using rule 28 (expr -> TRUE .)
-    AND             reduce using rule 28 (expr -> TRUE .)
-    OR              reduce using rule 28 (expr -> TRUE .)
-    CONTINUE        reduce using rule 28 (expr -> TRUE .)
-    BREAK           reduce using rule 28 (expr -> TRUE .)
-    ID              reduce using rule 28 (expr -> TRUE .)
-    IF              reduce using rule 28 (expr -> TRUE .)
-    WHILE           reduce using rule 28 (expr -> TRUE .)
-    FOR             reduce using rule 28 (expr -> TRUE .)
-    TRUE            reduce using rule 28 (expr -> TRUE .)
-    FALSE           reduce using rule 28 (expr -> TRUE .)
-    LPRAN           reduce using rule 28 (expr -> TRUE .)
-    NUMBER          reduce using rule 28 (expr -> TRUE .)
-    $end            reduce using rule 28 (expr -> TRUE .)
-    COLON           reduce using rule 28 (expr -> TRUE .)
-    RPRAN           reduce using rule 28 (expr -> TRUE .)
-    RBRACE          reduce using rule 28 (expr -> TRUE .)
+    PLUS            reduce using rule 40 (expr -> TRUE .)
+    MINUS           reduce using rule 40 (expr -> TRUE .)
+    TIMES           reduce using rule 40 (expr -> TRUE .)
+    DIV             reduce using rule 40 (expr -> TRUE .)
+    MOD             reduce using rule 40 (expr -> TRUE .)
+    AND             reduce using rule 40 (expr -> TRUE .)
+    OR              reduce using rule 40 (expr -> TRUE .)
+    LT              reduce using rule 40 (expr -> TRUE .)
+    LTE             reduce using rule 40 (expr -> TRUE .)
+    GT              reduce using rule 40 (expr -> TRUE .)
+    GTE             reduce using rule 40 (expr -> TRUE .)
+    EQU             reduce using rule 40 (expr -> TRUE .)
+    NEQU            reduce using rule 40 (expr -> TRUE .)
+    CONTINUE        reduce using rule 40 (expr -> TRUE .)
+    BREAK           reduce using rule 40 (expr -> TRUE .)
+    ID              reduce using rule 40 (expr -> TRUE .)
+    IF              reduce using rule 40 (expr -> TRUE .)
+    WHILE           reduce using rule 40 (expr -> TRUE .)
+    FOR             reduce using rule 40 (expr -> TRUE .)
+    NUMBER          reduce using rule 40 (expr -> TRUE .)
+    TRUE            reduce using rule 40 (expr -> TRUE .)
+    FALSE           reduce using rule 40 (expr -> TRUE .)
+    LPRAN           reduce using rule 40 (expr -> TRUE .)
+    $end            reduce using rule 40 (expr -> TRUE .)
+    COLON           reduce using rule 40 (expr -> TRUE .)
+    RPRAN           reduce using rule 40 (expr -> TRUE .)
+    RBRACE          reduce using rule 40 (expr -> TRUE .)
 
 
 state 18
 
-    (29) expr -> FALSE .
+    (41) expr -> FALSE .
 
-    TIMES           reduce using rule 29 (expr -> FALSE .)
-    DIV             reduce using rule 29 (expr -> FALSE .)
-    PLUS            reduce using rule 29 (expr -> FALSE .)
-    MINUS           reduce using rule 29 (expr -> FALSE .)
-    MOD             reduce using rule 29 (expr -> FALSE .)
-    LT              reduce using rule 29 (expr -> FALSE .)
-    LTE             reduce using rule 29 (expr -> FALSE .)
-    GT              reduce using rule 29 (expr -> FALSE .)
-    GTE             reduce using rule 29 (expr -> FALSE .)
-    EQU             reduce using rule 29 (expr -> FALSE .)
-    NEQU            reduce using rule 29 (expr -> FALSE .)
-    AND             reduce using rule 29 (expr -> FALSE .)
-    OR              reduce using rule 29 (expr -> FALSE .)
-    CONTINUE        reduce using rule 29 (expr -> FALSE .)
-    BREAK           reduce using rule 29 (expr -> FALSE .)
-    ID              reduce using rule 29 (expr -> FALSE .)
-    IF              reduce using rule 29 (expr -> FALSE .)
-    WHILE           reduce using rule 29 (expr -> FALSE .)
-    FOR             reduce using rule 29 (expr -> FALSE .)
-    TRUE            reduce using rule 29 (expr -> FALSE .)
-    FALSE           reduce using rule 29 (expr -> FALSE .)
-    LPRAN           reduce using rule 29 (expr -> FALSE .)
-    NUMBER          reduce using rule 29 (expr -> FALSE .)
-    $end            reduce using rule 29 (expr -> FALSE .)
-    COLON           reduce using rule 29 (expr -> FALSE .)
-    RPRAN           reduce using rule 29 (expr -> FALSE .)
-    RBRACE          reduce using rule 29 (expr -> FALSE .)
+    PLUS            reduce using rule 41 (expr -> FALSE .)
+    MINUS           reduce using rule 41 (expr -> FALSE .)
+    TIMES           reduce using rule 41 (expr -> FALSE .)
+    DIV             reduce using rule 41 (expr -> FALSE .)
+    MOD             reduce using rule 41 (expr -> FALSE .)
+    AND             reduce using rule 41 (expr -> FALSE .)
+    OR              reduce using rule 41 (expr -> FALSE .)
+    LT              reduce using rule 41 (expr -> FALSE .)
+    LTE             reduce using rule 41 (expr -> FALSE .)
+    GT              reduce using rule 41 (expr -> FALSE .)
+    GTE             reduce using rule 41 (expr -> FALSE .)
+    EQU             reduce using rule 41 (expr -> FALSE .)
+    NEQU            reduce using rule 41 (expr -> FALSE .)
+    CONTINUE        reduce using rule 41 (expr -> FALSE .)
+    BREAK           reduce using rule 41 (expr -> FALSE .)
+    ID              reduce using rule 41 (expr -> FALSE .)
+    IF              reduce using rule 41 (expr -> FALSE .)
+    WHILE           reduce using rule 41 (expr -> FALSE .)
+    FOR             reduce using rule 41 (expr -> FALSE .)
+    NUMBER          reduce using rule 41 (expr -> FALSE .)
+    TRUE            reduce using rule 41 (expr -> FALSE .)
+    FALSE           reduce using rule 41 (expr -> FALSE .)
+    LPRAN           reduce using rule 41 (expr -> FALSE .)
+    $end            reduce using rule 41 (expr -> FALSE .)
+    COLON           reduce using rule 41 (expr -> FALSE .)
+    RPRAN           reduce using rule 41 (expr -> FALSE .)
+    RBRACE          reduce using rule 41 (expr -> FALSE .)
 
 
 state 19
 
-    (44) num_or_id -> NUMBER .
+    (25) expr -> expr PLUS . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TIMES           reduce using rule 44 (num_or_id -> NUMBER .)
-    DIV             reduce using rule 44 (num_or_id -> NUMBER .)
-    PLUS            reduce using rule 44 (num_or_id -> NUMBER .)
-    MINUS           reduce using rule 44 (num_or_id -> NUMBER .)
-    MOD             reduce using rule 44 (num_or_id -> NUMBER .)
-    LT              reduce using rule 44 (num_or_id -> NUMBER .)
-    LTE             reduce using rule 44 (num_or_id -> NUMBER .)
-    GT              reduce using rule 44 (num_or_id -> NUMBER .)
-    GTE             reduce using rule 44 (num_or_id -> NUMBER .)
-    EQU             reduce using rule 44 (num_or_id -> NUMBER .)
-    NEQU            reduce using rule 44 (num_or_id -> NUMBER .)
-    AND             reduce using rule 44 (num_or_id -> NUMBER .)
-    OR              reduce using rule 44 (num_or_id -> NUMBER .)
-    CONTINUE        reduce using rule 44 (num_or_id -> NUMBER .)
-    BREAK           reduce using rule 44 (num_or_id -> NUMBER .)
-    ID              reduce using rule 44 (num_or_id -> NUMBER .)
-    IF              reduce using rule 44 (num_or_id -> NUMBER .)
-    WHILE           reduce using rule 44 (num_or_id -> NUMBER .)
-    FOR             reduce using rule 44 (num_or_id -> NUMBER .)
-    TRUE            reduce using rule 44 (num_or_id -> NUMBER .)
-    FALSE           reduce using rule 44 (num_or_id -> NUMBER .)
-    LPRAN           reduce using rule 44 (num_or_id -> NUMBER .)
-    NUMBER          reduce using rule 44 (num_or_id -> NUMBER .)
-    $end            reduce using rule 44 (num_or_id -> NUMBER .)
-    COLON           reduce using rule 44 (num_or_id -> NUMBER .)
-    RPRAN           reduce using rule 44 (num_or_id -> NUMBER .)
-    RBRACE          reduce using rule 44 (num_or_id -> NUMBER .)
-    SEP             reduce using rule 44 (num_or_id -> NUMBER .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 42
 
 state 20
 
-    (24) expr -> expr operator . expr
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (26) expr -> expr MINUS . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
 
-    expr                           shift and go to state 45
-    num_or_id                      shift and go to state 16
+    expr                           shift and go to state 43
 
 state 21
 
-    (25) expr -> expr relop . expr
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (27) expr -> expr TIMES . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
 
-    expr                           shift and go to state 46
-    num_or_id                      shift and go to state 16
+    expr                           shift and go to state 44
 
 state 22
 
-    (26) expr -> expr logic . expr
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (28) expr -> expr DIV . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
 
-    expr                           shift and go to state 47
-    num_or_id                      shift and go to state 16
+    expr                           shift and go to state 45
 
 state 23
 
-    (30) operator -> TIMES .
+    (29) expr -> expr MOD . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 30 (operator -> TIMES .)
-    FALSE           reduce using rule 30 (operator -> TIMES .)
-    LPRAN           reduce using rule 30 (operator -> TIMES .)
-    NUMBER          reduce using rule 30 (operator -> TIMES .)
-    ID              reduce using rule 30 (operator -> TIMES .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 46
 
 state 24
 
-    (31) operator -> DIV .
+    (30) expr -> expr AND . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 31 (operator -> DIV .)
-    FALSE           reduce using rule 31 (operator -> DIV .)
-    LPRAN           reduce using rule 31 (operator -> DIV .)
-    NUMBER          reduce using rule 31 (operator -> DIV .)
-    ID              reduce using rule 31 (operator -> DIV .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 47
 
 state 25
 
-    (32) operator -> PLUS .
+    (31) expr -> expr OR . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 32 (operator -> PLUS .)
-    FALSE           reduce using rule 32 (operator -> PLUS .)
-    LPRAN           reduce using rule 32 (operator -> PLUS .)
-    NUMBER          reduce using rule 32 (operator -> PLUS .)
-    ID              reduce using rule 32 (operator -> PLUS .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 48
 
 state 26
 
-    (33) operator -> MINUS .
+    (32) expr -> expr LT . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 33 (operator -> MINUS .)
-    FALSE           reduce using rule 33 (operator -> MINUS .)
-    LPRAN           reduce using rule 33 (operator -> MINUS .)
-    NUMBER          reduce using rule 33 (operator -> MINUS .)
-    ID              reduce using rule 33 (operator -> MINUS .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 49
 
 state 27
 
-    (34) operator -> MOD .
+    (33) expr -> expr LTE . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 34 (operator -> MOD .)
-    FALSE           reduce using rule 34 (operator -> MOD .)
-    LPRAN           reduce using rule 34 (operator -> MOD .)
-    NUMBER          reduce using rule 34 (operator -> MOD .)
-    ID              reduce using rule 34 (operator -> MOD .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 50
 
 state 28
 
-    (37) relop -> LT .
+    (34) expr -> expr GT . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 37 (relop -> LT .)
-    FALSE           reduce using rule 37 (relop -> LT .)
-    LPRAN           reduce using rule 37 (relop -> LT .)
-    NUMBER          reduce using rule 37 (relop -> LT .)
-    ID              reduce using rule 37 (relop -> LT .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 51
 
 state 29
 
-    (38) relop -> LTE .
+    (35) expr -> expr GTE . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 38 (relop -> LTE .)
-    FALSE           reduce using rule 38 (relop -> LTE .)
-    LPRAN           reduce using rule 38 (relop -> LTE .)
-    NUMBER          reduce using rule 38 (relop -> LTE .)
-    ID              reduce using rule 38 (relop -> LTE .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 52
 
 state 30
 
-    (39) relop -> GT .
+    (36) expr -> expr EQU . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 39 (relop -> GT .)
-    FALSE           reduce using rule 39 (relop -> GT .)
-    LPRAN           reduce using rule 39 (relop -> GT .)
-    NUMBER          reduce using rule 39 (relop -> GT .)
-    ID              reduce using rule 39 (relop -> GT .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 53
 
 state 31
 
-    (40) relop -> GTE .
+    (37) expr -> expr NEQU . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 40 (relop -> GTE .)
-    FALSE           reduce using rule 40 (relop -> GTE .)
-    LPRAN           reduce using rule 40 (relop -> GTE .)
-    NUMBER          reduce using rule 40 (relop -> GTE .)
-    ID              reduce using rule 40 (relop -> GTE .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 54
 
 state 32
 
-    (41) relop -> EQU .
+    (20) assignment -> ID EQ . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 41 (relop -> EQU .)
-    FALSE           reduce using rule 41 (relop -> EQU .)
-    LPRAN           reduce using rule 41 (relop -> EQU .)
-    NUMBER          reduce using rule 41 (relop -> EQU .)
-    ID              reduce using rule 41 (relop -> EQU .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 55
 
 state 33
 
-    (42) relop -> NEQU .
+    (21) assignment -> ID PLUS_EQUAL . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 42 (relop -> NEQU .)
-    FALSE           reduce using rule 42 (relop -> NEQU .)
-    LPRAN           reduce using rule 42 (relop -> NEQU .)
-    NUMBER          reduce using rule 42 (relop -> NEQU .)
-    ID              reduce using rule 42 (relop -> NEQU .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 56
 
 state 34
 
-    (35) logic -> AND .
+    (22) assignment -> ID MINUS_EQUAL . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 35 (logic -> AND .)
-    FALSE           reduce using rule 35 (logic -> AND .)
-    LPRAN           reduce using rule 35 (logic -> AND .)
-    NUMBER          reduce using rule 35 (logic -> AND .)
-    ID              reduce using rule 35 (logic -> AND .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 57
 
 state 35
 
-    (36) logic -> OR .
+    (23) assignment -> ID TIMES_EQUAL . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    TRUE            reduce using rule 36 (logic -> OR .)
-    FALSE           reduce using rule 36 (logic -> OR .)
-    LPRAN           reduce using rule 36 (logic -> OR .)
-    NUMBER          reduce using rule 36 (logic -> OR .)
-    ID              reduce using rule 36 (logic -> OR .)
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
+    TRUE            shift and go to state 17
+    FALSE           shift and go to state 18
+    LPRAN           shift and go to state 15
 
+    expr                           shift and go to state 58
 
 state 36
 
-    (20) assignment -> ID EQ . expr
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (24) assignment -> ID DIV_EQUAL . expr
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
 
-    expr                           shift and go to state 48
-    num_or_id                      shift and go to state 16
+    expr                           shift and go to state 59
 
 state 37
 
-    (21) assignment -> ID PLUS_EQUAL . expr
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (15) if -> IF expr . COLON LBRACE statements RBRACE elif
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
-    LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
+    COLON           shift and go to state 60
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+    AND             shift and go to state 24
+    OR              shift and go to state 25
+    LT              shift and go to state 26
+    LTE             shift and go to state 27
+    GT              shift and go to state 28
+    GTE             shift and go to state 29
+    EQU             shift and go to state 30
+    NEQU            shift and go to state 31
 
-    expr                           shift and go to state 49
-    num_or_id                      shift and go to state 16
 
 state 38
 
-    (22) assignment -> ID MINUS_EQUAL . expr
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (38) expr -> ID .
 
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
-    LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
+    COLON           reduce using rule 38 (expr -> ID .)
+    PLUS            reduce using rule 38 (expr -> ID .)
+    MINUS           reduce using rule 38 (expr -> ID .)
+    TIMES           reduce using rule 38 (expr -> ID .)
+    DIV             reduce using rule 38 (expr -> ID .)
+    MOD             reduce using rule 38 (expr -> ID .)
+    AND             reduce using rule 38 (expr -> ID .)
+    OR              reduce using rule 38 (expr -> ID .)
+    LT              reduce using rule 38 (expr -> ID .)
+    LTE             reduce using rule 38 (expr -> ID .)
+    GT              reduce using rule 38 (expr -> ID .)
+    GTE             reduce using rule 38 (expr -> ID .)
+    EQU             reduce using rule 38 (expr -> ID .)
+    NEQU            reduce using rule 38 (expr -> ID .)
+    RPRAN           reduce using rule 38 (expr -> ID .)
+    CONTINUE        reduce using rule 38 (expr -> ID .)
+    BREAK           reduce using rule 38 (expr -> ID .)
+    ID              reduce using rule 38 (expr -> ID .)
+    IF              reduce using rule 38 (expr -> ID .)
+    WHILE           reduce using rule 38 (expr -> ID .)
+    FOR             reduce using rule 38 (expr -> ID .)
+    NUMBER          reduce using rule 38 (expr -> ID .)
+    TRUE            reduce using rule 38 (expr -> ID .)
+    FALSE           reduce using rule 38 (expr -> ID .)
+    LPRAN           reduce using rule 38 (expr -> ID .)
+    $end            reduce using rule 38 (expr -> ID .)
+    RBRACE          reduce using rule 38 (expr -> ID .)
 
-    expr                           shift and go to state 50
-    num_or_id                      shift and go to state 16
 
 state 39
 
-    (23) assignment -> ID TIMES_EQUAL . expr
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (14) while -> WHILE expr . COLON LBRACE statements RBRACE
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
-    TRUE            shift and go to state 17
-    FALSE           shift and go to state 18
-    LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
+    COLON           shift and go to state 61
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+    AND             shift and go to state 24
+    OR              shift and go to state 25
+    LT              shift and go to state 26
+    LTE             shift and go to state 27
+    GT              shift and go to state 28
+    GTE             shift and go to state 29
+    EQU             shift and go to state 30
+    NEQU            shift and go to state 31
 
-    expr                           shift and go to state 51
-    num_or_id                      shift and go to state 16
 
 state 40
 
-    (15) if -> IF expr . COLON LBRACE statements RBRACE elif
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (10) for -> FOR ID . IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
 
-    COLON           shift and go to state 52
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    IN              shift and go to state 62
 
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
-    logic                          shift and go to state 22
 
 state 41
 
-    (45) num_or_id -> ID .
+    (42) expr -> LPRAN expr . RPRAN
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
-    COLON           reduce using rule 45 (num_or_id -> ID .)
-    TIMES           reduce using rule 45 (num_or_id -> ID .)
-    DIV             reduce using rule 45 (num_or_id -> ID .)
-    PLUS            reduce using rule 45 (num_or_id -> ID .)
-    MINUS           reduce using rule 45 (num_or_id -> ID .)
-    MOD             reduce using rule 45 (num_or_id -> ID .)
-    LT              reduce using rule 45 (num_or_id -> ID .)
-    LTE             reduce using rule 45 (num_or_id -> ID .)
-    GT              reduce using rule 45 (num_or_id -> ID .)
-    GTE             reduce using rule 45 (num_or_id -> ID .)
-    EQU             reduce using rule 45 (num_or_id -> ID .)
-    NEQU            reduce using rule 45 (num_or_id -> ID .)
-    AND             reduce using rule 45 (num_or_id -> ID .)
-    OR              reduce using rule 45 (num_or_id -> ID .)
-    RPRAN           reduce using rule 45 (num_or_id -> ID .)
-    CONTINUE        reduce using rule 45 (num_or_id -> ID .)
-    BREAK           reduce using rule 45 (num_or_id -> ID .)
-    ID              reduce using rule 45 (num_or_id -> ID .)
-    IF              reduce using rule 45 (num_or_id -> ID .)
-    WHILE           reduce using rule 45 (num_or_id -> ID .)
-    FOR             reduce using rule 45 (num_or_id -> ID .)
-    TRUE            reduce using rule 45 (num_or_id -> ID .)
-    FALSE           reduce using rule 45 (num_or_id -> ID .)
-    LPRAN           reduce using rule 45 (num_or_id -> ID .)
-    NUMBER          reduce using rule 45 (num_or_id -> ID .)
-    $end            reduce using rule 45 (num_or_id -> ID .)
-    RBRACE          reduce using rule 45 (num_or_id -> ID .)
-    SEP             reduce using rule 45 (num_or_id -> ID .)
+    RPRAN           shift and go to state 63
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+    AND             shift and go to state 24
+    OR              shift and go to state 25
+    LT              shift and go to state 26
+    LTE             shift and go to state 27
+    GT              shift and go to state 28
+    GTE             shift and go to state 29
+    EQU             shift and go to state 30
+    NEQU            shift and go to state 31
 
 
 state 42
 
-    (14) while -> WHILE expr . COLON LBRACE statements RBRACE
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (25) expr -> expr PLUS expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
-    COLON           shift and go to state 53
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    PLUS            reduce using rule 25 (expr -> expr PLUS expr .)
+    MINUS           reduce using rule 25 (expr -> expr PLUS expr .)
+    AND             reduce using rule 25 (expr -> expr PLUS expr .)
+    OR              reduce using rule 25 (expr -> expr PLUS expr .)
+    LT              reduce using rule 25 (expr -> expr PLUS expr .)
+    LTE             reduce using rule 25 (expr -> expr PLUS expr .)
+    GT              reduce using rule 25 (expr -> expr PLUS expr .)
+    GTE             reduce using rule 25 (expr -> expr PLUS expr .)
+    EQU             reduce using rule 25 (expr -> expr PLUS expr .)
+    NEQU            reduce using rule 25 (expr -> expr PLUS expr .)
+    CONTINUE        reduce using rule 25 (expr -> expr PLUS expr .)
+    BREAK           reduce using rule 25 (expr -> expr PLUS expr .)
+    ID              reduce using rule 25 (expr -> expr PLUS expr .)
+    IF              reduce using rule 25 (expr -> expr PLUS expr .)
+    WHILE           reduce using rule 25 (expr -> expr PLUS expr .)
+    FOR             reduce using rule 25 (expr -> expr PLUS expr .)
+    NUMBER          reduce using rule 25 (expr -> expr PLUS expr .)
+    TRUE            reduce using rule 25 (expr -> expr PLUS expr .)
+    FALSE           reduce using rule 25 (expr -> expr PLUS expr .)
+    LPRAN           reduce using rule 25 (expr -> expr PLUS expr .)
+    $end            reduce using rule 25 (expr -> expr PLUS expr .)
+    COLON           reduce using rule 25 (expr -> expr PLUS expr .)
+    RPRAN           reduce using rule 25 (expr -> expr PLUS expr .)
+    RBRACE          reduce using rule 25 (expr -> expr PLUS expr .)
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
 
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
-    logic                          shift and go to state 22
+  ! TIMES           [ reduce using rule 25 (expr -> expr PLUS expr .) ]
+  ! DIV             [ reduce using rule 25 (expr -> expr PLUS expr .) ]
+  ! MOD             [ reduce using rule 25 (expr -> expr PLUS expr .) ]
+  ! PLUS            [ shift and go to state 19 ]
+  ! MINUS           [ shift and go to state 20 ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
+
 
 state 43
 
-    (10) for -> FOR ID . IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
+    (26) expr -> expr MINUS expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
-    IN              shift and go to state 54
+    PLUS            reduce using rule 26 (expr -> expr MINUS expr .)
+    MINUS           reduce using rule 26 (expr -> expr MINUS expr .)
+    AND             reduce using rule 26 (expr -> expr MINUS expr .)
+    OR              reduce using rule 26 (expr -> expr MINUS expr .)
+    LT              reduce using rule 26 (expr -> expr MINUS expr .)
+    LTE             reduce using rule 26 (expr -> expr MINUS expr .)
+    GT              reduce using rule 26 (expr -> expr MINUS expr .)
+    GTE             reduce using rule 26 (expr -> expr MINUS expr .)
+    EQU             reduce using rule 26 (expr -> expr MINUS expr .)
+    NEQU            reduce using rule 26 (expr -> expr MINUS expr .)
+    CONTINUE        reduce using rule 26 (expr -> expr MINUS expr .)
+    BREAK           reduce using rule 26 (expr -> expr MINUS expr .)
+    ID              reduce using rule 26 (expr -> expr MINUS expr .)
+    IF              reduce using rule 26 (expr -> expr MINUS expr .)
+    WHILE           reduce using rule 26 (expr -> expr MINUS expr .)
+    FOR             reduce using rule 26 (expr -> expr MINUS expr .)
+    NUMBER          reduce using rule 26 (expr -> expr MINUS expr .)
+    TRUE            reduce using rule 26 (expr -> expr MINUS expr .)
+    FALSE           reduce using rule 26 (expr -> expr MINUS expr .)
+    LPRAN           reduce using rule 26 (expr -> expr MINUS expr .)
+    $end            reduce using rule 26 (expr -> expr MINUS expr .)
+    COLON           reduce using rule 26 (expr -> expr MINUS expr .)
+    RPRAN           reduce using rule 26 (expr -> expr MINUS expr .)
+    RBRACE          reduce using rule 26 (expr -> expr MINUS expr .)
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+
+  ! TIMES           [ reduce using rule 26 (expr -> expr MINUS expr .) ]
+  ! DIV             [ reduce using rule 26 (expr -> expr MINUS expr .) ]
+  ! MOD             [ reduce using rule 26 (expr -> expr MINUS expr .) ]
+  ! PLUS            [ shift and go to state 19 ]
+  ! MINUS           [ shift and go to state 20 ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
 
 
 state 44
 
-    (43) expr -> LPRAN expr . RPRAN
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (27) expr -> expr TIMES expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
-    RPRAN           shift and go to state 55
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    PLUS            reduce using rule 27 (expr -> expr TIMES expr .)
+    MINUS           reduce using rule 27 (expr -> expr TIMES expr .)
+    TIMES           reduce using rule 27 (expr -> expr TIMES expr .)
+    DIV             reduce using rule 27 (expr -> expr TIMES expr .)
+    MOD             reduce using rule 27 (expr -> expr TIMES expr .)
+    AND             reduce using rule 27 (expr -> expr TIMES expr .)
+    OR              reduce using rule 27 (expr -> expr TIMES expr .)
+    LT              reduce using rule 27 (expr -> expr TIMES expr .)
+    LTE             reduce using rule 27 (expr -> expr TIMES expr .)
+    GT              reduce using rule 27 (expr -> expr TIMES expr .)
+    GTE             reduce using rule 27 (expr -> expr TIMES expr .)
+    EQU             reduce using rule 27 (expr -> expr TIMES expr .)
+    NEQU            reduce using rule 27 (expr -> expr TIMES expr .)
+    CONTINUE        reduce using rule 27 (expr -> expr TIMES expr .)
+    BREAK           reduce using rule 27 (expr -> expr TIMES expr .)
+    ID              reduce using rule 27 (expr -> expr TIMES expr .)
+    IF              reduce using rule 27 (expr -> expr TIMES expr .)
+    WHILE           reduce using rule 27 (expr -> expr TIMES expr .)
+    FOR             reduce using rule 27 (expr -> expr TIMES expr .)
+    NUMBER          reduce using rule 27 (expr -> expr TIMES expr .)
+    TRUE            reduce using rule 27 (expr -> expr TIMES expr .)
+    FALSE           reduce using rule 27 (expr -> expr TIMES expr .)
+    LPRAN           reduce using rule 27 (expr -> expr TIMES expr .)
+    $end            reduce using rule 27 (expr -> expr TIMES expr .)
+    COLON           reduce using rule 27 (expr -> expr TIMES expr .)
+    RPRAN           reduce using rule 27 (expr -> expr TIMES expr .)
+    RBRACE          reduce using rule 27 (expr -> expr TIMES expr .)
 
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
-    logic                          shift and go to state 22
+  ! PLUS            [ shift and go to state 19 ]
+  ! MINUS           [ shift and go to state 20 ]
+  ! TIMES           [ shift and go to state 21 ]
+  ! DIV             [ shift and go to state 22 ]
+  ! MOD             [ shift and go to state 23 ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
+
 
 state 45
 
-    (24) expr -> expr operator expr .
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (28) expr -> expr DIV expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIV resolved as shift
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MOD resolved as shift
-  ! shift/reduce conflict for LT resolved as shift
-  ! shift/reduce conflict for LTE resolved as shift
-  ! shift/reduce conflict for GT resolved as shift
-  ! shift/reduce conflict for GTE resolved as shift
-  ! shift/reduce conflict for EQU resolved as shift
-  ! shift/reduce conflict for NEQU resolved as shift
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for OR resolved as shift
-    CONTINUE        reduce using rule 24 (expr -> expr operator expr .)
-    BREAK           reduce using rule 24 (expr -> expr operator expr .)
-    ID              reduce using rule 24 (expr -> expr operator expr .)
-    IF              reduce using rule 24 (expr -> expr operator expr .)
-    WHILE           reduce using rule 24 (expr -> expr operator expr .)
-    FOR             reduce using rule 24 (expr -> expr operator expr .)
-    TRUE            reduce using rule 24 (expr -> expr operator expr .)
-    FALSE           reduce using rule 24 (expr -> expr operator expr .)
-    LPRAN           reduce using rule 24 (expr -> expr operator expr .)
-    NUMBER          reduce using rule 24 (expr -> expr operator expr .)
-    $end            reduce using rule 24 (expr -> expr operator expr .)
-    COLON           reduce using rule 24 (expr -> expr operator expr .)
-    RPRAN           reduce using rule 24 (expr -> expr operator expr .)
-    RBRACE          reduce using rule 24 (expr -> expr operator expr .)
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    PLUS            reduce using rule 28 (expr -> expr DIV expr .)
+    MINUS           reduce using rule 28 (expr -> expr DIV expr .)
+    TIMES           reduce using rule 28 (expr -> expr DIV expr .)
+    DIV             reduce using rule 28 (expr -> expr DIV expr .)
+    MOD             reduce using rule 28 (expr -> expr DIV expr .)
+    AND             reduce using rule 28 (expr -> expr DIV expr .)
+    OR              reduce using rule 28 (expr -> expr DIV expr .)
+    LT              reduce using rule 28 (expr -> expr DIV expr .)
+    LTE             reduce using rule 28 (expr -> expr DIV expr .)
+    GT              reduce using rule 28 (expr -> expr DIV expr .)
+    GTE             reduce using rule 28 (expr -> expr DIV expr .)
+    EQU             reduce using rule 28 (expr -> expr DIV expr .)
+    NEQU            reduce using rule 28 (expr -> expr DIV expr .)
+    CONTINUE        reduce using rule 28 (expr -> expr DIV expr .)
+    BREAK           reduce using rule 28 (expr -> expr DIV expr .)
+    ID              reduce using rule 28 (expr -> expr DIV expr .)
+    IF              reduce using rule 28 (expr -> expr DIV expr .)
+    WHILE           reduce using rule 28 (expr -> expr DIV expr .)
+    FOR             reduce using rule 28 (expr -> expr DIV expr .)
+    NUMBER          reduce using rule 28 (expr -> expr DIV expr .)
+    TRUE            reduce using rule 28 (expr -> expr DIV expr .)
+    FALSE           reduce using rule 28 (expr -> expr DIV expr .)
+    LPRAN           reduce using rule 28 (expr -> expr DIV expr .)
+    $end            reduce using rule 28 (expr -> expr DIV expr .)
+    COLON           reduce using rule 28 (expr -> expr DIV expr .)
+    RPRAN           reduce using rule 28 (expr -> expr DIV expr .)
+    RBRACE          reduce using rule 28 (expr -> expr DIV expr .)
 
-  ! TIMES           [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! DIV             [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! PLUS            [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! MINUS           [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! MOD             [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! LT              [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! LTE             [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! GT              [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! GTE             [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! EQU             [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! NEQU            [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! AND             [ reduce using rule 24 (expr -> expr operator expr .) ]
-  ! OR              [ reduce using rule 24 (expr -> expr operator expr .) ]
+  ! PLUS            [ shift and go to state 19 ]
+  ! MINUS           [ shift and go to state 20 ]
+  ! TIMES           [ shift and go to state 21 ]
+  ! DIV             [ shift and go to state 22 ]
+  ! MOD             [ shift and go to state 23 ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
 
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
-    logic                          shift and go to state 22
 
 state 46
 
-    (25) expr -> expr relop expr .
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (29) expr -> expr MOD expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIV resolved as shift
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MOD resolved as shift
-  ! shift/reduce conflict for LT resolved as shift
-  ! shift/reduce conflict for LTE resolved as shift
-  ! shift/reduce conflict for GT resolved as shift
-  ! shift/reduce conflict for GTE resolved as shift
-  ! shift/reduce conflict for EQU resolved as shift
-  ! shift/reduce conflict for NEQU resolved as shift
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for OR resolved as shift
-    CONTINUE        reduce using rule 25 (expr -> expr relop expr .)
-    BREAK           reduce using rule 25 (expr -> expr relop expr .)
-    ID              reduce using rule 25 (expr -> expr relop expr .)
-    IF              reduce using rule 25 (expr -> expr relop expr .)
-    WHILE           reduce using rule 25 (expr -> expr relop expr .)
-    FOR             reduce using rule 25 (expr -> expr relop expr .)
-    TRUE            reduce using rule 25 (expr -> expr relop expr .)
-    FALSE           reduce using rule 25 (expr -> expr relop expr .)
-    LPRAN           reduce using rule 25 (expr -> expr relop expr .)
-    NUMBER          reduce using rule 25 (expr -> expr relop expr .)
-    $end            reduce using rule 25 (expr -> expr relop expr .)
-    COLON           reduce using rule 25 (expr -> expr relop expr .)
-    RPRAN           reduce using rule 25 (expr -> expr relop expr .)
-    RBRACE          reduce using rule 25 (expr -> expr relop expr .)
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    PLUS            reduce using rule 29 (expr -> expr MOD expr .)
+    MINUS           reduce using rule 29 (expr -> expr MOD expr .)
+    TIMES           reduce using rule 29 (expr -> expr MOD expr .)
+    DIV             reduce using rule 29 (expr -> expr MOD expr .)
+    MOD             reduce using rule 29 (expr -> expr MOD expr .)
+    AND             reduce using rule 29 (expr -> expr MOD expr .)
+    OR              reduce using rule 29 (expr -> expr MOD expr .)
+    LT              reduce using rule 29 (expr -> expr MOD expr .)
+    LTE             reduce using rule 29 (expr -> expr MOD expr .)
+    GT              reduce using rule 29 (expr -> expr MOD expr .)
+    GTE             reduce using rule 29 (expr -> expr MOD expr .)
+    EQU             reduce using rule 29 (expr -> expr MOD expr .)
+    NEQU            reduce using rule 29 (expr -> expr MOD expr .)
+    CONTINUE        reduce using rule 29 (expr -> expr MOD expr .)
+    BREAK           reduce using rule 29 (expr -> expr MOD expr .)
+    ID              reduce using rule 29 (expr -> expr MOD expr .)
+    IF              reduce using rule 29 (expr -> expr MOD expr .)
+    WHILE           reduce using rule 29 (expr -> expr MOD expr .)
+    FOR             reduce using rule 29 (expr -> expr MOD expr .)
+    NUMBER          reduce using rule 29 (expr -> expr MOD expr .)
+    TRUE            reduce using rule 29 (expr -> expr MOD expr .)
+    FALSE           reduce using rule 29 (expr -> expr MOD expr .)
+    LPRAN           reduce using rule 29 (expr -> expr MOD expr .)
+    $end            reduce using rule 29 (expr -> expr MOD expr .)
+    COLON           reduce using rule 29 (expr -> expr MOD expr .)
+    RPRAN           reduce using rule 29 (expr -> expr MOD expr .)
+    RBRACE          reduce using rule 29 (expr -> expr MOD expr .)
 
-  ! TIMES           [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! DIV             [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! PLUS            [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! MINUS           [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! MOD             [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! LT              [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! LTE             [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! GT              [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! GTE             [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! EQU             [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! NEQU            [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! AND             [ reduce using rule 25 (expr -> expr relop expr .) ]
-  ! OR              [ reduce using rule 25 (expr -> expr relop expr .) ]
+  ! PLUS            [ shift and go to state 19 ]
+  ! MINUS           [ shift and go to state 20 ]
+  ! TIMES           [ shift and go to state 21 ]
+  ! DIV             [ shift and go to state 22 ]
+  ! MOD             [ shift and go to state 23 ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
 
-    relop                          shift and go to state 21
-    operator                       shift and go to state 20
-    logic                          shift and go to state 22
 
 state 47
 
-    (26) expr -> expr logic expr .
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (30) expr -> expr AND expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
-  ! shift/reduce conflict for TIMES resolved as shift
-  ! shift/reduce conflict for DIV resolved as shift
-  ! shift/reduce conflict for PLUS resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for MOD resolved as shift
-  ! shift/reduce conflict for LT resolved as shift
-  ! shift/reduce conflict for LTE resolved as shift
-  ! shift/reduce conflict for GT resolved as shift
-  ! shift/reduce conflict for GTE resolved as shift
-  ! shift/reduce conflict for EQU resolved as shift
-  ! shift/reduce conflict for NEQU resolved as shift
-  ! shift/reduce conflict for AND resolved as shift
-  ! shift/reduce conflict for OR resolved as shift
-    CONTINUE        reduce using rule 26 (expr -> expr logic expr .)
-    BREAK           reduce using rule 26 (expr -> expr logic expr .)
-    ID              reduce using rule 26 (expr -> expr logic expr .)
-    IF              reduce using rule 26 (expr -> expr logic expr .)
-    WHILE           reduce using rule 26 (expr -> expr logic expr .)
-    FOR             reduce using rule 26 (expr -> expr logic expr .)
-    TRUE            reduce using rule 26 (expr -> expr logic expr .)
-    FALSE           reduce using rule 26 (expr -> expr logic expr .)
-    LPRAN           reduce using rule 26 (expr -> expr logic expr .)
-    NUMBER          reduce using rule 26 (expr -> expr logic expr .)
-    $end            reduce using rule 26 (expr -> expr logic expr .)
-    COLON           reduce using rule 26 (expr -> expr logic expr .)
-    RPRAN           reduce using rule 26 (expr -> expr logic expr .)
-    RBRACE          reduce using rule 26 (expr -> expr logic expr .)
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    AND             reduce using rule 30 (expr -> expr AND expr .)
+    OR              reduce using rule 30 (expr -> expr AND expr .)
+    LT              reduce using rule 30 (expr -> expr AND expr .)
+    LTE             reduce using rule 30 (expr -> expr AND expr .)
+    GT              reduce using rule 30 (expr -> expr AND expr .)
+    GTE             reduce using rule 30 (expr -> expr AND expr .)
+    EQU             reduce using rule 30 (expr -> expr AND expr .)
+    NEQU            reduce using rule 30 (expr -> expr AND expr .)
+    CONTINUE        reduce using rule 30 (expr -> expr AND expr .)
+    BREAK           reduce using rule 30 (expr -> expr AND expr .)
+    ID              reduce using rule 30 (expr -> expr AND expr .)
+    IF              reduce using rule 30 (expr -> expr AND expr .)
+    WHILE           reduce using rule 30 (expr -> expr AND expr .)
+    FOR             reduce using rule 30 (expr -> expr AND expr .)
+    NUMBER          reduce using rule 30 (expr -> expr AND expr .)
+    TRUE            reduce using rule 30 (expr -> expr AND expr .)
+    FALSE           reduce using rule 30 (expr -> expr AND expr .)
+    LPRAN           reduce using rule 30 (expr -> expr AND expr .)
+    $end            reduce using rule 30 (expr -> expr AND expr .)
+    COLON           reduce using rule 30 (expr -> expr AND expr .)
+    RPRAN           reduce using rule 30 (expr -> expr AND expr .)
+    RBRACE          reduce using rule 30 (expr -> expr AND expr .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
 
-  ! TIMES           [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! DIV             [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! PLUS            [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! MINUS           [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! MOD             [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! LT              [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! LTE             [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! GT              [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! GTE             [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! EQU             [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! NEQU            [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! AND             [ reduce using rule 26 (expr -> expr logic expr .) ]
-  ! OR              [ reduce using rule 26 (expr -> expr logic expr .) ]
+  ! PLUS            [ reduce using rule 30 (expr -> expr AND expr .) ]
+  ! MINUS           [ reduce using rule 30 (expr -> expr AND expr .) ]
+  ! TIMES           [ reduce using rule 30 (expr -> expr AND expr .) ]
+  ! DIV             [ reduce using rule 30 (expr -> expr AND expr .) ]
+  ! MOD             [ reduce using rule 30 (expr -> expr AND expr .) ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
 
-    logic                          shift and go to state 22
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
 
 state 48
 
+    (31) expr -> expr OR expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
+
+    AND             reduce using rule 31 (expr -> expr OR expr .)
+    OR              reduce using rule 31 (expr -> expr OR expr .)
+    LT              reduce using rule 31 (expr -> expr OR expr .)
+    LTE             reduce using rule 31 (expr -> expr OR expr .)
+    GT              reduce using rule 31 (expr -> expr OR expr .)
+    GTE             reduce using rule 31 (expr -> expr OR expr .)
+    EQU             reduce using rule 31 (expr -> expr OR expr .)
+    NEQU            reduce using rule 31 (expr -> expr OR expr .)
+    CONTINUE        reduce using rule 31 (expr -> expr OR expr .)
+    BREAK           reduce using rule 31 (expr -> expr OR expr .)
+    ID              reduce using rule 31 (expr -> expr OR expr .)
+    IF              reduce using rule 31 (expr -> expr OR expr .)
+    WHILE           reduce using rule 31 (expr -> expr OR expr .)
+    FOR             reduce using rule 31 (expr -> expr OR expr .)
+    NUMBER          reduce using rule 31 (expr -> expr OR expr .)
+    TRUE            reduce using rule 31 (expr -> expr OR expr .)
+    FALSE           reduce using rule 31 (expr -> expr OR expr .)
+    LPRAN           reduce using rule 31 (expr -> expr OR expr .)
+    $end            reduce using rule 31 (expr -> expr OR expr .)
+    COLON           reduce using rule 31 (expr -> expr OR expr .)
+    RPRAN           reduce using rule 31 (expr -> expr OR expr .)
+    RBRACE          reduce using rule 31 (expr -> expr OR expr .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+
+  ! PLUS            [ reduce using rule 31 (expr -> expr OR expr .) ]
+  ! MINUS           [ reduce using rule 31 (expr -> expr OR expr .) ]
+  ! TIMES           [ reduce using rule 31 (expr -> expr OR expr .) ]
+  ! DIV             [ reduce using rule 31 (expr -> expr OR expr .) ]
+  ! MOD             [ reduce using rule 31 (expr -> expr OR expr .) ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
+
+
+state 49
+
+    (32) expr -> expr LT expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
+
+    AND             reduce using rule 32 (expr -> expr LT expr .)
+    OR              reduce using rule 32 (expr -> expr LT expr .)
+    LT              reduce using rule 32 (expr -> expr LT expr .)
+    LTE             reduce using rule 32 (expr -> expr LT expr .)
+    GT              reduce using rule 32 (expr -> expr LT expr .)
+    GTE             reduce using rule 32 (expr -> expr LT expr .)
+    EQU             reduce using rule 32 (expr -> expr LT expr .)
+    NEQU            reduce using rule 32 (expr -> expr LT expr .)
+    CONTINUE        reduce using rule 32 (expr -> expr LT expr .)
+    BREAK           reduce using rule 32 (expr -> expr LT expr .)
+    ID              reduce using rule 32 (expr -> expr LT expr .)
+    IF              reduce using rule 32 (expr -> expr LT expr .)
+    WHILE           reduce using rule 32 (expr -> expr LT expr .)
+    FOR             reduce using rule 32 (expr -> expr LT expr .)
+    NUMBER          reduce using rule 32 (expr -> expr LT expr .)
+    TRUE            reduce using rule 32 (expr -> expr LT expr .)
+    FALSE           reduce using rule 32 (expr -> expr LT expr .)
+    LPRAN           reduce using rule 32 (expr -> expr LT expr .)
+    $end            reduce using rule 32 (expr -> expr LT expr .)
+    COLON           reduce using rule 32 (expr -> expr LT expr .)
+    RPRAN           reduce using rule 32 (expr -> expr LT expr .)
+    RBRACE          reduce using rule 32 (expr -> expr LT expr .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+
+  ! PLUS            [ reduce using rule 32 (expr -> expr LT expr .) ]
+  ! MINUS           [ reduce using rule 32 (expr -> expr LT expr .) ]
+  ! TIMES           [ reduce using rule 32 (expr -> expr LT expr .) ]
+  ! DIV             [ reduce using rule 32 (expr -> expr LT expr .) ]
+  ! MOD             [ reduce using rule 32 (expr -> expr LT expr .) ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
+
+
+state 50
+
+    (33) expr -> expr LTE expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
+
+    AND             reduce using rule 33 (expr -> expr LTE expr .)
+    OR              reduce using rule 33 (expr -> expr LTE expr .)
+    LT              reduce using rule 33 (expr -> expr LTE expr .)
+    LTE             reduce using rule 33 (expr -> expr LTE expr .)
+    GT              reduce using rule 33 (expr -> expr LTE expr .)
+    GTE             reduce using rule 33 (expr -> expr LTE expr .)
+    EQU             reduce using rule 33 (expr -> expr LTE expr .)
+    NEQU            reduce using rule 33 (expr -> expr LTE expr .)
+    CONTINUE        reduce using rule 33 (expr -> expr LTE expr .)
+    BREAK           reduce using rule 33 (expr -> expr LTE expr .)
+    ID              reduce using rule 33 (expr -> expr LTE expr .)
+    IF              reduce using rule 33 (expr -> expr LTE expr .)
+    WHILE           reduce using rule 33 (expr -> expr LTE expr .)
+    FOR             reduce using rule 33 (expr -> expr LTE expr .)
+    NUMBER          reduce using rule 33 (expr -> expr LTE expr .)
+    TRUE            reduce using rule 33 (expr -> expr LTE expr .)
+    FALSE           reduce using rule 33 (expr -> expr LTE expr .)
+    LPRAN           reduce using rule 33 (expr -> expr LTE expr .)
+    $end            reduce using rule 33 (expr -> expr LTE expr .)
+    COLON           reduce using rule 33 (expr -> expr LTE expr .)
+    RPRAN           reduce using rule 33 (expr -> expr LTE expr .)
+    RBRACE          reduce using rule 33 (expr -> expr LTE expr .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+
+  ! PLUS            [ reduce using rule 33 (expr -> expr LTE expr .) ]
+  ! MINUS           [ reduce using rule 33 (expr -> expr LTE expr .) ]
+  ! TIMES           [ reduce using rule 33 (expr -> expr LTE expr .) ]
+  ! DIV             [ reduce using rule 33 (expr -> expr LTE expr .) ]
+  ! MOD             [ reduce using rule 33 (expr -> expr LTE expr .) ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
+
+
+state 51
+
+    (34) expr -> expr GT expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
+
+    AND             reduce using rule 34 (expr -> expr GT expr .)
+    OR              reduce using rule 34 (expr -> expr GT expr .)
+    LT              reduce using rule 34 (expr -> expr GT expr .)
+    LTE             reduce using rule 34 (expr -> expr GT expr .)
+    GT              reduce using rule 34 (expr -> expr GT expr .)
+    GTE             reduce using rule 34 (expr -> expr GT expr .)
+    EQU             reduce using rule 34 (expr -> expr GT expr .)
+    NEQU            reduce using rule 34 (expr -> expr GT expr .)
+    CONTINUE        reduce using rule 34 (expr -> expr GT expr .)
+    BREAK           reduce using rule 34 (expr -> expr GT expr .)
+    ID              reduce using rule 34 (expr -> expr GT expr .)
+    IF              reduce using rule 34 (expr -> expr GT expr .)
+    WHILE           reduce using rule 34 (expr -> expr GT expr .)
+    FOR             reduce using rule 34 (expr -> expr GT expr .)
+    NUMBER          reduce using rule 34 (expr -> expr GT expr .)
+    TRUE            reduce using rule 34 (expr -> expr GT expr .)
+    FALSE           reduce using rule 34 (expr -> expr GT expr .)
+    LPRAN           reduce using rule 34 (expr -> expr GT expr .)
+    $end            reduce using rule 34 (expr -> expr GT expr .)
+    COLON           reduce using rule 34 (expr -> expr GT expr .)
+    RPRAN           reduce using rule 34 (expr -> expr GT expr .)
+    RBRACE          reduce using rule 34 (expr -> expr GT expr .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+
+  ! PLUS            [ reduce using rule 34 (expr -> expr GT expr .) ]
+  ! MINUS           [ reduce using rule 34 (expr -> expr GT expr .) ]
+  ! TIMES           [ reduce using rule 34 (expr -> expr GT expr .) ]
+  ! DIV             [ reduce using rule 34 (expr -> expr GT expr .) ]
+  ! MOD             [ reduce using rule 34 (expr -> expr GT expr .) ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
+
+
+state 52
+
+    (35) expr -> expr GTE expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
+
+    AND             reduce using rule 35 (expr -> expr GTE expr .)
+    OR              reduce using rule 35 (expr -> expr GTE expr .)
+    LT              reduce using rule 35 (expr -> expr GTE expr .)
+    LTE             reduce using rule 35 (expr -> expr GTE expr .)
+    GT              reduce using rule 35 (expr -> expr GTE expr .)
+    GTE             reduce using rule 35 (expr -> expr GTE expr .)
+    EQU             reduce using rule 35 (expr -> expr GTE expr .)
+    NEQU            reduce using rule 35 (expr -> expr GTE expr .)
+    CONTINUE        reduce using rule 35 (expr -> expr GTE expr .)
+    BREAK           reduce using rule 35 (expr -> expr GTE expr .)
+    ID              reduce using rule 35 (expr -> expr GTE expr .)
+    IF              reduce using rule 35 (expr -> expr GTE expr .)
+    WHILE           reduce using rule 35 (expr -> expr GTE expr .)
+    FOR             reduce using rule 35 (expr -> expr GTE expr .)
+    NUMBER          reduce using rule 35 (expr -> expr GTE expr .)
+    TRUE            reduce using rule 35 (expr -> expr GTE expr .)
+    FALSE           reduce using rule 35 (expr -> expr GTE expr .)
+    LPRAN           reduce using rule 35 (expr -> expr GTE expr .)
+    $end            reduce using rule 35 (expr -> expr GTE expr .)
+    COLON           reduce using rule 35 (expr -> expr GTE expr .)
+    RPRAN           reduce using rule 35 (expr -> expr GTE expr .)
+    RBRACE          reduce using rule 35 (expr -> expr GTE expr .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+
+  ! PLUS            [ reduce using rule 35 (expr -> expr GTE expr .) ]
+  ! MINUS           [ reduce using rule 35 (expr -> expr GTE expr .) ]
+  ! TIMES           [ reduce using rule 35 (expr -> expr GTE expr .) ]
+  ! DIV             [ reduce using rule 35 (expr -> expr GTE expr .) ]
+  ! MOD             [ reduce using rule 35 (expr -> expr GTE expr .) ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
+
+
+state 53
+
+    (36) expr -> expr EQU expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
+
+    AND             reduce using rule 36 (expr -> expr EQU expr .)
+    OR              reduce using rule 36 (expr -> expr EQU expr .)
+    LT              reduce using rule 36 (expr -> expr EQU expr .)
+    LTE             reduce using rule 36 (expr -> expr EQU expr .)
+    GT              reduce using rule 36 (expr -> expr EQU expr .)
+    GTE             reduce using rule 36 (expr -> expr EQU expr .)
+    EQU             reduce using rule 36 (expr -> expr EQU expr .)
+    NEQU            reduce using rule 36 (expr -> expr EQU expr .)
+    CONTINUE        reduce using rule 36 (expr -> expr EQU expr .)
+    BREAK           reduce using rule 36 (expr -> expr EQU expr .)
+    ID              reduce using rule 36 (expr -> expr EQU expr .)
+    IF              reduce using rule 36 (expr -> expr EQU expr .)
+    WHILE           reduce using rule 36 (expr -> expr EQU expr .)
+    FOR             reduce using rule 36 (expr -> expr EQU expr .)
+    NUMBER          reduce using rule 36 (expr -> expr EQU expr .)
+    TRUE            reduce using rule 36 (expr -> expr EQU expr .)
+    FALSE           reduce using rule 36 (expr -> expr EQU expr .)
+    LPRAN           reduce using rule 36 (expr -> expr EQU expr .)
+    $end            reduce using rule 36 (expr -> expr EQU expr .)
+    COLON           reduce using rule 36 (expr -> expr EQU expr .)
+    RPRAN           reduce using rule 36 (expr -> expr EQU expr .)
+    RBRACE          reduce using rule 36 (expr -> expr EQU expr .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+
+  ! PLUS            [ reduce using rule 36 (expr -> expr EQU expr .) ]
+  ! MINUS           [ reduce using rule 36 (expr -> expr EQU expr .) ]
+  ! TIMES           [ reduce using rule 36 (expr -> expr EQU expr .) ]
+  ! DIV             [ reduce using rule 36 (expr -> expr EQU expr .) ]
+  ! MOD             [ reduce using rule 36 (expr -> expr EQU expr .) ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
+
+
+state 54
+
+    (37) expr -> expr NEQU expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
+
+    AND             reduce using rule 37 (expr -> expr NEQU expr .)
+    OR              reduce using rule 37 (expr -> expr NEQU expr .)
+    LT              reduce using rule 37 (expr -> expr NEQU expr .)
+    LTE             reduce using rule 37 (expr -> expr NEQU expr .)
+    GT              reduce using rule 37 (expr -> expr NEQU expr .)
+    GTE             reduce using rule 37 (expr -> expr NEQU expr .)
+    EQU             reduce using rule 37 (expr -> expr NEQU expr .)
+    NEQU            reduce using rule 37 (expr -> expr NEQU expr .)
+    CONTINUE        reduce using rule 37 (expr -> expr NEQU expr .)
+    BREAK           reduce using rule 37 (expr -> expr NEQU expr .)
+    ID              reduce using rule 37 (expr -> expr NEQU expr .)
+    IF              reduce using rule 37 (expr -> expr NEQU expr .)
+    WHILE           reduce using rule 37 (expr -> expr NEQU expr .)
+    FOR             reduce using rule 37 (expr -> expr NEQU expr .)
+    NUMBER          reduce using rule 37 (expr -> expr NEQU expr .)
+    TRUE            reduce using rule 37 (expr -> expr NEQU expr .)
+    FALSE           reduce using rule 37 (expr -> expr NEQU expr .)
+    LPRAN           reduce using rule 37 (expr -> expr NEQU expr .)
+    $end            reduce using rule 37 (expr -> expr NEQU expr .)
+    COLON           reduce using rule 37 (expr -> expr NEQU expr .)
+    RPRAN           reduce using rule 37 (expr -> expr NEQU expr .)
+    RBRACE          reduce using rule 37 (expr -> expr NEQU expr .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+
+  ! PLUS            [ reduce using rule 37 (expr -> expr NEQU expr .) ]
+  ! MINUS           [ reduce using rule 37 (expr -> expr NEQU expr .) ]
+  ! TIMES           [ reduce using rule 37 (expr -> expr NEQU expr .) ]
+  ! DIV             [ reduce using rule 37 (expr -> expr NEQU expr .) ]
+  ! MOD             [ reduce using rule 37 (expr -> expr NEQU expr .) ]
+  ! AND             [ shift and go to state 24 ]
+  ! OR              [ shift and go to state 25 ]
+  ! LT              [ shift and go to state 26 ]
+  ! LTE             [ shift and go to state 27 ]
+  ! GT              [ shift and go to state 28 ]
+  ! GTE             [ shift and go to state 29 ]
+  ! EQU             [ shift and go to state 30 ]
+  ! NEQU            [ shift and go to state 31 ]
+
+
+state 55
+
     (20) assignment -> ID EQ expr .
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
     CONTINUE        reduce using rule 20 (assignment -> ID EQ expr .)
     BREAK           reduce using rule 20 (assignment -> ID EQ expr .)
@@ -1345,49 +2099,43 @@ state 48
     IF              reduce using rule 20 (assignment -> ID EQ expr .)
     WHILE           reduce using rule 20 (assignment -> ID EQ expr .)
     FOR             reduce using rule 20 (assignment -> ID EQ expr .)
+    NUMBER          reduce using rule 20 (assignment -> ID EQ expr .)
     TRUE            reduce using rule 20 (assignment -> ID EQ expr .)
     FALSE           reduce using rule 20 (assignment -> ID EQ expr .)
     LPRAN           reduce using rule 20 (assignment -> ID EQ expr .)
-    NUMBER          reduce using rule 20 (assignment -> ID EQ expr .)
     $end            reduce using rule 20 (assignment -> ID EQ expr .)
     RBRACE          reduce using rule 20 (assignment -> ID EQ expr .)
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+    AND             shift and go to state 24
+    OR              shift and go to state 25
+    LT              shift and go to state 26
+    LTE             shift and go to state 27
+    GT              shift and go to state 28
+    GTE             shift and go to state 29
+    EQU             shift and go to state 30
+    NEQU            shift and go to state 31
 
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
-    logic                          shift and go to state 22
 
-state 49
+state 56
 
     (21) assignment -> ID PLUS_EQUAL expr .
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
     CONTINUE        reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
     BREAK           reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
@@ -1395,49 +2143,43 @@ state 49
     IF              reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
     WHILE           reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
     FOR             reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
+    NUMBER          reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
     TRUE            reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
     FALSE           reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
     LPRAN           reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
-    NUMBER          reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
     $end            reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
     RBRACE          reduce using rule 21 (assignment -> ID PLUS_EQUAL expr .)
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+    AND             shift and go to state 24
+    OR              shift and go to state 25
+    LT              shift and go to state 26
+    LTE             shift and go to state 27
+    GT              shift and go to state 28
+    GTE             shift and go to state 29
+    EQU             shift and go to state 30
+    NEQU            shift and go to state 31
 
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
-    logic                          shift and go to state 22
 
-state 50
+state 57
 
     (22) assignment -> ID MINUS_EQUAL expr .
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
     CONTINUE        reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
     BREAK           reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
@@ -1445,49 +2187,43 @@ state 50
     IF              reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
     WHILE           reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
     FOR             reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
+    NUMBER          reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
     TRUE            reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
     FALSE           reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
     LPRAN           reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
-    NUMBER          reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
     $end            reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
     RBRACE          reduce using rule 22 (assignment -> ID MINUS_EQUAL expr .)
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+    AND             shift and go to state 24
+    OR              shift and go to state 25
+    LT              shift and go to state 26
+    LTE             shift and go to state 27
+    GT              shift and go to state 28
+    GTE             shift and go to state 29
+    EQU             shift and go to state 30
+    NEQU            shift and go to state 31
 
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
-    logic                          shift and go to state 22
 
-state 51
+state 58
 
     (23) assignment -> ID TIMES_EQUAL expr .
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
     CONTINUE        reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
     BREAK           reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
@@ -1495,136 +2231,177 @@ state 51
     IF              reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
     WHILE           reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
     FOR             reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
+    NUMBER          reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
     TRUE            reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
     FALSE           reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
     LPRAN           reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
-    NUMBER          reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
     $end            reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
     RBRACE          reduce using rule 23 (assignment -> ID TIMES_EQUAL expr .)
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+    AND             shift and go to state 24
+    OR              shift and go to state 25
+    LT              shift and go to state 26
+    LTE             shift and go to state 27
+    GT              shift and go to state 28
+    GTE             shift and go to state 29
+    EQU             shift and go to state 30
+    NEQU            shift and go to state 31
 
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
-    logic                          shift and go to state 22
 
-state 52
+state 59
+
+    (24) assignment -> ID DIV_EQUAL expr .
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
+
+    CONTINUE        reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    BREAK           reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    ID              reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    IF              reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    WHILE           reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    FOR             reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    NUMBER          reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    TRUE            reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    FALSE           reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    LPRAN           reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    $end            reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    RBRACE          reduce using rule 24 (assignment -> ID DIV_EQUAL expr .)
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+    AND             shift and go to state 24
+    OR              shift and go to state 25
+    LT              shift and go to state 26
+    LTE             shift and go to state 27
+    GT              shift and go to state 28
+    GTE             shift and go to state 29
+    EQU             shift and go to state 30
+    NEQU            shift and go to state 31
+
+
+state 60
 
     (15) if -> IF expr COLON . LBRACE statements RBRACE elif
 
-    LBRACE          shift and go to state 56
+    LBRACE          shift and go to state 64
 
 
-state 53
+state 61
 
     (14) while -> WHILE expr COLON . LBRACE statements RBRACE
 
-    LBRACE          shift and go to state 57
+    LBRACE          shift and go to state 65
 
 
-state 54
+state 62
 
     (10) for -> FOR ID IN . RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
 
-    RANGE           shift and go to state 58
+    RANGE           shift and go to state 66
 
 
-state 55
+state 63
 
-    (43) expr -> LPRAN expr RPRAN .
+    (42) expr -> LPRAN expr RPRAN .
 
-    TIMES           reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    DIV             reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    PLUS            reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    MINUS           reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    MOD             reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    LT              reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    LTE             reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    GT              reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    GTE             reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    EQU             reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    NEQU            reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    AND             reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    OR              reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    CONTINUE        reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    BREAK           reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    ID              reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    IF              reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    WHILE           reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    FOR             reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    TRUE            reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    FALSE           reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    LPRAN           reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    NUMBER          reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    $end            reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    COLON           reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    RPRAN           reduce using rule 43 (expr -> LPRAN expr RPRAN .)
-    RBRACE          reduce using rule 43 (expr -> LPRAN expr RPRAN .)
+    PLUS            reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    MINUS           reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    TIMES           reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    DIV             reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    MOD             reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    AND             reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    OR              reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    LT              reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    LTE             reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    GT              reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    GTE             reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    EQU             reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    NEQU            reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    CONTINUE        reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    BREAK           reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    ID              reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    IF              reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    WHILE           reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    FOR             reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    NUMBER          reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    TRUE            reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    FALSE           reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    LPRAN           reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    $end            reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    COLON           reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    RPRAN           reduce using rule 42 (expr -> LPRAN expr RPRAN .)
+    RBRACE          reduce using rule 42 (expr -> LPRAN expr RPRAN .)
 
 
-state 56
+state 64
 
     (15) if -> IF expr COLON LBRACE . statements RBRACE elif
     (1) statements -> . statements statement
     (2) statements -> . empty
-    (46) empty -> .
+    (45) empty -> .
 
-    RBRACE          reduce using rule 46 (empty -> .)
-    CONTINUE        reduce using rule 46 (empty -> .)
-    BREAK           reduce using rule 46 (empty -> .)
-    ID              reduce using rule 46 (empty -> .)
-    IF              reduce using rule 46 (empty -> .)
-    WHILE           reduce using rule 46 (empty -> .)
-    FOR             reduce using rule 46 (empty -> .)
-    TRUE            reduce using rule 46 (empty -> .)
-    FALSE           reduce using rule 46 (empty -> .)
-    LPRAN           reduce using rule 46 (empty -> .)
-    NUMBER          reduce using rule 46 (empty -> .)
+    RBRACE          reduce using rule 45 (empty -> .)
+    CONTINUE        reduce using rule 45 (empty -> .)
+    BREAK           reduce using rule 45 (empty -> .)
+    ID              reduce using rule 45 (empty -> .)
+    IF              reduce using rule 45 (empty -> .)
+    WHILE           reduce using rule 45 (empty -> .)
+    FOR             reduce using rule 45 (empty -> .)
+    NUMBER          reduce using rule 45 (empty -> .)
+    TRUE            reduce using rule 45 (empty -> .)
+    FALSE           reduce using rule 45 (empty -> .)
+    LPRAN           reduce using rule 45 (empty -> .)
 
-    statements                     shift and go to state 59
+    statements                     shift and go to state 67
     empty                          shift and go to state 2
 
-state 57
+state 65
 
     (14) while -> WHILE expr COLON LBRACE . statements RBRACE
     (1) statements -> . statements statement
     (2) statements -> . empty
-    (46) empty -> .
+    (45) empty -> .
 
-    RBRACE          reduce using rule 46 (empty -> .)
-    CONTINUE        reduce using rule 46 (empty -> .)
-    BREAK           reduce using rule 46 (empty -> .)
-    ID              reduce using rule 46 (empty -> .)
-    IF              reduce using rule 46 (empty -> .)
-    WHILE           reduce using rule 46 (empty -> .)
-    FOR             reduce using rule 46 (empty -> .)
-    TRUE            reduce using rule 46 (empty -> .)
-    FALSE           reduce using rule 46 (empty -> .)
-    LPRAN           reduce using rule 46 (empty -> .)
-    NUMBER          reduce using rule 46 (empty -> .)
+    RBRACE          reduce using rule 45 (empty -> .)
+    CONTINUE        reduce using rule 45 (empty -> .)
+    BREAK           reduce using rule 45 (empty -> .)
+    ID              reduce using rule 45 (empty -> .)
+    IF              reduce using rule 45 (empty -> .)
+    WHILE           reduce using rule 45 (empty -> .)
+    FOR             reduce using rule 45 (empty -> .)
+    NUMBER          reduce using rule 45 (empty -> .)
+    TRUE            reduce using rule 45 (empty -> .)
+    FALSE           reduce using rule 45 (empty -> .)
+    LPRAN           reduce using rule 45 (empty -> .)
 
-    statements                     shift and go to state 60
+    statements                     shift and go to state 68
     empty                          shift and go to state 2
 
-state 58
+state 66
 
     (10) for -> FOR ID IN RANGE . LPRAN params RPRAN COLON LBRACE statements RBRACE
 
-    LPRAN           shift and go to state 61
+    LPRAN           shift and go to state 69
 
 
-state 59
+state 67
 
     (15) if -> IF expr COLON LBRACE statements . RBRACE elif
     (1) statements -> statements . statement
@@ -1639,30 +2416,40 @@ state 59
     (21) assignment -> . ID PLUS_EQUAL expr
     (22) assignment -> . ID MINUS_EQUAL expr
     (23) assignment -> . ID TIMES_EQUAL expr
+    (24) assignment -> . ID DIV_EQUAL expr
     (15) if -> . IF expr COLON LBRACE statements RBRACE elif
     (14) while -> . WHILE expr COLON LBRACE statements RBRACE
     (10) for -> . FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    RBRACE          shift and go to state 62
+    RBRACE          shift and go to state 70
     CONTINUE        shift and go to state 9
     BREAK           shift and go to state 10
     ID              shift and go to state 11
     IF              shift and go to state 12
     WHILE           shift and go to state 13
     FOR             shift and go to state 14
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
 
     expr                           shift and go to state 8
     statement                      shift and go to state 3
@@ -1670,9 +2457,8 @@ state 59
     if                             shift and go to state 5
     while                          shift and go to state 6
     for                            shift and go to state 7
-    num_or_id                      shift and go to state 16
 
-state 60
+state 68
 
     (14) while -> WHILE expr COLON LBRACE statements . RBRACE
     (1) statements -> statements . statement
@@ -1687,30 +2473,40 @@ state 60
     (21) assignment -> . ID PLUS_EQUAL expr
     (22) assignment -> . ID MINUS_EQUAL expr
     (23) assignment -> . ID TIMES_EQUAL expr
+    (24) assignment -> . ID DIV_EQUAL expr
     (15) if -> . IF expr COLON LBRACE statements RBRACE elif
     (14) while -> . WHILE expr COLON LBRACE statements RBRACE
     (10) for -> . FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    RBRACE          shift and go to state 63
+    RBRACE          shift and go to state 71
     CONTINUE        shift and go to state 9
     BREAK           shift and go to state 10
     ID              shift and go to state 11
     IF              shift and go to state 12
     WHILE           shift and go to state 13
     FOR             shift and go to state 14
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
 
     expr                           shift and go to state 8
     statement                      shift and go to state 3
@@ -1718,52 +2514,51 @@ state 60
     if                             shift and go to state 5
     while                          shift and go to state 6
     for                            shift and go to state 7
-    num_or_id                      shift and go to state 16
 
-state 61
+state 69
 
     (10) for -> FOR ID IN RANGE LPRAN . params RPRAN COLON LBRACE statements RBRACE
     (11) params -> . num_or_id
     (12) params -> . num_or_id SEP num_or_id
     (13) params -> . num_or_id SEP num_or_id SEP num_or_id
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (43) num_or_id -> . NUMBER
+    (44) num_or_id -> . ID
 
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
+    NUMBER          shift and go to state 75
+    ID              shift and go to state 72
 
-    params                         shift and go to state 64
-    num_or_id                      shift and go to state 65
+    params                         shift and go to state 73
+    num_or_id                      shift and go to state 74
 
-state 62
+state 70
 
     (15) if -> IF expr COLON LBRACE statements RBRACE . elif
     (16) elif -> . ELIF expr COLON LBRACE statements RBRACE elif
     (17) elif -> . else
     (18) else -> . ELSE COLON LBRACE statements RBRACE
     (19) else -> . empty
-    (46) empty -> .
+    (45) empty -> .
 
-    ELIF            shift and go to state 67
-    ELSE            shift and go to state 69
-    CONTINUE        reduce using rule 46 (empty -> .)
-    BREAK           reduce using rule 46 (empty -> .)
-    ID              reduce using rule 46 (empty -> .)
-    IF              reduce using rule 46 (empty -> .)
-    WHILE           reduce using rule 46 (empty -> .)
-    FOR             reduce using rule 46 (empty -> .)
-    TRUE            reduce using rule 46 (empty -> .)
-    FALSE           reduce using rule 46 (empty -> .)
-    LPRAN           reduce using rule 46 (empty -> .)
-    NUMBER          reduce using rule 46 (empty -> .)
-    $end            reduce using rule 46 (empty -> .)
-    RBRACE          reduce using rule 46 (empty -> .)
+    ELIF            shift and go to state 77
+    ELSE            shift and go to state 79
+    CONTINUE        reduce using rule 45 (empty -> .)
+    BREAK           reduce using rule 45 (empty -> .)
+    ID              reduce using rule 45 (empty -> .)
+    IF              reduce using rule 45 (empty -> .)
+    WHILE           reduce using rule 45 (empty -> .)
+    FOR             reduce using rule 45 (empty -> .)
+    NUMBER          reduce using rule 45 (empty -> .)
+    TRUE            reduce using rule 45 (empty -> .)
+    FALSE           reduce using rule 45 (empty -> .)
+    LPRAN           reduce using rule 45 (empty -> .)
+    $end            reduce using rule 45 (empty -> .)
+    RBRACE          reduce using rule 45 (empty -> .)
 
-    elif                           shift and go to state 66
-    else                           shift and go to state 68
-    empty                          shift and go to state 70
+    elif                           shift and go to state 76
+    else                           shift and go to state 78
+    empty                          shift and go to state 80
 
-state 63
+state 71
 
     (14) while -> WHILE expr COLON LBRACE statements RBRACE .
 
@@ -1773,32 +2568,48 @@ state 63
     IF              reduce using rule 14 (while -> WHILE expr COLON LBRACE statements RBRACE .)
     WHILE           reduce using rule 14 (while -> WHILE expr COLON LBRACE statements RBRACE .)
     FOR             reduce using rule 14 (while -> WHILE expr COLON LBRACE statements RBRACE .)
+    NUMBER          reduce using rule 14 (while -> WHILE expr COLON LBRACE statements RBRACE .)
     TRUE            reduce using rule 14 (while -> WHILE expr COLON LBRACE statements RBRACE .)
     FALSE           reduce using rule 14 (while -> WHILE expr COLON LBRACE statements RBRACE .)
     LPRAN           reduce using rule 14 (while -> WHILE expr COLON LBRACE statements RBRACE .)
-    NUMBER          reduce using rule 14 (while -> WHILE expr COLON LBRACE statements RBRACE .)
     $end            reduce using rule 14 (while -> WHILE expr COLON LBRACE statements RBRACE .)
     RBRACE          reduce using rule 14 (while -> WHILE expr COLON LBRACE statements RBRACE .)
 
 
-state 64
+state 72
+
+    (44) num_or_id -> ID .
+
+    SEP             reduce using rule 44 (num_or_id -> ID .)
+    RPRAN           reduce using rule 44 (num_or_id -> ID .)
+
+
+state 73
 
     (10) for -> FOR ID IN RANGE LPRAN params . RPRAN COLON LBRACE statements RBRACE
 
-    RPRAN           shift and go to state 71
+    RPRAN           shift and go to state 81
 
 
-state 65
+state 74
 
     (11) params -> num_or_id .
     (12) params -> num_or_id . SEP num_or_id
     (13) params -> num_or_id . SEP num_or_id SEP num_or_id
 
     RPRAN           reduce using rule 11 (params -> num_or_id .)
-    SEP             shift and go to state 72
+    SEP             shift and go to state 82
 
 
-state 66
+state 75
+
+    (43) num_or_id -> NUMBER .
+
+    SEP             reduce using rule 43 (num_or_id -> NUMBER .)
+    RPRAN           reduce using rule 43 (num_or_id -> NUMBER .)
+
+
+state 76
 
     (15) if -> IF expr COLON LBRACE statements RBRACE elif .
 
@@ -1808,37 +2619,45 @@ state 66
     IF              reduce using rule 15 (if -> IF expr COLON LBRACE statements RBRACE elif .)
     WHILE           reduce using rule 15 (if -> IF expr COLON LBRACE statements RBRACE elif .)
     FOR             reduce using rule 15 (if -> IF expr COLON LBRACE statements RBRACE elif .)
+    NUMBER          reduce using rule 15 (if -> IF expr COLON LBRACE statements RBRACE elif .)
     TRUE            reduce using rule 15 (if -> IF expr COLON LBRACE statements RBRACE elif .)
     FALSE           reduce using rule 15 (if -> IF expr COLON LBRACE statements RBRACE elif .)
     LPRAN           reduce using rule 15 (if -> IF expr COLON LBRACE statements RBRACE elif .)
-    NUMBER          reduce using rule 15 (if -> IF expr COLON LBRACE statements RBRACE elif .)
     $end            reduce using rule 15 (if -> IF expr COLON LBRACE statements RBRACE elif .)
     RBRACE          reduce using rule 15 (if -> IF expr COLON LBRACE statements RBRACE elif .)
 
 
-state 67
+state 77
 
     (16) elif -> ELIF . expr COLON LBRACE statements RBRACE elif
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
+    ID              shift and go to state 38
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
 
-    expr                           shift and go to state 73
-    num_or_id                      shift and go to state 16
+    expr                           shift and go to state 83
 
-state 68
+state 78
 
     (17) elif -> else .
 
@@ -1848,22 +2667,22 @@ state 68
     IF              reduce using rule 17 (elif -> else .)
     WHILE           reduce using rule 17 (elif -> else .)
     FOR             reduce using rule 17 (elif -> else .)
+    NUMBER          reduce using rule 17 (elif -> else .)
     TRUE            reduce using rule 17 (elif -> else .)
     FALSE           reduce using rule 17 (elif -> else .)
     LPRAN           reduce using rule 17 (elif -> else .)
-    NUMBER          reduce using rule 17 (elif -> else .)
     $end            reduce using rule 17 (elif -> else .)
     RBRACE          reduce using rule 17 (elif -> else .)
 
 
-state 69
+state 79
 
     (18) else -> ELSE . COLON LBRACE statements RBRACE
 
-    COLON           shift and go to state 74
+    COLON           shift and go to state 84
 
 
-state 70
+state 80
 
     (19) else -> empty .
 
@@ -1873,180 +2692,174 @@ state 70
     IF              reduce using rule 19 (else -> empty .)
     WHILE           reduce using rule 19 (else -> empty .)
     FOR             reduce using rule 19 (else -> empty .)
+    NUMBER          reduce using rule 19 (else -> empty .)
     TRUE            reduce using rule 19 (else -> empty .)
     FALSE           reduce using rule 19 (else -> empty .)
     LPRAN           reduce using rule 19 (else -> empty .)
-    NUMBER          reduce using rule 19 (else -> empty .)
     $end            reduce using rule 19 (else -> empty .)
     RBRACE          reduce using rule 19 (else -> empty .)
 
 
-state 71
+state 81
 
     (10) for -> FOR ID IN RANGE LPRAN params RPRAN . COLON LBRACE statements RBRACE
 
-    COLON           shift and go to state 75
+    COLON           shift and go to state 85
 
 
-state 72
+state 82
 
     (12) params -> num_or_id SEP . num_or_id
     (13) params -> num_or_id SEP . num_or_id SEP num_or_id
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (43) num_or_id -> . NUMBER
+    (44) num_or_id -> . ID
 
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
+    NUMBER          shift and go to state 75
+    ID              shift and go to state 72
 
-    num_or_id                      shift and go to state 76
+    num_or_id                      shift and go to state 86
 
-state 73
+state 83
 
     (16) elif -> ELIF expr . COLON LBRACE statements RBRACE elif
-    (24) expr -> expr . operator expr
-    (25) expr -> expr . relop expr
-    (26) expr -> expr . logic expr
-    (30) operator -> . TIMES
-    (31) operator -> . DIV
-    (32) operator -> . PLUS
-    (33) operator -> . MINUS
-    (34) operator -> . MOD
-    (37) relop -> . LT
-    (38) relop -> . LTE
-    (39) relop -> . GT
-    (40) relop -> . GTE
-    (41) relop -> . EQU
-    (42) relop -> . NEQU
-    (35) logic -> . AND
-    (36) logic -> . OR
+    (25) expr -> expr . PLUS expr
+    (26) expr -> expr . MINUS expr
+    (27) expr -> expr . TIMES expr
+    (28) expr -> expr . DIV expr
+    (29) expr -> expr . MOD expr
+    (30) expr -> expr . AND expr
+    (31) expr -> expr . OR expr
+    (32) expr -> expr . LT expr
+    (33) expr -> expr . LTE expr
+    (34) expr -> expr . GT expr
+    (35) expr -> expr . GTE expr
+    (36) expr -> expr . EQU expr
+    (37) expr -> expr . NEQU expr
 
-    COLON           shift and go to state 77
-    TIMES           shift and go to state 23
-    DIV             shift and go to state 24
-    PLUS            shift and go to state 25
-    MINUS           shift and go to state 26
-    MOD             shift and go to state 27
-    LT              shift and go to state 28
-    LTE             shift and go to state 29
-    GT              shift and go to state 30
-    GTE             shift and go to state 31
-    EQU             shift and go to state 32
-    NEQU            shift and go to state 33
-    AND             shift and go to state 34
-    OR              shift and go to state 35
+    COLON           shift and go to state 87
+    PLUS            shift and go to state 19
+    MINUS           shift and go to state 20
+    TIMES           shift and go to state 21
+    DIV             shift and go to state 22
+    MOD             shift and go to state 23
+    AND             shift and go to state 24
+    OR              shift and go to state 25
+    LT              shift and go to state 26
+    LTE             shift and go to state 27
+    GT              shift and go to state 28
+    GTE             shift and go to state 29
+    EQU             shift and go to state 30
+    NEQU            shift and go to state 31
 
-    operator                       shift and go to state 20
-    relop                          shift and go to state 21
-    logic                          shift and go to state 22
 
-state 74
+state 84
 
     (18) else -> ELSE COLON . LBRACE statements RBRACE
 
-    LBRACE          shift and go to state 78
+    LBRACE          shift and go to state 88
 
 
-state 75
+state 85
 
     (10) for -> FOR ID IN RANGE LPRAN params RPRAN COLON . LBRACE statements RBRACE
 
-    LBRACE          shift and go to state 79
+    LBRACE          shift and go to state 89
 
 
-state 76
+state 86
 
     (12) params -> num_or_id SEP num_or_id .
     (13) params -> num_or_id SEP num_or_id . SEP num_or_id
 
     RPRAN           reduce using rule 12 (params -> num_or_id SEP num_or_id .)
-    SEP             shift and go to state 80
+    SEP             shift and go to state 90
 
 
-state 77
+state 87
 
     (16) elif -> ELIF expr COLON . LBRACE statements RBRACE elif
 
-    LBRACE          shift and go to state 81
+    LBRACE          shift and go to state 91
 
 
-state 78
+state 88
 
     (18) else -> ELSE COLON LBRACE . statements RBRACE
     (1) statements -> . statements statement
     (2) statements -> . empty
-    (46) empty -> .
+    (45) empty -> .
 
-    RBRACE          reduce using rule 46 (empty -> .)
-    CONTINUE        reduce using rule 46 (empty -> .)
-    BREAK           reduce using rule 46 (empty -> .)
-    ID              reduce using rule 46 (empty -> .)
-    IF              reduce using rule 46 (empty -> .)
-    WHILE           reduce using rule 46 (empty -> .)
-    FOR             reduce using rule 46 (empty -> .)
-    TRUE            reduce using rule 46 (empty -> .)
-    FALSE           reduce using rule 46 (empty -> .)
-    LPRAN           reduce using rule 46 (empty -> .)
-    NUMBER          reduce using rule 46 (empty -> .)
+    RBRACE          reduce using rule 45 (empty -> .)
+    CONTINUE        reduce using rule 45 (empty -> .)
+    BREAK           reduce using rule 45 (empty -> .)
+    ID              reduce using rule 45 (empty -> .)
+    IF              reduce using rule 45 (empty -> .)
+    WHILE           reduce using rule 45 (empty -> .)
+    FOR             reduce using rule 45 (empty -> .)
+    NUMBER          reduce using rule 45 (empty -> .)
+    TRUE            reduce using rule 45 (empty -> .)
+    FALSE           reduce using rule 45 (empty -> .)
+    LPRAN           reduce using rule 45 (empty -> .)
 
-    statements                     shift and go to state 82
+    statements                     shift and go to state 92
     empty                          shift and go to state 2
 
-state 79
+state 89
 
     (10) for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE . statements RBRACE
     (1) statements -> . statements statement
     (2) statements -> . empty
-    (46) empty -> .
+    (45) empty -> .
 
-    RBRACE          reduce using rule 46 (empty -> .)
-    CONTINUE        reduce using rule 46 (empty -> .)
-    BREAK           reduce using rule 46 (empty -> .)
-    ID              reduce using rule 46 (empty -> .)
-    IF              reduce using rule 46 (empty -> .)
-    WHILE           reduce using rule 46 (empty -> .)
-    FOR             reduce using rule 46 (empty -> .)
-    TRUE            reduce using rule 46 (empty -> .)
-    FALSE           reduce using rule 46 (empty -> .)
-    LPRAN           reduce using rule 46 (empty -> .)
-    NUMBER          reduce using rule 46 (empty -> .)
+    RBRACE          reduce using rule 45 (empty -> .)
+    CONTINUE        reduce using rule 45 (empty -> .)
+    BREAK           reduce using rule 45 (empty -> .)
+    ID              reduce using rule 45 (empty -> .)
+    IF              reduce using rule 45 (empty -> .)
+    WHILE           reduce using rule 45 (empty -> .)
+    FOR             reduce using rule 45 (empty -> .)
+    NUMBER          reduce using rule 45 (empty -> .)
+    TRUE            reduce using rule 45 (empty -> .)
+    FALSE           reduce using rule 45 (empty -> .)
+    LPRAN           reduce using rule 45 (empty -> .)
 
-    statements                     shift and go to state 83
+    statements                     shift and go to state 93
     empty                          shift and go to state 2
 
-state 80
+state 90
 
     (13) params -> num_or_id SEP num_or_id SEP . num_or_id
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (43) num_or_id -> . NUMBER
+    (44) num_or_id -> . ID
 
-    NUMBER          shift and go to state 19
-    ID              shift and go to state 41
+    NUMBER          shift and go to state 75
+    ID              shift and go to state 72
 
-    num_or_id                      shift and go to state 84
+    num_or_id                      shift and go to state 94
 
-state 81
+state 91
 
     (16) elif -> ELIF expr COLON LBRACE . statements RBRACE elif
     (1) statements -> . statements statement
     (2) statements -> . empty
-    (46) empty -> .
+    (45) empty -> .
 
-    RBRACE          reduce using rule 46 (empty -> .)
-    CONTINUE        reduce using rule 46 (empty -> .)
-    BREAK           reduce using rule 46 (empty -> .)
-    ID              reduce using rule 46 (empty -> .)
-    IF              reduce using rule 46 (empty -> .)
-    WHILE           reduce using rule 46 (empty -> .)
-    FOR             reduce using rule 46 (empty -> .)
-    TRUE            reduce using rule 46 (empty -> .)
-    FALSE           reduce using rule 46 (empty -> .)
-    LPRAN           reduce using rule 46 (empty -> .)
-    NUMBER          reduce using rule 46 (empty -> .)
+    RBRACE          reduce using rule 45 (empty -> .)
+    CONTINUE        reduce using rule 45 (empty -> .)
+    BREAK           reduce using rule 45 (empty -> .)
+    ID              reduce using rule 45 (empty -> .)
+    IF              reduce using rule 45 (empty -> .)
+    WHILE           reduce using rule 45 (empty -> .)
+    FOR             reduce using rule 45 (empty -> .)
+    NUMBER          reduce using rule 45 (empty -> .)
+    TRUE            reduce using rule 45 (empty -> .)
+    FALSE           reduce using rule 45 (empty -> .)
+    LPRAN           reduce using rule 45 (empty -> .)
 
-    statements                     shift and go to state 85
+    statements                     shift and go to state 95
     empty                          shift and go to state 2
 
-state 82
+state 92
 
     (18) else -> ELSE COLON LBRACE statements . RBRACE
     (1) statements -> statements . statement
@@ -2061,30 +2874,40 @@ state 82
     (21) assignment -> . ID PLUS_EQUAL expr
     (22) assignment -> . ID MINUS_EQUAL expr
     (23) assignment -> . ID TIMES_EQUAL expr
+    (24) assignment -> . ID DIV_EQUAL expr
     (15) if -> . IF expr COLON LBRACE statements RBRACE elif
     (14) while -> . WHILE expr COLON LBRACE statements RBRACE
     (10) for -> . FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    RBRACE          shift and go to state 86
+    RBRACE          shift and go to state 96
     CONTINUE        shift and go to state 9
     BREAK           shift and go to state 10
     ID              shift and go to state 11
     IF              shift and go to state 12
     WHILE           shift and go to state 13
     FOR             shift and go to state 14
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
 
     statement                      shift and go to state 3
     assignment                     shift and go to state 4
@@ -2092,9 +2915,8 @@ state 82
     while                          shift and go to state 6
     for                            shift and go to state 7
     expr                           shift and go to state 8
-    num_or_id                      shift and go to state 16
 
-state 83
+state 93
 
     (10) for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements . RBRACE
     (1) statements -> statements . statement
@@ -2109,30 +2931,40 @@ state 83
     (21) assignment -> . ID PLUS_EQUAL expr
     (22) assignment -> . ID MINUS_EQUAL expr
     (23) assignment -> . ID TIMES_EQUAL expr
+    (24) assignment -> . ID DIV_EQUAL expr
     (15) if -> . IF expr COLON LBRACE statements RBRACE elif
     (14) while -> . WHILE expr COLON LBRACE statements RBRACE
     (10) for -> . FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    RBRACE          shift and go to state 87
+    RBRACE          shift and go to state 97
     CONTINUE        shift and go to state 9
     BREAK           shift and go to state 10
     ID              shift and go to state 11
     IF              shift and go to state 12
     WHILE           shift and go to state 13
     FOR             shift and go to state 14
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
 
     statement                      shift and go to state 3
     assignment                     shift and go to state 4
@@ -2140,16 +2972,15 @@ state 83
     while                          shift and go to state 6
     for                            shift and go to state 7
     expr                           shift and go to state 8
-    num_or_id                      shift and go to state 16
 
-state 84
+state 94
 
     (13) params -> num_or_id SEP num_or_id SEP num_or_id .
 
     RPRAN           reduce using rule 13 (params -> num_or_id SEP num_or_id SEP num_or_id .)
 
 
-state 85
+state 95
 
     (16) elif -> ELIF expr COLON LBRACE statements . RBRACE elif
     (1) statements -> statements . statement
@@ -2164,30 +2995,40 @@ state 85
     (21) assignment -> . ID PLUS_EQUAL expr
     (22) assignment -> . ID MINUS_EQUAL expr
     (23) assignment -> . ID TIMES_EQUAL expr
+    (24) assignment -> . ID DIV_EQUAL expr
     (15) if -> . IF expr COLON LBRACE statements RBRACE elif
     (14) while -> . WHILE expr COLON LBRACE statements RBRACE
     (10) for -> . FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
-    (24) expr -> . expr operator expr
-    (25) expr -> . expr relop expr
-    (26) expr -> . expr logic expr
-    (27) expr -> . num_or_id
-    (28) expr -> . TRUE
-    (29) expr -> . FALSE
-    (43) expr -> . LPRAN expr RPRAN
-    (44) num_or_id -> . NUMBER
-    (45) num_or_id -> . ID
+    (25) expr -> . expr PLUS expr
+    (26) expr -> . expr MINUS expr
+    (27) expr -> . expr TIMES expr
+    (28) expr -> . expr DIV expr
+    (29) expr -> . expr MOD expr
+    (30) expr -> . expr AND expr
+    (31) expr -> . expr OR expr
+    (32) expr -> . expr LT expr
+    (33) expr -> . expr LTE expr
+    (34) expr -> . expr GT expr
+    (35) expr -> . expr GTE expr
+    (36) expr -> . expr EQU expr
+    (37) expr -> . expr NEQU expr
+    (38) expr -> . ID
+    (39) expr -> . NUMBER
+    (40) expr -> . TRUE
+    (41) expr -> . FALSE
+    (42) expr -> . LPRAN expr RPRAN
 
-    RBRACE          shift and go to state 88
+    RBRACE          shift and go to state 98
     CONTINUE        shift and go to state 9
     BREAK           shift and go to state 10
     ID              shift and go to state 11
     IF              shift and go to state 12
     WHILE           shift and go to state 13
     FOR             shift and go to state 14
+    NUMBER          shift and go to state 16
     TRUE            shift and go to state 17
     FALSE           shift and go to state 18
     LPRAN           shift and go to state 15
-    NUMBER          shift and go to state 19
 
     expr                           shift and go to state 8
     statement                      shift and go to state 3
@@ -2195,9 +3036,8 @@ state 85
     if                             shift and go to state 5
     while                          shift and go to state 6
     for                            shift and go to state 7
-    num_or_id                      shift and go to state 16
 
-state 86
+state 96
 
     (18) else -> ELSE COLON LBRACE statements RBRACE .
 
@@ -2207,15 +3047,15 @@ state 86
     IF              reduce using rule 18 (else -> ELSE COLON LBRACE statements RBRACE .)
     WHILE           reduce using rule 18 (else -> ELSE COLON LBRACE statements RBRACE .)
     FOR             reduce using rule 18 (else -> ELSE COLON LBRACE statements RBRACE .)
+    NUMBER          reduce using rule 18 (else -> ELSE COLON LBRACE statements RBRACE .)
     TRUE            reduce using rule 18 (else -> ELSE COLON LBRACE statements RBRACE .)
     FALSE           reduce using rule 18 (else -> ELSE COLON LBRACE statements RBRACE .)
     LPRAN           reduce using rule 18 (else -> ELSE COLON LBRACE statements RBRACE .)
-    NUMBER          reduce using rule 18 (else -> ELSE COLON LBRACE statements RBRACE .)
     $end            reduce using rule 18 (else -> ELSE COLON LBRACE statements RBRACE .)
     RBRACE          reduce using rule 18 (else -> ELSE COLON LBRACE statements RBRACE .)
 
 
-state 87
+state 97
 
     (10) for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .
 
@@ -2225,43 +3065,43 @@ state 87
     IF              reduce using rule 10 (for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .)
     WHILE           reduce using rule 10 (for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .)
     FOR             reduce using rule 10 (for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .)
+    NUMBER          reduce using rule 10 (for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .)
     TRUE            reduce using rule 10 (for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .)
     FALSE           reduce using rule 10 (for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .)
     LPRAN           reduce using rule 10 (for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .)
-    NUMBER          reduce using rule 10 (for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .)
     $end            reduce using rule 10 (for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .)
     RBRACE          reduce using rule 10 (for -> FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE .)
 
 
-state 88
+state 98
 
     (16) elif -> ELIF expr COLON LBRACE statements RBRACE . elif
     (16) elif -> . ELIF expr COLON LBRACE statements RBRACE elif
     (17) elif -> . else
     (18) else -> . ELSE COLON LBRACE statements RBRACE
     (19) else -> . empty
-    (46) empty -> .
+    (45) empty -> .
 
-    ELIF            shift and go to state 67
-    ELSE            shift and go to state 69
-    CONTINUE        reduce using rule 46 (empty -> .)
-    BREAK           reduce using rule 46 (empty -> .)
-    ID              reduce using rule 46 (empty -> .)
-    IF              reduce using rule 46 (empty -> .)
-    WHILE           reduce using rule 46 (empty -> .)
-    FOR             reduce using rule 46 (empty -> .)
-    TRUE            reduce using rule 46 (empty -> .)
-    FALSE           reduce using rule 46 (empty -> .)
-    LPRAN           reduce using rule 46 (empty -> .)
-    NUMBER          reduce using rule 46 (empty -> .)
-    $end            reduce using rule 46 (empty -> .)
-    RBRACE          reduce using rule 46 (empty -> .)
+    ELIF            shift and go to state 77
+    ELSE            shift and go to state 79
+    CONTINUE        reduce using rule 45 (empty -> .)
+    BREAK           reduce using rule 45 (empty -> .)
+    ID              reduce using rule 45 (empty -> .)
+    IF              reduce using rule 45 (empty -> .)
+    WHILE           reduce using rule 45 (empty -> .)
+    FOR             reduce using rule 45 (empty -> .)
+    NUMBER          reduce using rule 45 (empty -> .)
+    TRUE            reduce using rule 45 (empty -> .)
+    FALSE           reduce using rule 45 (empty -> .)
+    LPRAN           reduce using rule 45 (empty -> .)
+    $end            reduce using rule 45 (empty -> .)
+    RBRACE          reduce using rule 45 (empty -> .)
 
-    elif                           shift and go to state 89
-    else                           shift and go to state 68
-    empty                          shift and go to state 70
+    elif                           shift and go to state 99
+    else                           shift and go to state 78
+    empty                          shift and go to state 80
 
-state 89
+state 99
 
     (16) elif -> ELIF expr COLON LBRACE statements RBRACE elif .
 
@@ -2271,52 +3111,10 @@ state 89
     IF              reduce using rule 16 (elif -> ELIF expr COLON LBRACE statements RBRACE elif .)
     WHILE           reduce using rule 16 (elif -> ELIF expr COLON LBRACE statements RBRACE elif .)
     FOR             reduce using rule 16 (elif -> ELIF expr COLON LBRACE statements RBRACE elif .)
+    NUMBER          reduce using rule 16 (elif -> ELIF expr COLON LBRACE statements RBRACE elif .)
     TRUE            reduce using rule 16 (elif -> ELIF expr COLON LBRACE statements RBRACE elif .)
     FALSE           reduce using rule 16 (elif -> ELIF expr COLON LBRACE statements RBRACE elif .)
     LPRAN           reduce using rule 16 (elif -> ELIF expr COLON LBRACE statements RBRACE elif .)
-    NUMBER          reduce using rule 16 (elif -> ELIF expr COLON LBRACE statements RBRACE elif .)
     $end            reduce using rule 16 (elif -> ELIF expr COLON LBRACE statements RBRACE elif .)
     RBRACE          reduce using rule 16 (elif -> ELIF expr COLON LBRACE statements RBRACE elif .)
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for TIMES in state 45 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 45 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 45 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 45 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 45 resolved as shift
-WARNING: shift/reduce conflict for LT in state 45 resolved as shift
-WARNING: shift/reduce conflict for LTE in state 45 resolved as shift
-WARNING: shift/reduce conflict for GT in state 45 resolved as shift
-WARNING: shift/reduce conflict for GTE in state 45 resolved as shift
-WARNING: shift/reduce conflict for EQU in state 45 resolved as shift
-WARNING: shift/reduce conflict for NEQU in state 45 resolved as shift
-WARNING: shift/reduce conflict for AND in state 45 resolved as shift
-WARNING: shift/reduce conflict for OR in state 45 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 46 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 46 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 46 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 46 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 46 resolved as shift
-WARNING: shift/reduce conflict for LT in state 46 resolved as shift
-WARNING: shift/reduce conflict for LTE in state 46 resolved as shift
-WARNING: shift/reduce conflict for GT in state 46 resolved as shift
-WARNING: shift/reduce conflict for GTE in state 46 resolved as shift
-WARNING: shift/reduce conflict for EQU in state 46 resolved as shift
-WARNING: shift/reduce conflict for NEQU in state 46 resolved as shift
-WARNING: shift/reduce conflict for AND in state 46 resolved as shift
-WARNING: shift/reduce conflict for OR in state 46 resolved as shift
-WARNING: shift/reduce conflict for TIMES in state 47 resolved as shift
-WARNING: shift/reduce conflict for DIV in state 47 resolved as shift
-WARNING: shift/reduce conflict for PLUS in state 47 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 47 resolved as shift
-WARNING: shift/reduce conflict for MOD in state 47 resolved as shift
-WARNING: shift/reduce conflict for LT in state 47 resolved as shift
-WARNING: shift/reduce conflict for LTE in state 47 resolved as shift
-WARNING: shift/reduce conflict for GT in state 47 resolved as shift
-WARNING: shift/reduce conflict for GTE in state 47 resolved as shift
-WARNING: shift/reduce conflict for EQU in state 47 resolved as shift
-WARNING: shift/reduce conflict for NEQU in state 47 resolved as shift
-WARNING: shift/reduce conflict for AND in state 47 resolved as shift
-WARNING: shift/reduce conflict for OR in state 47 resolved as shift
