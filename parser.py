@@ -12,14 +12,12 @@ class P2CParser(object):
         ('nonassoc', 'GTE', 'GT', 'LTE', 'LT', 'EQU', 'NEQU', 'AND', 'OR'),  # Nonassociative operators
         ('left', 'PLUS', 'MINUS'),
         ('left', 'TIMES', 'DIV', 'MOD'),
+        ('right', 'UMINUS', 'UPLUS'),
 
     )
 
-    def build(self):
-        self.parser = yacc.yacc(module=self)
-
     def __init__(self):
-        self.parser = None
+        self.parser = yacc.yacc(module=self)
         self.parse_tree = None
         self.three_address_code = None
 
@@ -120,6 +118,18 @@ class P2CParser(object):
         """
         p[0] = tuple((p[2], p[1], p[3]))
 
+    def p_exr_unary_minus(self, p):
+        """
+         expr : MINUS expr %prec UMINUS
+        """
+        p[0] = tuple((p[1],p[2]))
+
+    def p_exr_unary_plus(self, p):
+        """
+         expr : PLUS expr %prec UPLUS
+        """
+        p[0] = tuple((p[1],p[2]))
+
     def p_expr_operator_relop(self, p):
         """
         expr : expr PLUS expr
@@ -144,6 +154,7 @@ class P2CParser(object):
             p[0] = p[1]
         elif len(p) == 4:
             p[0] = tuple([p[2], p[1], p[3]])
+
 
     def p_expr_pran(self, p):
         """
@@ -235,50 +246,6 @@ class P2CParser(object):
         print(self.parse(input_data))
 
 
-class Parser2(object):
-    tokens = P2CParser.tokens
-    _ = __()
-    lexer = _.lexer
-
-    precedence = [
-        ('left', 'PLUS'),
-    ]
-
-    def p_expr(self, p):
-        """
-        expr : expr PLUS expr
-        | empty
-        """
-        if len(p) == 4:
-            p[0] = tuple((p[2], p[1], p[3]))
-            self.parse_tree = p[0]
-
-    def p_op(self, p):
-        """
-        op : PLUS
-        """
-        p[0] = p[1]
-
-    def p_expr_terminal(self, p):
-        """
-        expr : ID
-            | NUMBER
-        """
-        p[0] = p[1]
-
-    def p_empty(self, p):
-        """empty : """
-        p[0] = None
-
-    def __init__(self):
-        self.parser = yacc.yacc(module=self)
-        self.parse_tree = None
-
-    def parse(self, input_data):
-        self.parser.parse(input_data, lexer=self.lexer)
-        print(self.parse_tree)
-
-
 def test_parse_tree_generation():
     test_input = """
         a = 10
@@ -332,7 +299,6 @@ def test_parse_tree_generation():
     test_output = test_output.replace(' ', '').replace('\n', '')
 
     _parser = P2CParser()
-    _parser.build()
     result = _parser.parse(test_input)
 
     # clean result
@@ -350,9 +316,10 @@ if __name__ == '__main__':
     if not test_parse_tree_generation():
         raise Exception("[PARSER] Parse tree test filed")
 
-    # parser = P2CParser()
-    # test_input = """
-    # a = 3+-3*4+-(7*8/2)
-    # """
-    # parser.parse(test_input)
-    # print(parser.generate_three_address_code())
+    parser = P2CParser()
+    test_input = """
+    a = +-5+-3*4+-(7*8/2)
+    b = 2*a
+    """
+    parser.parse(test_input)
+    print(parser.generate_three_address_code())
