@@ -23,16 +23,22 @@ class P2CParser(object):
 
         self.assign_symbols = ['=', '+=', '-=', '*=']
         self.operation_symbols = ['+', '-', '*', '/', '&&', '||',
+                                  '==',
                                   '>', '>=', '<', '<=', '!=', '%']
         self.keywords = self._.reserved.keys()
 
         self.symbol_table = {}
 
         self.t_number = 0
+        self.l_number = 0
 
     def get_temp(self):
         self.t_number += 1
         return "t%d" % self.t_number
+
+    def get_label(self):
+        self.l_number += 1
+        return "l%d" % self.l_number
 
     # grammar rules start *********************
 
@@ -122,13 +128,13 @@ class P2CParser(object):
         """
          expr : MINUS expr %prec UMINUS
         """
-        p[0] = tuple((p[1],p[2]))
+        p[0] = tuple((p[1], p[2]))
 
     def p_exr_unary_plus(self, p):
         """
          expr : PLUS expr %prec UPLUS
         """
-        p[0] = tuple((p[1],p[2]))
+        p[0] = tuple((p[1], p[2]))
 
     def p_expr_operator_relop(self, p):
         """
@@ -154,7 +160,6 @@ class P2CParser(object):
             p[0] = p[1]
         elif len(p) == 4:
             p[0] = tuple([p[2], p[1], p[3]])
-
 
     def p_expr_pran(self, p):
         """
@@ -194,15 +199,63 @@ class P2CParser(object):
             return self.tac_operator(line)
         elif line[0] in self.operation_symbols and len(line) == 2:
             return self.tac_operator_unary(line)
+        elif line[0] == 'if':
+            return self.tac_if_elif_else(line)
         else:
             raise Exception("Invalid line: %s" % str(line))
+
+    def tac_if_elif_else(self, line):
+        data = []
+        _line = line
+        while _line:
+            keyword = _line[0]
+
+            if keyword == 'else':
+                data.append({
+                    'keyword': 'else',
+                    'statements': self.tac_program(_line[1])
+                })
+                break
+
+            if keyword == 'elif':
+                keyword = 'else if'
+            data.append({
+                'keyword': keyword,
+                'condition': self.get_tac(_line[1]),
+                'statements': self.tac_program(_line[2])
+            })
+
+            _line = _line[3]
+
+        # all the conditions first
+        conditions = ""
+        structure = ""
+        if_done_label = self.get_label()
+
+        for part in data:
+            keyword = part.get('keyword')
+            if keyword == 'else':
+                structure += f"{part.get('statements')}\n"
+                continue
+            _condition, condition_root = part.get('condition')
+            conditions += f"{_condition}\n"
+
+            statements_end = self.get_label()
+
+            structure += f"if (!{condition_root}) goto {statements_end};\n" \
+                         f"{part.get('statements')}\n" \
+                         f"goto {if_done_label};\n" \
+                         f"{statements_end}:;\n"
+
+        structure += f"{if_done_label}:;\n"
+        return conditions + structure, None
 
     def tac_operator_unary(self, line):
         a = line[1]
         op = line[0]
         a_tac_str, a_root = self.get_tac(a)
         temp = self.get_temp()
-        return a_tac_str + f"float {temp} = {op}{a_root}\n", temp
+        return a_tac_str + f"float {temp} = {op}{a_root};\n", temp
 
     def tac_operator(self, line):
         a = line[1]
@@ -215,7 +268,7 @@ class P2CParser(object):
         temp = self.get_temp()
 
         _str = a_tac_str + b_tac_str
-        _str += f"float {temp} = {a_root} {op} {b_root}\n"
+        _str += f"float {temp} = {a_root} {op} {b_root};\n"
 
         return _str, temp
 
@@ -232,15 +285,29 @@ class P2CParser(object):
             self.symbol_table[lhs] = 'float'
 
         rhs_str, rhs_root = self.get_tac(rhs)
-        tac_str = f"{_type}{lhs} {op} {rhs_root}\n"
+        tac_str = f"{_type}{lhs} {op} {rhs_root};\n"
         return rhs_str + tac_str, lhs
 
-    def generate_three_address_code(self):
+    def tac_program(self, program):
+        if not program:
+            return "\n"
         result = ""
-        for line in self.parse_tree:
-            _str, _root = self.get_tac(line)
-            result += _str
+        for line in program:
+            _line, root = self.get_tac(line)
+            result += _line
+
         return result
+
+    def generate_three_address_code(self):
+        body = self.tac_program(self.parse_tree)
+        return """
+        #include <stdio.h>
+        
+        int main () {
+            %s
+            return 0;
+        }
+        """ % body
 
     def test(self, input_data):
         print(self.parse(input_data))
@@ -303,7 +370,6 @@ def test_parse_tree_generation():
 
     # clean result
     result = str(result).replace(' ', '').replace('\n', '')
-
     return test_output == result
 
 
@@ -317,9 +383,10 @@ if __name__ == '__main__':
         raise Exception("[PARSER] Parse tree test filed")
 
     parser = P2CParser()
-    test_input = """
-    a = +-5+-3*4+-(7*8/2)
-    b = 2*a
-    """
+    _input = open('program.py.txt')
+    test_input = _input.read()
     parser.parse(test_input)
-    print(parser.generate_three_address_code())
+    _out = open('program.c', 'w')
+    _out.write(parser.generate_three_address_code())
+    _input.close()
+    _out.close()
