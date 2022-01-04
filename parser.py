@@ -2,6 +2,7 @@ import json
 
 from lexer import P2CLexer as __
 import ply.yacc as yacc
+import re
 
 
 class P2CParser(object):
@@ -201,8 +202,28 @@ class P2CParser(object):
             return self.tac_operator_unary(line)
         elif line[0] == 'if':
             return self.tac_if_elif_else(line)
+        elif line[0] == 'while':
+            return self.tac_while(line)
         else:
             raise Exception("Invalid line: %s" % str(line))
+
+    def tac_while(self, line):
+        condition = line[1]
+        statements = line[2]
+
+        condition_tac_str, condition_root = self.get_tac(condition)
+        statements_tac_str = self.tac_program(statements)
+
+        start_label = self.get_label()
+        end_label = self.get_label()
+
+        structure = f"{start_label}: \n" \
+                    f"if (!{condition_root}) goto {end_label};\n" \
+                    f"{statements_tac_str}\n" \
+                    f"goto {start_label};\n" \
+                    f"{end_label}:;\n"
+
+        return condition_tac_str + structure, None
 
     def tac_if_elif_else(self, line):
         data = []
@@ -300,14 +321,10 @@ class P2CParser(object):
 
     def generate_three_address_code(self):
         body = self.tac_program(self.parse_tree)
-        return """
-        #include <stdio.h>
-        
-        int main () {
-            %s
-            return 0;
-        }
-        """ % body
+        c_tac_code = "#include <stdio.h>\nint main () {\n%s\nreturn 0;\n}" % body
+        c_tac_code = re.sub(' +', ' ', c_tac_code)
+        c_tac_code = re.sub('\n+', '\n', c_tac_code)
+        return c_tac_code
 
     def test(self, input_data):
         print(self.parse(input_data))
