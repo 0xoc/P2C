@@ -1,12 +1,12 @@
 #include <stdio.h>
 int main () {
-float a = 10.0;
-l1: 
-if (!a) goto l2;
-a -= 1.0;
-printf("%f\n", a);
+float i;
+i = 0;
+l1:
+if (i >= 10.0) goto l2;
+printf("%f\n", i);
+i += 1;
 goto l1;
 l2:;
-printf("%f\n", a);
 return 0;
 }

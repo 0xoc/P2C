@@ -70,7 +70,7 @@ class P2CParser(object):
         """
         for : FOR ID IN RANGE LPRAN params RPRAN COLON LBRACE statements RBRACE
         """
-        p[0] = tuple((p[1], p[6], p[10]))
+        p[0] = tuple((p[1], p[2], p[6], p[10]))
 
     def p_params(self, p):
         """
@@ -186,9 +186,6 @@ class P2CParser(object):
         self.parser.parse(input_data, lexer=self.lexer)
         return self.parse_tree
 
-    def tac_id_or_num(self, _id_or_num):
-        return _id_or_num
-
     def get_tac(self, line):
         if type(line) != tuple:
             return "", line
@@ -204,8 +201,37 @@ class P2CParser(object):
             return self.tac_if_elif_else(line)
         elif line[0] == 'while':
             return self.tac_while(line)
+        elif line[0] == 'for':
+            return self.tac_for(line)
         else:
             raise Exception("Invalid line: %s" % str(line))
+
+    def tac_for(self, line):
+        for_var = line[1]
+        start, end, step = line[2]
+        statements = self.tac_program(line[3])
+
+        start_label = self.get_label()
+        end_label = self.get_label()
+
+        structure = ""
+
+        # define for variable if not defined before
+        if for_var not in self.symbol_table:
+            structure += f"float {for_var};\n"
+            self.symbol_table[for_var] = 'float'
+
+        # initialize the for variable
+        structure += f"{for_var} = {start};\n"
+        op = '>=' if step > 0 else '<='
+
+        structure += f"{start_label}:\n" \
+                     f"if ({for_var} {op} {end}) goto {end_label};\n" \
+                     f"{statements}\n" \
+                     f"{for_var} += {step};\n" \
+                     f"goto {start_label};\n" \
+                     f"{end_label}:;\n"
+        return structure, None
 
     def tac_while(self, line):
         condition = line[1]
@@ -369,7 +395,7 @@ def test_parse_tree_generation():
              ('*=', 'b', 2.0), 
              ('=', 'c', 0.0), 
 
-             ('for', ('a', 'b', 2.0), 
+             ('for', 'i', ('a', 'b', 2.0), 
                  [
                     ('=', 'c', ('+', 'i', 'a')),
                     ('if', ('>', 'c', 200.0), ['break'], ('elif', ('==', 'c', 200.0), ['continue'], ('else', None)))
@@ -391,11 +417,6 @@ def test_parse_tree_generation():
 
 
 if __name__ == '__main__':
-    # p2 = Parser2()
-    # p2.parse("""
-    # a + 4
-    # """)
-
     if not test_parse_tree_generation():
         raise Exception("[PARSER] Parse tree test filed")
 
