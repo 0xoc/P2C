@@ -1,2 +1,21 @@
-for i in range(10): {
+a = 10
+b = 30
+
+c = a * b / (2*a+4*b)   # c = 2.14
+
+if c < 2: { # won't be called
+    print("C is less than 2")
+} elif c > 2: {    # won't be called
+    m = 10
+    while m > 0: {
+    print("Iteration %f\n" 10 - m)
+        for i in range(m): {
+            print("\tI: %f\n" i)
+        }
+        m -= 1
+    }
+
+} else: {   # will not be called
+    print("C is exactly 2")
 }
+print("C: %f\n" c)

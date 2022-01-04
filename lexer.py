@@ -95,7 +95,9 @@ class P2CLexer(object):
     # simple tokens regex definition
     # arithmetic
 
-    t_STRING_LITERAL = r'".*\n*.*"'
+    def t_STRING_LITERAL(self, t):
+        r'\"([^\\\n]|(\\.))*?\"'
+        return t
 
     def t_GTE(self, t):
         r'(>=)'
@@ -154,6 +156,7 @@ class P2CLexer(object):
     def t_LTE(self, t):
         r'(<=)'
         return t
+
     def t_LT(self, t):
         r'<'
         return t

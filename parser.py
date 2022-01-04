@@ -61,8 +61,22 @@ class P2CParser(object):
                     | while
                     | for
                     | expr
+                    | print
                     | CONTINUE
                     | BREAK
+        """
+        p[0] = p[1]
+
+    def p_print(self, p):
+        """
+        print : PRINT LPRAN STRING_LITERAL print_args RPRAN
+        """
+        p[0] = tuple((p[1], p[3], p[4]))
+
+    def p_print_args(self, p):
+        """
+        print_args : expr
+                    | empty
         """
         p[0] = p[1]
 
@@ -203,8 +217,19 @@ class P2CParser(object):
             return self.tac_while(line)
         elif line[0] == 'for':
             return self.tac_for(line)
+        elif line[0] == 'print':
+            return self.tac_print(line)
         else:
             raise Exception("Invalid line: %s" % str(line))
+
+    def tac_print(self, line):
+        _str_format = line[1]
+        _arg = line[2]
+
+        if not _arg:
+            return f"printf({_str_format});\n", None
+        _code, root = self.get_tac(_arg)
+        return f"{_code}\nprintf({_str_format}, {root});\n", None
 
     def tac_for(self, line):
         for_var = line[1]
@@ -243,9 +268,14 @@ class P2CParser(object):
         start_label = self.get_label()
         end_label = self.get_label()
 
+        # the second time that we need to evaluate the condition
+        # no variable definitions will be needed
+        condition_tac_str_repeat = condition_tac_str.replace('float ', '')
+
         structure = f"{start_label}: \n" \
                     f"if (!{condition_root}) goto {end_label};\n" \
                     f"{statements_tac_str}\n" \
+                    f"{condition_tac_str_repeat}\n" \
                     f"goto {start_label};\n" \
                     f"{end_label}:;\n"
 
